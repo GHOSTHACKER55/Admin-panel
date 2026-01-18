@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ghosty Unlock</title>
+<title>Ghosty Sub2Unlock Tool</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body{background:#000;color:#0f0;font-family:monospace;padding:20px}
-.box{max-width:500px;margin:auto;border:2px solid #0f0;padding:20px;border-radius:10px}
-h2{text-align:center}
+.box{max-width:600px;margin:auto;border:2px solid #0f0;padding:20px;border-radius:10px}
 .row{display:flex;gap:5px;margin-bottom:8px}
 input{flex:1;padding:10px;background:#111;border:1px solid #0f0;color:#0f0}
-button{width:100%;padding:12px;margin-top:8px;border:none;font-weight:bold}
+button{width:100%;padding:12px;margin-top:10px;font-weight:bold;border:none}
 .add{background:#128C7E;color:#fff}
-.unlock{background:#0f0;color:#000}
-#out{display:none;margin-top:15px}
-a{display:block;color:#0f0;margin:5px 0}
+.gen{background:#0f0;color:#000}
+.lock{background:#25D366;color:#fff;text-decoration:none;display:block;padding:12px;margin:10px 0}
+a{color:#0f0;display:block;margin:6px 0}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
-<div class="box">
-<h2>👻 GHOSTY UNLOCK</h2>
+
+<div class="box" id="creator">
+<h2>👻 Ghosty Sub2Unlock Creator</h2>
+
+<input id="subLink" placeholder="Paste WhatsApp / Any Subscribe Link">
 
 <div id="fields">
 <div class="row">
@@ -29,7 +32,17 @@ a{display:block;color:#0f0;margin:5px 0}
 </div>
 
 <button class="add" onclick="add()">+ ADD MORE</button>
-<button class="unlock" onclick="go()">UNLOCK</button>
+<button class="gen" onclick="generate()">GENERATE UNLOCK PAGE</button>
+
+<div id="result"></div>
+</div>
+
+<div class="box hidden" id="unlock">
+<h2>🔒 Subscribe to Unlock</h2>
+
+<a id="subBtn" class="lock" target="_blank">👉 JOIN TO UNLOCK</a>
+
+<button class="gen" onclick="unlock()">I JOINED – UNLOCK</button>
 
 <div id="out"></div>
 </div>
@@ -41,16 +54,40 @@ function add(){
  d.innerHTML='<input placeholder="Name"><input placeholder="Link">';
  document.getElementById("fields").appendChild(d);
 }
-function go(){
+
+function generate(){
+ let sub=document.getElementById("subLink").value;
  let rows=document.querySelectorAll(".row");
- let out=document.getElementById("out");
- out.innerHTML=""; out.style.display="block";
+ let data=[];
  rows.forEach(r=>{
   let n=r.children[0].value;
   let l=r.children[1].value;
-  if(n&&l) out.innerHTML+=`<a href="${l}" target="_blank">${n}</a>`;
+  if(n&&l) data.push({n,l});
+ });
+ if(!sub||!data.length){alert("Missing data");return;}
+ let payload=btoa(JSON.stringify({sub,data}));
+ location.hash=payload;
+ location.reload();
+}
+
+if(location.hash){
+ document.getElementById("creator").style.display="none";
+ document.getElementById("unlock").classList.remove("hidden");
+
+ let obj=JSON.parse(atob(location.hash.substring(1)));
+ document.getElementById("subBtn").href=obj.sub;
+
+ window._links=obj.data;
+}
+
+function unlock(){
+ let out=document.getElementById("out");
+ out.innerHTML="";
+ _links.forEach(x=>{
+  out.innerHTML+=`<a href="${x.l}" target="_blank">${x.n}</a>`;
  });
 }
 </script>
+
 </body>
 </html>
