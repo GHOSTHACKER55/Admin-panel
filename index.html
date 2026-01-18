@@ -1,141 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anonymous Shadows Admin Panel</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #121212;
-      color: #fff;
-    }
-    header {
-      background: linear-gradient(90deg, #ff6ec4, #7873f5);
-      padding: 20px;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    main {
-      padding: 20px;
-    }
-    button {
-      background: #7873f5;
-      border: none;
-      padding: 10px 20px;
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      font-size: 1rem;
-    }
-    button:hover {
-      background: #ff6ec4;
-    }
-    .card {
-      background: #1e1e1e;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    .card h3 {
-      margin: 0 0 5px 0;
-    }
-    .card p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>HTML Deobfuscator Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0a0f0d;
+    color:#e6f1ea;
+}
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+h1{
+    text-align:center;
+    color:#00ff65;
+}
+textarea{
+    width:100%;
+    min-height:200px;
+    background:#101814;
+    border:1px solid #2a3b33;
+    color:#e6f1ea;
+    padding:15px;
+    border-radius:8px;
+    resize:vertical;
+}
+button{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    background:#00ff65;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+button:hover{
+    background:#00cc55;
+}
+.output{
+    margin-top:20px;
+}
+footer{
+    text-align:center;
+    margin-top:30px;
+    color:#8c9b92;
+    font-size:14px;
+}
+.note{
+    background:#101814;
+    border:1px solid #2a3b33;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+</style>
 </head>
+
 <body>
-  <header>
-    Anonymous Shadows Admin Panel
-  </header>
-  <main>
-    <button id="sendNotificationBtn">Send Push Notification</button>
-    <h2>User Visits</h2>
-    <div id="visitsList"></div>
-    <h2>Typing Sessions</h2>
-    <div id="sessionsList"></div>
-  </main>
+<div class="container">
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-messaging-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-admin-compat.js"></script> <!-- for Node.js Admin SDK usage in cloud functions -->
+<h1>HTML / JavaScript Deobfuscator</h1>
 
-  <script>
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCtjMyazrVnGFRASQOGjqeR_U9novXC15k",
-      authDomain: "anonymous-shadows.firebaseapp.com",
-      projectId: "anonymous-shadows",
-      storageBucket: "anonymous-shadows.appspot.com",
-      messagingSenderId: "939891243370",
-      appId: "1:939891243370:web:8db01f36d0afa9a58b8d13",
-      vapidKey: "BPRhIQxTwlYR0K3pZD8QomSlZFBbZz4txXmbH-i0Q5oWaf54VTVjyZ4TqsfpBgac2IMOpeOY59DMb6lsoiMewSU"
-    };
+<div class="note">
+<b>Supported:</b><br>
+• Base64 encoded HTML<br>
+• Basic hex-encoded JavaScript<br>
+• Obfuscated eval wrappers<br><br>
+<b>Note:</b> This tool is for educational & analysis purposes only.
+</div>
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const messaging = firebase.messaging();
+<label>🔒 Paste Obfuscated Code:</label>
+<textarea id="input"></textarea>
 
-    // Load user visits
-    const visitsList = document.getElementById('visitsList');
-    db.collection("userVisits").orderBy("timestamp", "desc").limit(20).onSnapshot(snapshot => {
-      visitsList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.classList.add("card");
-        div.innerHTML = `<h3>User Agent: ${data.userAgent}</h3>
-                         <p>Page: ${data.page}</p>
-                         <p>Time: ${data.timestamp?.toDate().toLocaleString() || 'Loading...'}</p>`;
-        visitsList.appendChild(div);
-      });
+<button onclick="deobfuscate()">DEOBFUSCATE</button>
+
+<div class="output">
+<label>✅ Deobfuscated Output:</label>
+<textarea id="output"></textarea>
+</div>
+
+<footer>
+© 2026 Ghosty • HTML Deobfuscator Tool
+</footer>
+
+</div>
+
+<script>
+function isBase64(str){
+    try{
+        return btoa(atob(str)) === str;
+    }catch(e){
+        return false;
+    }
+}
+
+function decodeHexJS(code){
+    return code.replace(/\\x([0-9A-Fa-f]{2})/g,function(match,hex){
+        return String.fromCharCode(parseInt(hex,16));
     });
+}
 
-    // Load typing sessions
-    const sessionsList = document.getElementById('sessionsList');
-    db.collection("typingSessions").orderBy("lastUpdated", "desc").limit(20).onSnapshot(snapshot => {
-      sessionsList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.classList.add("card");
-        div.innerHTML = `<h3>User ID: ${data.userId}</h3>
-                         <p>Content: ${data.content}</p>
-                         <p>Last Updated: ${data.lastUpdated?.toDate().toLocaleString() || 'Loading...'}</p>`;
-        sessionsList.appendChild(div);
-      });
-    });
+function extractBase64(code){
+    let match = code.match(/["']([A-Za-z0-9+/=]{100,})["']/);
+    return match ? match[1] : null;
+}
 
-    // Send Push Notification (example)
-    document.getElementById("sendNotificationBtn").addEventListener("click", async () => {
-      try {
-        // Get tokens from Firestore
-        const tokensSnapshot = await db.collection("notificationTokens").get();
-        const tokens = [];
-        tokensSnapshot.forEach(doc => tokens.push(doc.data().token));
-        if(tokens.length === 0) {
-          alert("No tokens found!");
-          return;
+function deobfuscate(){
+    let input = document.getElementById("input").value.trim();
+    let output = "";
+
+    // Try Base64 extraction
+    let base64 = extractBase64(input);
+    if(base64 && isBase64(base64)){
+        output += "=== BASE64 DECODED ===\n\n";
+        try{
+            output += atob(base64);
+        }catch(e){
+            output += "Base64 decode failed.";
         }
+    }
 
-        // Here we just log them; sending requires Cloud Function or Admin SDK
-        console.log("Tokens to notify:", tokens);
+    // Hex decode
+    let hexDecoded = decodeHexJS(input);
+    if(hexDecoded !== input){
+        output += "\n\n=== HEX DECODED ===\n\n";
+        output += hexDecoded;
+    }
 
-        alert("Tokens fetched! Sending notifications requires Cloud Function/Admin SDK deployment.");
-      } catch (e) {
-        console.error("Error fetching tokens: ", e);
-      }
-    });
-  </script>
+    if(output === ""){
+        output = "No supported obfuscation detected.\n\nRaw Content:\n" + input;
+    }
+
+    document.getElementById("output").value = output;
+}
+</script>
+
 </body>
 </html>
