@@ -1,169 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Ghosty Unlock Tool</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Ghosty Unlock</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{
-    background:#0a0f0d;
-    font-family: 'Courier New', monospace;
-    color:#e6f1ea;
-    text-align:center;
-    padding:30px;
-}
-
-.box{
-    max-width:500px;
-    margin:auto;
-    background:#101814;
-    border:2px solid #00ff65;
-    padding:30px;
-    border-radius:15px;
-    box-shadow: 0 0 15px #00ff65;
-}
-
-h1{
-    color:#00ff65;
-    margin-bottom:10px;
-    text-shadow:0 0 8px #00ff65;
-}
-
-h2{
-    color:#00ff65;
-    font-size:20px;
-    margin-bottom:15px;
-}
-
-.locked{
-    filter:blur(6px);
-    pointer-events:none;
-    user-select:none;
-}
-
-.btn{
-    display:block;
-    margin:15px 0;
-    padding:14px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
-    color:#fff;
-    transition:0.3s;
-    font-size:16px;
-}
-
-.channel{
-    background:#25D366;
-}
-.channel:hover{
-    background:#1ebe5d;
-}
-
-.group{
-    background:#128C7E;
-}
-.group:hover{
-    background:#0f6c5a;
-}
-
-.confirm{
-    background:#00ff65;
-    color:#000;
-    border:none;
-    padding:14px;
-    width:100%;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-    display:none;
-    transition:0.3s;
-}
-.confirm:hover{
-    background:#00cc55;
-}
-
-.unlocked{
-    display:none;
-    margin-top:20px;
-    background:#08110d;
-    border:2px solid #00ff65;
-    padding:20px;
-    border-radius:8px;
-    box-shadow:0 0 10px #00ff65;
-}
-
-footer{
-    margin-top:25px;
-    color:#8c9b92;
-    font-size:14px;
-    text-shadow:0 0 5px #00ff65;
-}
+body{background:#000;color:#0f0;font-family:monospace;padding:20px}
+.box{max-width:500px;margin:auto;border:2px solid #0f0;padding:20px;border-radius:10px}
+h2{text-align:center}
+.row{display:flex;gap:5px;margin-bottom:8px}
+input{flex:1;padding:10px;background:#111;border:1px solid #0f0;color:#0f0}
+button{width:100%;padding:12px;margin-top:8px;border:none;font-weight:bold}
+.add{background:#128C7E;color:#fff}
+.unlock{background:#0f0;color:#000}
+#out{display:none;margin-top:15px}
+a{display:block;color:#0f0;margin:5px 0}
 </style>
 </head>
 
 <body>
-
 <div class="box">
-    <h1>👻 Ghosty Unlock Tool</h1>
-    <h2>🔒 Subscribe to Unlock Premium Content</h2>
-    <p>Join both WhatsApp Channel & Group to unlock.</p>
+<h2>👻 GHOSTY UNLOCK</h2>
 
-    <!-- WhatsApp Channel -->
-    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK"
-       target="_blank"
-       class="btn channel"
-       onclick="joinedChannel=true;checkUnlock()">
-       📢 Join WhatsApp Channel
-    </a>
-
-    <!-- WhatsApp Group -->
-    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK"
-       target="_blank"
-       class="btn group"
-       onclick="joinedGroup=true;checkUnlock()">
-       👥 Join WhatsApp Group
-    </a>
-
-    <!-- Confirm Button -->
-    <button id="unlockBtn" class="confirm" onclick="unlock()">
-        ✅ I Joined Both – Unlock
-    </button>
-
-    <!-- Locked Content -->
-    <div id="lockedContent" class="locked">
-        <h3>Premium Content</h3>
-        <p>This content is locked 🔒</p>
-    </div>
-
-    <!-- Unlocked Content -->
-    <div id="unlockedContent" class="unlocked">
-        <h3>🎉 Unlocked!</h3>
-        <p>Thank you for joining ❤️</p>
-        <p>Place your tool, link, or download here.</p>
-    </div>
+<div id="fields">
+<div class="row">
+<input placeholder="Name">
+<input placeholder="Link">
+</div>
 </div>
 
-<footer>
-© 2026 Ghosty • All rights reserved
-</footer>
+<button class="add" onclick="add()">+ ADD MORE</button>
+<button class="unlock" onclick="go()">UNLOCK</button>
+
+<div id="out"></div>
+</div>
 
 <script>
-let joinedChannel = false;
-let joinedGroup = false;
-
-function checkUnlock(){
-    if(joinedChannel && joinedGroup){
-        document.getElementById("unlockBtn").style.display = "block";
-    }
+function add(){
+ let d=document.createElement("div");
+ d.className="row";
+ d.innerHTML='<input placeholder="Name"><input placeholder="Link">';
+ document.getElementById("fields").appendChild(d);
 }
-
-function unlock(){
-    document.getElementById("lockedContent").style.display = "none";
-    document.getElementById("unlockedContent").style.display = "block";
+function go(){
+ let rows=document.querySelectorAll(".row");
+ let out=document.getElementById("out");
+ out.innerHTML=""; out.style.display="block";
+ rows.forEach(r=>{
+  let n=r.children[0].value;
+  let l=r.children[1].value;
+  if(n&&l) out.innerHTML+=`<a href="${l}" target="_blank">${n}</a>`;
+ });
 }
 </script>
-
 </body>
 </html>
