@@ -2,57 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Base64 HTML Unobfuscator</title>
+<title>HTML Base64 Unobfuscator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
-  background:#0b0f14;
-  color:#00ffcc;
-  font-family:monospace;
+  margin:0;
   padding:20px;
+  background:#0b0f14;
+  font-family:monospace;
+  color:#00ffcc;
+}
+h1{
+  text-align:center;
 }
 textarea{
   width:100%;
-  height:200px;
-  background:#111;
-  color:#0f0;
+  height:220px;
+  background:#050505;
+  color:#00ff00;
   border:1px solid #00ffcc;
   padding:10px;
+  font-size:14px;
+  resize:vertical;
+}
+.buttons{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 button{
-  margin-top:10px;
   padding:12px 25px;
-  background:#00ffcc;
-  color:#000;
+  font-size:15px;
+  background:linear-gradient(45deg,#00ffcc,#00ffaa);
   border:none;
   cursor:pointer;
-  font-size:16px;
+  color:#000;
 }
 pre{
-  white-space:pre-wrap;
-  background:#050505;
+  margin-top:20px;
   padding:15px;
-  margin-top:15px;
+  background:#000;
   border:1px solid #00ffcc;
+  white-space:pre-wrap;
+  word-break:break-word;
+  color:#fff;
+}
+.footer{
+  margin-top:25px;
+  text-align:center;
+  opacity:0.7;
 }
 </style>
+
 </head>
 <body>
 
-<h2>Base64 HTML Unobfuscator</h2>
+<h1>HTML Base64 Unobfuscator</h1>
 
-<textarea id="input" placeholder="Paste Base64 code here..."></textarea>
-<button onclick="decode()">Decode</button>
+<p>Paste Base64-encoded HTML below:</p>
+
+<textarea id="input" placeholder="Paste Base64 here..."></textarea>
+
+<div class="buttons">
+  <button onclick="decode()">UNOBFUSCATE</button>
+  <button onclick="copyOutput()">COPY TO CLIPBOARD</button>
+</div>
 
 <pre id="output"></pre>
 
+<div class="footer">
+Shadow Anonymous • Educational Tool
+</div>
+
 <script>
 function decode(){
-  try{
-    document.getElementById("output").textContent =
-      atob(document.getElementById("input").value.trim());
-  }catch(e){
-    alert("Invalid Base64 data");
+  const input = document.getElementById("input").value.trim();
+  const output = document.getElementById("output");
+
+  if(!input){
+    alert("Paste Base64 code first");
+    return;
   }
+
+  try{
+    const decoded = atob(input);
+    output.textContent = decoded;
+  }catch(e){
+    output.textContent = "❌ Invalid Base64 Data";
+    console.error(e);
+  }
+}
+
+function copyOutput(){
+  const text = document.getElementById("output").textContent;
+  if(!text){
+    alert("Nothing to copy");
+    return;
+  }
+  navigator.clipboard.writeText(text).then(()=>{
+    alert("✅ Copied to clipboard");
+  }).catch(()=>{
+    alert("❌ Clipboard not supported");
+  });
 }
 </script>
 
