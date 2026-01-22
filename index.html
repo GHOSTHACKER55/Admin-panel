@@ -2,86 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>JavaScript Base64 Decoder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghosty Instagram Downloader</title>
 
 <style>
-body{
-    background:#0b0f1a;
-    color:#00ffcc;
-    font-family:monospace;
-    padding:20px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Poppins, Arial;
+    overflow: hidden;
 }
-h1{
-    text-align:center;
-    color:#00ffaa;
+
+/* Background video */
+#bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    display: none;
 }
-textarea{
-    width:100%;
-    min-height:160px;
-    background:#05080f;
-    color:#00ffcc;
-    border:1px solid #00ffaa;
-    border-radius:6px;
-    padding:10px;
-    margin-top:10px;
-    font-size:14px;
+
+/* Dark overlay */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+    display: none;
 }
-button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    background:#00ffaa;
-    color:#000;
-    border:none;
-    border-radius:6px;
-    font-size:16px;
-    cursor:pointer;
+
+/* Start Button */
+#startBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 18px 40px;
+    font-size: 26px;
+    font-weight: bold;
+    background: #ff0044;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #ff0044;
+    transition: 0.3s;
 }
-button:hover{
-    background:#00cc88;
+#startBtn:hover {
+    transform: translate(-50%, -50%) scale(1.08);
 }
-.footer{
-    text-align:center;
-    margin-top:20px;
-    color:#66ffdd;
-    font-size:12px;
+
+/* Tool UI */
+#toolUI {
+    display: none;
+    text-align: center;
+    padding-top: 120px;
+    color: white;
 }
-.warning{
-    color:#ffcc00;
-    font-size:13px;
-    margin-top:10px;
+
+/* Input */
+input {
+    width: 70%;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Download Button */
+#downloadBtn {
+    padding: 14px 35px;
+    font-size: 22px;
+    color: white;
+    background: #00c8ff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #00c8ff;
+}
+
+/* Bottom WhatsApp Button */
+#waBottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #25D366;
+    text-align: center;
+    padding: 14px 0;
+    z-index: 10;
+    display: none;
+}
+
+#waBottom a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<h1>JS Base64 Decoder</h1>
+<!-- Background Video -->
+<video id="bgVideo" autoplay muted playsinline>
+    <source src="https://raw.githubusercontent.com/GHOSTHACKER55/Mf-gabru-song/main/VID-20251202-WA0226.mp4" type="video/mp4">
+</video>
 
-<textarea id="input" placeholder="Paste Base64 encoded JavaScript here..."></textarea>
+<div id="overlay"></div>
 
-<button onclick="decode()">Decode</button>
+<!-- Start Button -->
+<button id="startBtn">START GHOSTY DOWNLOADER</button>
 
-<textarea id="output" placeholder="Decoded JavaScript will appear here..." readonly></textarea>
+<!-- TOOL UI -->
+<div id="toolUI">
+    <h1>Instagram Video Downloader</h1>
 
-<div class="warning">
-⚠ Decoding only. This tool does NOT execute code.
+    <input type="text" id="instaUrl" placeholder="Paste Instagram Video Link Here">
+    <br>
+    <button id="downloadBtn" onclick="downloadInsta()">Download</button>
 </div>
 
-<div class="footer">
-DEVELOPED BY GHOSTY
+<!-- BOTTOM WHATSAPP BUTTON -->
+<div id="waBottom">
+    <!-- CHANGE LINK HERE (Group OR Channel) -->
+    <a href="https://whatsapp.com/channel/0029VbCIDRyLSmbVwRsohX2X">
+        Join WhatsApp
+    </a>
 </div>
 
 <script>
-function decode(){
-    const input = document.getElementById("input").value.trim();
-    try{
-        const decoded = atob(input);
-        document.getElementById("output").value = decoded;
-    }catch(e){
-        document.getElementById("output").value = "Invalid Base64 input!";
+const startBtn = document.getElementById("startBtn");
+const bgVideo = document.getElementById("bgVideo");
+const overlay = document.getElementById("overlay");
+const toolUI = document.getElementById("toolUI");
+const waBottom = document.getElementById("waBottom");
+
+// Start Tool
+startBtn.addEventListener("click", () => {
+    bgVideo.muted = false;
+    bgVideo.play();
+    bgVideo.style.display = "block";
+    overlay.style.display = "block";
+
+    startBtn.style.display = "none";
+    toolUI.style.display = "block";
+    waBottom.style.display = "block";
+});
+
+// Downloader
+function downloadInsta() {
+    let url = document.getElementById("instaUrl").value.trim();
+    if (!url) {
+        alert("Paste a valid Instagram link");
+        return;
     }
+
+    let api = `https://api.vyxlab.com/dl/ig?url=${encodeURIComponent(url)}`;
+    window.open(api, "_blank");
 }
 </script>
 
