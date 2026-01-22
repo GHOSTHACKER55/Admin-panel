@@ -9,42 +9,46 @@
 body{
     margin:0;
     font-family:Poppins,Arial;
-    background:#000;
     color:#00ffcc;
     overflow:hidden;
 }
 
-/* Background */
-.bg{
+/* Background video */
+#bgVideo{
     position:fixed;
     top:0;left:0;
     width:100%;height:100%;
-    background:radial-gradient(circle at top, #001a1a, #000);
+    object-fit:cover;
     z-index:-2;
 }
 
-/* Lock Screen */
-#lock{
+/* Dark overlay */
+#overlay{
     position:fixed;
     top:0;left:0;
     width:100%;height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    background:rgba(0,0,0,0.85);
-    z-index:5;
+    background:rgba(0,0,0,0.65);
+    z-index:-1;
 }
 
-#lock h1{
-    font-size:32px;
-    text-shadow:0 0 15px #00ffcc;
+/* Center start */
+#startScreen{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
 }
-#lock p{
-    color:#aaa;
-    max-width:300px;
-    margin:15px;
+
+#startBtn{
+    padding:18px 45px;
+    font-size:26px;
+    font-weight:bold;
+    background:#ff0044;
+    color:white;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    box-shadow:0 0 25px #ff0044;
 }
 
 /* Tool UI */
@@ -54,9 +58,10 @@ body{
     padding-top:120px;
 }
 
+/* Input */
 input{
-    width:70%;
-    padding:14px;
+    width:75%;
+    padding:15px;
     font-size:18px;
     border-radius:10px;
     border:none;
@@ -65,28 +70,30 @@ input{
     margin-bottom:20px;
 }
 
-button{
+.locked{
+    background:#111;
+    color:#777;
+}
+
+/* Download */
+#download{
     padding:14px 35px;
     font-size:20px;
     border:none;
     border-radius:12px;
     cursor:pointer;
     font-weight:bold;
-}
-
-#download{
     background:#00c8ff;
     color:#000;
     box-shadow:0 0 20px #00c8ff;
 }
 
-/* Bottom WhatsApp */
+/* WhatsApp bottom */
 #waBar{
     position:fixed;
-    bottom:0;
-    left:0;
+    bottom:0;left:0;
     width:100%;
-    display:flex;
+    display:none;
     z-index:10;
 }
 
@@ -100,14 +107,10 @@ button{
     text-decoration:none;
 }
 
-.group{
-    background:#25D366;
-}
-.channel{
-    background:#128C7E;
-}
+.group{ background:#25D366; }
+.channel{ background:#128C7E; }
 
-/* Neon text */
+/* Neon */
 .neon{
     background:linear-gradient(90deg,#00ffcc,#00c8ff,#25D366);
     -webkit-background-clip:text;
@@ -118,20 +121,28 @@ button{
 
 <body>
 
-<div class="bg"></div>
+<!-- BACKGROUND VIDEO WITH SOUND -->
+<video id="bgVideo" autoplay muted loop playsinline>
+    <source src="https://raw.githubusercontent.com/GHOSTHACKER55/Mf-gabru-song/main/VID-20251202-WA0226.mp4" type="video/mp4">
+</video>
+<div id="overlay"></div>
 
-<!-- LOCK SCREEN -->
-<div id="lock">
+<!-- START SCREEN -->
+<div id="startScreen">
     <h1 class="neon">SHADOW ANONYMOUS</h1>
-    <p>Join our WhatsApp Group or Channel to unlock this tool</p>
+    <button id="startBtn">START TOOL</button>
 </div>
 
 <!-- TOOL -->
 <div id="tool">
     <h2 class="neon">Instagram Video Downloader</h2>
-    <input type="text" id="url" placeholder="Paste Instagram link here">
+
+    <input id="url" class="locked"
+     placeholder="Join WhatsApp Group or Channel to continue"
+     disabled>
+
     <br>
-    <button id="download" onclick="go()">Download</button>
+    <button id="download" disabled onclick="download()">Download</button>
 </div>
 
 <!-- WHATSAPP BAR -->
@@ -141,16 +152,40 @@ button{
 </div>
 
 <script>
+const startBtn = document.getElementById("startBtn");
+const startScreen = document.getElementById("startScreen");
+const tool = document.getElementById("tool");
+const waBar = document.getElementById("waBar");
+const input = document.getElementById("url");
+const downloadBtn = document.getElementById("download");
+const video = document.getElementById("bgVideo");
+
+// Start tool + enable sound
+startBtn.onclick = () => {
+    startScreen.style.display = "none";
+    tool.style.display = "block";
+    waBar.style.display = "flex";
+    video.muted = false;
+    video.play();
+};
+
+// Unlock after join click
 function unlock(){
     setTimeout(()=>{
-        document.getElementById("lock").style.display="none";
-        document.getElementById("tool").style.display="block";
+        input.disabled = false;
+        input.classList.remove("locked");
+        input.placeholder = "Paste Instagram link here";
+        downloadBtn.disabled = false;
     }, 800);
 }
 
-function go(){
-    let u=document.getElementById("url").value.trim();
-    if(!u){ alert("Paste Instagram link"); return; }
+// Downloader
+function download(){
+    let u = input.value.trim();
+    if(!u){
+        alert("Paste Instagram link");
+        return;
+    }
     window.open(
       "https://api.vyxlab.com/dl/ig?url="+encodeURIComponent(u),
       "_blank"
