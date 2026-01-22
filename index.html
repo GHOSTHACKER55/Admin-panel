@@ -3,173 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ghosty Instagram Downloader</title>
+<title>Shadow Anonymous Tool</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Poppins, Arial;
-    overflow: hidden;
+body{
+    margin:0;
+    font-family:Poppins,Arial;
+    background:#000;
+    color:#00ffcc;
+    overflow:hidden;
 }
 
-/* Background video */
-#bgVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-    display: none;
+/* Background */
+.bg{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:radial-gradient(circle at top, #001a1a, #000);
+    z-index:-2;
 }
 
-/* Dark overlay */
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.55);
-    z-index: -1;
-    display: none;
+/* Lock Screen */
+#lock{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:rgba(0,0,0,0.85);
+    z-index:5;
 }
 
-/* Start Button */
-#startBtn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 18px 40px;
-    font-size: 26px;
-    font-weight: bold;
-    background: #ff0044;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #ff0044;
-    transition: 0.3s;
+#lock h1{
+    font-size:32px;
+    text-shadow:0 0 15px #00ffcc;
 }
-#startBtn:hover {
-    transform: translate(-50%, -50%) scale(1.08);
+#lock p{
+    color:#aaa;
+    max-width:300px;
+    margin:15px;
 }
 
 /* Tool UI */
-#toolUI {
-    display: none;
-    text-align: center;
-    padding-top: 120px;
-    color: white;
+#tool{
+    display:none;
+    text-align:center;
+    padding-top:120px;
 }
 
-/* Input */
-input {
-    width: 70%;
-    padding: 14px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    text-align: center;
-    margin-bottom: 20px;
+input{
+    width:70%;
+    padding:14px;
+    font-size:18px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    text-align:center;
+    margin-bottom:20px;
 }
 
-/* Download Button */
-#downloadBtn {
-    padding: 14px 35px;
-    font-size: 22px;
-    color: white;
-    background: #00c8ff;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #00c8ff;
+button{
+    padding:14px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-/* Bottom WhatsApp Button */
-#waBottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #25D366;
-    text-align: center;
-    padding: 14px 0;
-    z-index: 10;
-    display: none;
+#download{
+    background:#00c8ff;
+    color:#000;
+    box-shadow:0 0 20px #00c8ff;
 }
 
-#waBottom a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
+/* Bottom WhatsApp */
+#waBar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    display:flex;
+    z-index:10;
+}
+
+#waBar a{
+    flex:1;
+    text-align:center;
+    padding:16px 0;
+    font-size:18px;
+    font-weight:bold;
+    color:white;
+    text-decoration:none;
+}
+
+.group{
+    background:#25D366;
+}
+.channel{
+    background:#128C7E;
+}
+
+/* Neon text */
+.neon{
+    background:linear-gradient(90deg,#00ffcc,#00c8ff,#25D366);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Background Video -->
-<video id="bgVideo" autoplay muted playsinline>
-    <source src="https://raw.githubusercontent.com/GHOSTHACKER55/Mf-gabru-song/main/VID-20251202-WA0226.mp4" type="video/mp4">
-</video>
+<div class="bg"></div>
 
-<div id="overlay"></div>
-
-<!-- Start Button -->
-<button id="startBtn">START GHOSTY DOWNLOADER</button>
-
-<!-- TOOL UI -->
-<div id="toolUI">
-    <h1>Instagram Video Downloader</h1>
-
-    <input type="text" id="instaUrl" placeholder="Paste Instagram Video Link Here">
-    <br>
-    <button id="downloadBtn" onclick="downloadInsta()">Download</button>
+<!-- LOCK SCREEN -->
+<div id="lock">
+    <h1 class="neon">SHADOW ANONYMOUS</h1>
+    <p>Join our WhatsApp Group or Channel to unlock this tool</p>
 </div>
 
-<!-- BOTTOM WHATSAPP BUTTON -->
-<div id="waBottom">
-    <!-- CHANGE LINK HERE (Group OR Channel) -->
-    <a href="https://whatsapp.com/channel/0029VbCIDRyLSmbVwRsohX2X">
-        Join WhatsApp
-    </a>
+<!-- TOOL -->
+<div id="tool">
+    <h2 class="neon">Instagram Video Downloader</h2>
+    <input type="text" id="url" placeholder="Paste Instagram link here">
+    <br>
+    <button id="download" onclick="go()">Download</button>
+</div>
+
+<!-- WHATSAPP BAR -->
+<div id="waBar">
+    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" class="group" onclick="unlock()">Join WhatsApp Group</a>
+    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK" class="channel" onclick="unlock()">Join WhatsApp Channel</a>
 </div>
 
 <script>
-const startBtn = document.getElementById("startBtn");
-const bgVideo = document.getElementById("bgVideo");
-const overlay = document.getElementById("overlay");
-const toolUI = document.getElementById("toolUI");
-const waBottom = document.getElementById("waBottom");
+function unlock(){
+    setTimeout(()=>{
+        document.getElementById("lock").style.display="none";
+        document.getElementById("tool").style.display="block";
+    }, 800);
+}
 
-// Start Tool
-startBtn.addEventListener("click", () => {
-    bgVideo.muted = false;
-    bgVideo.play();
-    bgVideo.style.display = "block";
-    overlay.style.display = "block";
-
-    startBtn.style.display = "none";
-    toolUI.style.display = "block";
-    waBottom.style.display = "block";
-});
-
-// Downloader
-function downloadInsta() {
-    let url = document.getElementById("instaUrl").value.trim();
-    if (!url) {
-        alert("Paste a valid Instagram link");
-        return;
-    }
-
-    let api = `https://api.vyxlab.com/dl/ig?url=${encodeURIComponent(url)}`;
-    window.open(api, "_blank");
+function go(){
+    let u=document.getElementById("url").value.trim();
+    if(!u){ alert("Paste Instagram link"); return; }
+    window.open(
+      "https://api.vyxlab.com/dl/ig?url="+encodeURIComponent(u),
+      "_blank"
+    );
 }
 </script>
 
