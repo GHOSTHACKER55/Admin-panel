@@ -2,105 +2,86 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Unobfuscator Tool</title>
+<title>JavaScript Base64 Decoder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  background:#0a0f0d;
-  color:#e6f1ea;
-  font-family:monospace;
-  padding:20px;
+    background:#0b0f1a;
+    color:#00ffcc;
+    font-family:monospace;
+    padding:20px;
 }
 h1{
-  color:#00ff41;
-  text-align:center;
+    text-align:center;
+    color:#00ffaa;
 }
 textarea{
-  width:100%;
-  min-height:160px;
-  background:#101814;
-  color:#00ff41;
-  border:1px solid #2a3b33;
-  padding:12px;
-  border-radius:6px;
-  margin-top:10px;
+    width:100%;
+    min-height:160px;
+    background:#05080f;
+    color:#00ffcc;
+    border:1px solid #00ffaa;
+    border-radius:6px;
+    padding:10px;
+    margin-top:10px;
+    font-size:14px;
 }
 button{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  font-size:16px;
-  background:#00ff41;
-  color:#0a0f0d;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#00ffaa;
+    color:#000;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
 }
 button:hover{
-  opacity:0.85;
+    background:#00cc88;
 }
-.output{
-  margin-top:15px;
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#66ffdd;
+    font-size:12px;
+}
+.warning{
+    color:#ffcc00;
+    font-size:13px;
+    margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>UNOBFUSCATOR TOOL</h1>
+<h1>JS Base64 Decoder</h1>
 
-<textarea id="input" placeholder="Paste obfuscated / encoded text here..."></textarea>
+<textarea id="input" placeholder="Paste Base64 encoded JavaScript here..."></textarea>
 
-<button onclick="decodeBase64()">Decode Base64</button>
-<button onclick="decodeURL()">Decode URL</button>
-<button onclick="decodeHTML()">Decode HTML Entities</button>
-<button onclick="decodeJS()">Decode JS Escape</button>
-<button onclick="decodeAll()">AUTO Decode (Try All)</button>
+<button onclick="decode()">Decode</button>
 
-<div class="output">
-<textarea id="output" placeholder="Decoded output will appear here..."></textarea>
+<textarea id="output" placeholder="Decoded JavaScript will appear here..." readonly></textarea>
+
+<div class="warning">
+⚠ Decoding only. This tool does NOT execute code.
+</div>
+
+<div class="footer">
+DEVELOPED BY GHOSTY
 </div>
 
 <script>
-function decodeBase64(){
-  try{
-    output.value = atob(input.value.trim());
-  }catch(e){
-    output.value = "Invalid Base64";
-  }
-}
-
-function decodeURL(){
-  try{
-    output.value = decodeURIComponent(input.value);
-  }catch(e){
-    output.value = "Invalid URL encoding";
-  }
-}
-
-function decodeHTML(){
-  let txt = document.createElement("textarea");
-  txt.innerHTML = input.value;
-  output.value = txt.value;
-}
-
-function decodeJS(){
-  try{
-    output.value = JSON.parse('"' + input.value.replace(/"/g,'\\"') + '"');
-  }catch(e){
-    output.value = "Invalid JS escaped string";
-  }
-}
-
-function decodeAll(){
-  let data = input.value;
-  try{ data = atob(data); }catch(e){}
-  try{ data = decodeURIComponent(data); }catch(e){}
-  let txt = document.createElement("textarea");
-  txt.innerHTML = data;
-  data = txt.value;
-  output.value = data;
+function decode(){
+    const input = document.getElementById("input").value.trim();
+    try{
+        const decoded = atob(input);
+        document.getElementById("output").value = decoded;
+    }catch(e){
+        document.getElementById("output").value = "Invalid Base64 input!";
+    }
 }
 </script>
 
