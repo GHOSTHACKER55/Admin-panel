@@ -9,7 +9,7 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #f9f9f9;
+    background: #fff;
     color: #333;
 }
 header {
@@ -21,8 +21,6 @@ header {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     position: relative;
 }
-
-/* ADMIN BUTTON */
 .admin-btn {
     position: absolute;
     right: 15px;
@@ -41,132 +39,71 @@ header {
     transition: transform 0.2s;
 }
 .admin-btn:hover { transform: translateY(-50%) scale(1.1); }
-
-/* CONTAINER */
 .container {
     padding: 20px;
     max-width: 1100px;
     margin: auto;
 }
-
-/* PRODUCTS GRID */
+.search-bar {
+    margin-bottom: 20px;
+    text-align: right;
+}
+.search-bar input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
 .products {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 20px;
 }
-@media(max-width:700px){
-    .products { grid-template-columns: 1fr; }
-}
-
-/* PRODUCT CARD */
+@media(max-width:700px){ .products{grid-template-columns:1fr;} }
 .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    cursor: pointer;
+    background:#fff;
+    border-radius:10px;
+    padding:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    cursor:pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+.card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 .card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:8px;
 }
-.card h3 {
-    margin: 10px 0 5px;
-    font-size: 18px;
-}
-.card .price {
-    color: #ff6a00;
-    font-weight: bold;
-    font-size: 16px;
-}
+.card h3 { margin:10px 0 5px; font-size:18px; }
+.card .price { color: #444; font-weight:bold; font-size:16px; }
 
 /* MODALS */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+.modal { position: fixed; inset:0; background: rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; }
 .modal-box {
     background: #fff;
     padding: 20px;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 12px;
+    width:90%;
+    max-width:400px;
+    border-radius:12px;
     position: relative;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
 .modal-box img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 8px;
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:8px;
 }
-.modal-box h3 {
-    margin: 10px 0 5px;
-    font-size: 20px;
-}
-.modal-box .price {
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #ff6a00;
-}
-.modal-box p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 15px;
-}
-.buy-btn {
-    background: #25D366;
-    color: #fff;
-    border: none;
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-}
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-}
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-    font-size: 14px;
-}
-textarea { resize: none; }
-.save-btn {
-    background: #ff6a00;
-    color: #fff;
-    border: none;
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-}
+.modal-box h3 { margin:10px 0 5px; font-size:20px; }
+.modal-box .price { margin-bottom:10px; font-weight:bold; color:#444; }
+.modal-box p { font-size:14px; color:#555; margin-bottom:15px; }
+.buy-btn { background:#25D366; color:#fff; border:none; width:100%; padding:12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; }
+.close { position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer; }
+input, textarea { width:100%; padding:10px; margin:6px 0; border:1px solid #ddd; border-radius:6px; outline:none; font-size:14px; }
+textarea { resize:none; }
+.save-btn { background:#ff6a00; color:#fff; border:none; width:100%; padding:12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; }
 </style>
 </head>
 <body>
@@ -177,6 +114,9 @@ textarea { resize: none; }
 </header>
 
 <div class="container">
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search products..." oninput="searchProducts()">
+    </div>
     <div class="products" id="products"></div>
 </div>
 
@@ -207,16 +147,16 @@ textarea { resize: none; }
 <script>
 // CONFIG
 const ADMIN_PASSWORD = "11222211";
-const WHATSAPP_NUMBER = "923001234567"; // CHANGE THIS
-
+const WHATSAPP_NUMBER = "923001234567"; // CHANGE TO YOUR NUMBER
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let editId = null;
 
 // LOAD PRODUCTS
-function loadProducts(){
+function loadProducts(filtered=null){
     const box = document.getElementById("products");
     box.innerHTML = "";
-    products.forEach(p=>{
+    const list = filtered || products;
+    list.forEach(p=>{
         const card = document.createElement("div");
         card.className="card";
         card.innerHTML = `
@@ -230,21 +170,28 @@ function loadProducts(){
 }
 loadProducts();
 
-// PRODUCT DETAIL MODAL
+// SEARCH FUNCTION
+function searchProducts(){
+    const val = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = products.filter(p=>p.name.toLowerCase().includes(val));
+    loadProducts(filtered);
+}
+
+// SHOW PRODUCT DETAIL
 function showDetail(p){
     document.getElementById("dImage").src=p.image;
     document.getElementById("dName").innerText=p.name;
     document.getElementById("dPrice").innerText="Rs "+p.price;
     document.getElementById("dDesc").innerText=p.desc || "";
     document.getElementById("buyBtn").onclick = ()=>{
-        let msg = encodeURIComponent("I want to buy this product: "+p.name);
+        let msg = encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.image);
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
     }
     document.getElementById("detailModal").style.display="flex";
 }
 function closeDetail(){ document.getElementById("detailModal").style.display="none"; }
 
-// ADMIN
+// ADMIN UPLOAD
 function openAdmin(){
     let pass = prompt("Enter Admin Password:");
     if(pass===ADMIN_PASSWORD){
@@ -259,13 +206,7 @@ function clearAdminForm(){
     pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 }
 function saveProduct(){
-    const p = {
-        id: Date.now(),
-        name: pname.value,
-        price: pprice.value,
-        image: pimage.value,
-        desc: pdesc.value
-    };
+    const p = {id: Date.now(), name: pname.value, price: pprice.value, image: pimage.value, desc: pdesc.value};
     products.push(p);
     localStorage.setItem("products", JSON.stringify(products));
     document.getElementById("adminModal").style.display="none";
