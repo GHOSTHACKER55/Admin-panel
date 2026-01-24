@@ -3,84 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fajar Collection - Mini Store</title>
+<title>Fajar Collection Mini Store</title>
 <style>
-/* GENERAL STYLES */
-body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #fff;
-    color: #333;
+/* GENERAL */
+body{
+    margin:0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:#fff;
+    color:#333;
 }
-header {
-    background: #fff;
-    padding: 20px 50px 10px 15px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    position: relative;
+header{
+    background:#fff;
+    text-align:center;
+    padding:30px 20px 15px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
-header::after {
-    content:"";
-    display:block;
-    height:2px;
-    width:100px;
-    background:#ff6a00;
-    margin:5px auto 0;
-    border-radius:1px;
+header h1{
+    font-size:32px;
+    font-weight:700;
+    background: linear-gradient(to right, #ff6a00, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin:0;
+}
+header h2{
+    font-size:16px;
+    font-weight:400;
+    color:#888;
+    margin:5px 0 0;
 }
 
 /* ADMIN BUTTON */
-.admin-btn {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 45px;
-    height: 45px;
-    background: #ff6a00;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-weight: bold;
-    color: #fff;
-    font-size: 22px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.2s;
+.admin-btn{
+    position:absolute;
+    right:20px;
+    top:50px;
+    width:45px;
+    height:45px;
+    background:#ff6a00;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    font-weight:bold;
+    color:#fff;
+    font-size:22px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+    transition:transform 0.2s;
 }
-.admin-btn:hover { transform: translateY(-50%) scale(1.1); }
+.admin-btn:hover{transform:scale(1.1);}
 
 /* CONTAINER */
-.container {
-    padding: 20px;
-    max-width: 1100px;
-    margin: auto;
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
 }
 
-/* SEARCH BAR */
-.search-bar {
-    margin-bottom: 20px;
-    text-align: right;
+/* SEARCH */
+.search-bar{
+    text-align:right;
+    margin-bottom:20px;
 }
-.search-bar input {
-    padding: 10px 12px;
-    width: 250px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
+.search-bar input{
+    padding:10px;
+    width:250px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:14px;
 }
 
-/* PRODUCT GRID */
-.products {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 20px;
+/* PRODUCTS GRID */
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
 }
-@media(max-width:700px){ .products{grid-template-columns:1fr;} }
+@media(max-width:700px){.products{grid-template-columns:1fr;}}
 
-/* PRODUCT CARD */
-.card {
+/* CARD */
+.card{
     background:#fff;
     border-radius:12px;
     padding:10px;
@@ -88,48 +89,114 @@ header::after {
     cursor:pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-.card img {
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+.card img{
     width:100%;
     height:200px;
     object-fit:cover;
     border-radius:10px;
 }
-.card h3 { margin:10px 0 5px; font-size:18px; font-weight:600; }
-.card .price { color: #444; font-weight:bold; font-size:16px; }
+.card h3{
+    margin:10px 0 5px;
+    font-size:18px;
+    font-weight:600;
+}
+.card .price{
+    font-weight:bold;
+    font-size:16px;
+    color:#444;
+}
 
 /* MODALS */
-.modal { position: fixed; inset:0; background: rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; }
-.modal-box {
-    background: #fff;
-    padding: 20px;
+.modal{
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+.modal-box{
+    background:#fff;
+    padding:20px;
     width:90%;
     max-width:400px;
     border-radius:12px;
-    position: relative;
+    position:relative;
     box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
-.modal-box img {
+.modal-box img{
     width:100%;
     height:220px;
     object-fit:cover;
     border-radius:8px;
 }
-.modal-box h3 { margin:10px 0 5px; font-size:20px; font-weight:600; }
-.modal-box .price { margin-bottom:10px; font-weight:bold; color:#444; }
-.modal-box p { font-size:14px; color:#555; margin-bottom:15px; }
-.buy-btn { background:#25D366; color:#fff; border:none; width:100%; padding:12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; }
-.close { position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer; }
-input, textarea { width:100%; padding:10px; margin:6px 0; border:1px solid #ddd; border-radius:6px; outline:none; font-size:14px; }
-textarea { resize:none; }
-.save-btn { background:#ff6a00; color:#fff; border:none; width:100%; padding:12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; }
+.modal-box h3{
+    margin:10px 0 5px;
+    font-size:20px;
+    font-weight:600;
+}
+.modal-box .price{
+    margin-bottom:10px;
+    font-weight:bold;
+    color:#444;
+}
+.modal-box p{
+    font-size:14px;
+    color:#555;
+    margin-bottom:15px;
+}
+.buy-btn{
+    background:#25D366;
+    color:#fff;
+    border:none;
+    width:100%;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:16px;
+}
+.close{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+}
+input,textarea{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+    outline:none;
+    font-size:14px;
+}
+textarea{resize:none;}
+.save-btn{
+    background:#ff6a00;
+    color:#fff;
+    border:none;
+    width:100%;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:16px;
+}
 
 /* FOOTER */
 footer{
     text-align:center;
     font-size:14px;
     color:#888;
-    margin:40px 0 20px 0;
+    margin:40px 0 20px;
 }
 footer::before{
     content:"";
@@ -144,7 +211,8 @@ footer::before{
 <body>
 
 <header>
-    Fajar Collection
+    <h1>Fajar Collection</h1>
+    <h2>Mini Store by Fajar Collection</h2>
 </header>
 
 <div class="container">
@@ -154,7 +222,7 @@ footer::before{
     <div class="products" id="products"></div>
 </div>
 
-<!-- PRODUCT DETAIL MODAL -->
+<!-- PRODUCT MODAL -->
 <div class="modal" id="detailModal">
     <div class="modal-box">
         <span class="close" onclick="closeDetail()">×</span>
@@ -180,61 +248,57 @@ footer::before{
 
 <button class="admin-btn" onclick="openAdmin()">+</button>
 
+<footer>Mini Store by Fajar Collection</footer>
+
 <script>
 // CONFIG
-const ADMIN_PASSWORD = "11222211";
-const WHATSAPP_NUMBER = "923001234567"; // CHANGE TO YOUR NUMBER
+const ADMIN_PASSWORD="11222211";
+const WHATSAPP_NUMBER="923001234567"; // change to your number
 let products = JSON.parse(localStorage.getItem("products")) || [];
-let editId = null;
 
 // LOAD PRODUCTS
 function loadProducts(filtered=null){
-    const box = document.getElementById("products");
-    box.innerHTML = "";
-    const list = filtered || products;
+    const box=document.getElementById("products");
+    box.innerHTML="";
+    const list=filtered||products;
     list.forEach(p=>{
-        const card = document.createElement("div");
+        const card=document.createElement("div");
         card.className="card";
-        card.innerHTML = `
-            <img src="${p.image}">
-            <h3>${p.name}</h3>
-            <div class="price">Rs ${p.price}</div>
-        `;
-        card.onclick = ()=> showDetail(p);
+        card.innerHTML=`<img src="${p.image}"><h3>${p.name}</h3><div class="price">Rs ${p.price}</div>`;
+        card.onclick=()=>showDetail(p);
         box.appendChild(card);
     });
 }
 loadProducts();
 
-// SEARCH FUNCTION
+// SEARCH
 function searchProducts(){
-    const val = document.getElementById("searchInput").value.toLowerCase();
-    const filtered = products.filter(p=>p.name.toLowerCase().includes(val));
+    const val=document.getElementById("searchInput").value.toLowerCase();
+    const filtered=products.filter(p=>p.name.toLowerCase().includes(val));
     loadProducts(filtered);
 }
 
-// PRODUCT DETAIL MODAL
+// DETAIL MODAL
 function showDetail(p){
     document.getElementById("dImage").src=p.image;
     document.getElementById("dName").innerText=p.name;
     document.getElementById("dPrice").innerText="Rs "+p.price;
-    document.getElementById("dDesc").innerText=p.desc || "";
-    document.getElementById("buyBtn").onclick = ()=>{
-        let msg = encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.image);
+    document.getElementById("dDesc").innerText=p.desc||"";
+    document.getElementById("buyBtn").onclick=()=>{
+        let msg=encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.image);
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
     }
     document.getElementById("detailModal").style.display="flex";
 }
-function closeDetail(){ document.getElementById("detailModal").style.display="none"; }
+function closeDetail(){document.getElementById("detailModal").style.display="none";}
 
-// ADMIN UPLOAD
+// ADMIN
 function openAdmin(){
-    let pass = prompt("Enter Admin Password:");
+    let pass=prompt("Enter Admin Password:");
     if(pass===ADMIN_PASSWORD){
-        editId=null;
         clearAdminForm();
         document.getElementById("adminModal").style.display="flex";
-    } else{
+    }else{
         alert("Wrong Password ❌");
     }
 }
@@ -242,21 +306,19 @@ function clearAdminForm(){
     pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 }
 function saveProduct(){
-    const p = {id: Date.now(), name: pname.value, price: pprice.value, image: pimage.value, desc: pdesc.value};
+    const p={id:Date.now(),name:pname.value,price:pprice.value,image:pimage.value,desc:pdesc.value};
     products.push(p);
-    localStorage.setItem("products", JSON.stringify(products));
+    localStorage.setItem("products",JSON.stringify(products));
     document.getElementById("adminModal").style.display="none";
     loadProducts();
 }
 
 // CLOSE MODALS ON OUTSIDE CLICK
-window.onclick = function(e){
+window.onclick=function(e){
     if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
     if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
 }
 </script>
-
-<footer>Mini Store by Fajar Collection</footer>
 
 </body>
 </html>
