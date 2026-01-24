@@ -5,10 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fajar Collection Mini Store</title>
 <style>
-/* GENERAL STYLES */
 body{
     margin:0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family:'Segoe UI',Arial,sans-serif;
     background:#fff;
     color:#333;
 }
@@ -17,13 +16,14 @@ header{
     text-align:center;
     padding:30px 20px 15px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    position:relative;
 }
 header h1{
     font-size:32px;
     font-weight:700;
-    background: linear-gradient(to right, #ff6a00, #ffb347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background:linear-gradient(to right,#ff6a00,#ffb347);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
     margin:0;
 }
 header h2{
@@ -32,8 +32,6 @@ header h2{
     color:#888;
     margin:5px 0 0;
 }
-
-/* ADMIN BUTTON */
 .admin-btn{
     position:absolute;
     right:20px;
@@ -51,15 +49,11 @@ header h2{
     transition:transform 0.2s;
 }
 .admin-btn:hover{transform:scale(1.1);}
-
-/* CONTAINER */
 .container{
     max-width:800px;
     margin:auto;
     padding:20px;
 }
-
-/* SEARCH */
 .search-bar{
     text-align:center;
     margin-bottom:20px;
@@ -72,22 +66,18 @@ header h2{
     border:1px solid #ddd;
     font-size:16px;
 }
-
-/* PRODUCTS LIST */
 .products{
     display:flex;
     flex-direction:column;
     gap:20px;
 }
-
-/* PRODUCT CARD */
 .card{
     background:#fff;
     border-radius:12px;
     padding:15px;
     box-shadow:0 2px 10px rgba(0,0,0,0.05);
     cursor:pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:transform 0.2s,box-shadow 0.2s;
     display:flex;
     flex-direction:row;
     align-items:center;
@@ -116,8 +106,6 @@ header h2{
     font-size:16px;
     color:#444;
 }
-
-/* MODALS */
 .modal{
     position:fixed;
     inset:0;
@@ -136,11 +124,12 @@ header h2{
     position:relative;
     box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
-.modal-box img{
+.modal-box img, .modal-box video{
     width:100%;
-    height:220px;
+    max-height:220px;
     object-fit:cover;
     border-radius:8px;
+    margin-bottom:10px;
 }
 .modal-box h3{
     margin:10px 0 5px;
@@ -186,7 +175,7 @@ input,textarea{
     font-size:14px;
 }
 textarea{resize:none;}
-.save-btn{
+.save-btn, .add-link-btn{
     background:#ff6a00;
     color:#fff;
     border:none;
@@ -196,9 +185,8 @@ textarea{resize:none;}
     cursor:pointer;
     font-weight:bold;
     font-size:16px;
+    margin-top:5px;
 }
-
-/* FOOTER */
 footer{
     text-align:center;
     font-size:14px;
@@ -229,11 +217,11 @@ footer::before{
     <div class="products" id="products"></div>
 </div>
 
-<!-- PRODUCT MODAL -->
+<!-- PRODUCT DETAIL MODAL -->
 <div class="modal" id="detailModal">
     <div class="modal-box">
         <span class="close" onclick="closeDetail()">×</span>
-        <img id="dImage">
+        <div id="mediaContainer"></div>
         <h3 id="dName"></h3>
         <div class="price" id="dPrice"></div>
         <p id="dDesc"></p>
@@ -247,23 +235,23 @@ footer::before{
         <h3>Upload Product</h3>
         <input id="pname" placeholder="Product Name">
         <input id="pprice" placeholder="Price">
-        <input id="pimage" placeholder="Image URL">
+        <div id="mediaInputs">
+            <input placeholder="Image/Video URL" class="media-url">
+        </div>
+        <button class="add-link-btn" onclick="addMediaInput()">Add More</button>
         <textarea id="pdesc" placeholder="Description"></textarea>
         <button class="save-btn" onclick="saveProduct()">Save Product</button>
     </div>
 </div>
 
 <button class="admin-btn" onclick="openAdmin()">+</button>
-
 <footer>Mini Store by Fajar Collection</footer>
 
 <script>
-// CONFIG
 const ADMIN_PASSWORD="11222211";
-const WHATSAPP_NUMBER="923001234567"; // change to your number
-let products = JSON.parse(localStorage.getItem("products")) || [];
+const WHATSAPP_NUMBER="923001234567"; // your number
+let products=JSON.parse(localStorage.getItem("products"))||[];
 
-// LOAD PRODUCTS
 function loadProducts(filtered=null){
     const box=document.getElementById("products");
     box.innerHTML="";
@@ -271,61 +259,77 @@ function loadProducts(filtered=null){
     list.forEach(p=>{
         const card=document.createElement("div");
         card.className="card";
-        card.innerHTML=`<img src="${p.image}"><div class="card-info"><h3>${p.name}</h3><div class="price">Rs ${p.price}</div></div>`;
+        card.innerHTML=`<img src="${p.media[0]}"><div class="card-info"><h3>${p.name}</h3><div class="price">Rs ${p.price}</div></div>`;
         card.onclick=()=>showDetail(p);
         box.appendChild(card);
     });
 }
 loadProducts();
 
-// SEARCH
 function searchProducts(){
     const val=document.getElementById("searchInput").value.toLowerCase();
     const filtered=products.filter(p=>p.name.toLowerCase().includes(val));
     loadProducts(filtered);
 }
 
-// DETAIL MODAL
 function showDetail(p){
-    document.getElementById("dImage").src=p.image;
+    const container=document.getElementById("mediaContainer");
+    container.innerHTML="";
+    p.media.forEach(url=>{
+        if(url.match(/\.(mp4|webm)$/i)){
+            const vid=document.createElement("video");
+            vid.src=url;
+            vid.controls=true;
+            container.appendChild(vid);
+        }else{
+            const img=document.createElement("img");
+            img.src=url;
+            container.appendChild(img);
+        }
+    });
     document.getElementById("dName").innerText=p.name;
     document.getElementById("dPrice").innerText="Rs "+p.price;
     document.getElementById("dDesc").innerText=p.desc||"";
     document.getElementById("buyBtn").onclick=()=>{
-        let msg=encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.image);
+        let msg=encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.media[0]);
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
     }
     document.getElementById("detailModal").style.display="flex";
 }
 function closeDetail(){document.getElementById("detailModal").style.display="none";}
 
-// ADMIN
 function openAdmin(){
     let pass=prompt("Enter Admin Password:");
     if(pass===ADMIN_PASSWORD){
         clearAdminForm();
         document.getElementById("adminModal").style.display="flex";
-    }else{
-        alert("Wrong Password ❌");
-    }
+    }else{alert("Wrong Password ❌");}
 }
 function clearAdminForm(){
-    pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
+    pname.value=""; pprice.value=""; pdesc.value="";
+    document.getElementById("mediaInputs").innerHTML=`<input placeholder="Image/Video URL" class="media-url">`;
+}
+function addMediaInput(){
+    const input=document.createElement("input");
+    input.placeholder="Image/Video URL";
+    input.className="media-url";
+    document.getElementById("mediaInputs").appendChild(input);
 }
 function saveProduct(){
-    const p={id:Date.now(),name:pname.value,price:pprice.value,image:pimage.value,desc:pdesc.value};
+    const mediaEls=document.querySelectorAll(".media-url");
+    const media=[];
+    mediaEls.forEach(el=>{if(el.value) media.push(el.value);});
+    const p={id:Date.now(),name:pname.value,price:pprice.value,desc:pdesc.value,media};
     products.push(p);
     localStorage.setItem("products",JSON.stringify(products));
     document.getElementById("adminModal").style.display="none";
     loadProducts();
 }
 
-// CLOSE MODALS
 window.onclick=function(e){
     if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
     if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
 }
 </script>
-
 </body>
 </html>
