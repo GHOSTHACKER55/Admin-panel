@@ -4,38 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fajar Collection</title>
-
 <style>
 body{
   margin:0;
-  font-family: Arial, sans-serif;
+  font-family:Arial, sans-serif;
   background:#f4f6f8;
 }
 header{
   background:#fff;
-  padding:15px;
+  padding:15px 50px 15px 15px;
   text-align:center;
   font-size:22px;
   font-weight:bold;
   box-shadow:0 2px 5px rgba(0,0,0,.1);
+  position:relative;
+}
+.admin-btn{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  background:#ff6a00;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
+  color:#fff;
+  font-size:18px;
 }
 .container{
   padding:15px;
-  max-width:1100px;
+  max-width:1000px;
   margin:auto;
-}
-.admin-btn{
-  background:#ff6a00;
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  border-radius:6px;
-  cursor:pointer;
-  margin-bottom:15px;
 }
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  grid-template-columns:repeat(2,1fr);
   gap:15px;
 }
 .card{
@@ -43,6 +49,11 @@ header{
   border-radius:10px;
   padding:10px;
   box-shadow:0 2px 8px rgba(0,0,0,.1);
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+.card:hover{
+  transform:scale(1.02);
 }
 .card img{
   width:100%;
@@ -52,40 +63,23 @@ header{
 }
 .card h3{
   margin:8px 0 4px;
+  font-size:18px;
 }
 .price{
   color:#ff6a00;
   font-weight:bold;
-}
-.btn{
-  width:100%;
-  padding:8px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  margin-top:6px;
-}
-.buy{
-  background:#25D366;
-  color:#fff;
-}
-.edit{
-  background:#007bff;
-  color:#fff;
-}
-.delete{
-  background:#dc3545;
-  color:#fff;
+  font-size:16px;
 }
 
-/* modal */
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.4);
+  background:rgba(0,0,0,.5);
   display:none;
   justify-content:center;
   align-items:center;
+  z-index:1000;
 }
 .modal-box{
   background:#fff;
@@ -94,137 +88,154 @@ header{
   max-width:400px;
   border-radius:10px;
 }
-.modal-box input,textarea{
+.modal-box img{
   width:100%;
-  padding:8px;
-  margin:6px 0;
+  height:220px;
+  object-fit:cover;
+  border-radius:8px;
 }
-.save{
-  background:#28a745;
+.modal-box h3{
+  margin:10px 0 5px;
+}
+.modal-box .price{
+  margin-bottom:10px;
+}
+.modal-box p{
+  font-size:14px;
+  color:#555;
+}
+.modal-box .buy-btn{
+  background:#25D366;
   color:#fff;
+  border:none;
+  width:100%;
+  padding:10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.modal-box .close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
 }
 </style>
 </head>
-
 <body>
 
-<header>Fajar Collection</header>
+<header>
+  Fajar Collection
+  <button class="admin-btn" onclick="openAdmin()">+</button>
+</header>
 
 <div class="container">
-  <button class="admin-btn" onclick="openAdmin()">➕ Add Product</button>
   <div class="products" id="products"></div>
 </div>
 
-<!-- ADMIN MODAL -->
-<div class="modal" id="modal">
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal" id="detailModal">
   <div class="modal-box">
-    <h3>Add / Edit Product</h3>
+    <span class="close" onclick="closeDetail()">×</span>
+    <img id="dImage">
+    <h3 id="dName"></h3>
+    <div class="price" id="dPrice"></div>
+    <p id="dDesc"></p>
+    <button class="buy-btn" id="buyBtn">Buy Now</button>
+  </div>
+</div>
+
+<!-- ADMIN UPLOAD MODAL -->
+<div class="modal" id="adminModal">
+  <div class="modal-box">
+    <h3>Add Product</h3>
     <input id="pname" placeholder="Product Name">
     <input id="pprice" placeholder="Price">
     <input id="pimage" placeholder="Image URL">
     <textarea id="pdesc" placeholder="Description"></textarea>
-    <button class="btn save" onclick="saveProduct()">Save Product</button>
+    <button class="buy-btn" onclick="saveProduct()">Save Product</button>
   </div>
 </div>
 
 <script>
+// CONFIG
 const ADMIN_PASSWORD = "11222211";
-const WHATSAPP_NUMBER = "923001234567"; // 🔁 CHANGE NUMBER
+const WHATSAPP_NUMBER = "923001234567"; // 🔁 CHANGE YOUR NUMBER
 
+let products = JSON.parse(localStorage.getItem("products")) || [];
 let editId = null;
 
+// LOAD PRODUCTS
+function loadProducts(){
+  const box = document.getElementById("products");
+  box.innerHTML = "";
+  products.forEach(p=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML = `
+      <img src="${p.image}">
+      <h3>${p.name}</h3>
+      <div class="price">Rs ${p.price}</div>
+    `;
+    card.onclick = ()=> showDetail(p);
+    box.appendChild(card);
+  });
+}
+loadProducts();
+
+// SHOW PRODUCT DETAIL
+function showDetail(p){
+  document.getElementById("dImage").src=p.image;
+  document.getElementById("dName").innerText=p.name;
+  document.getElementById("dPrice").innerText="Rs "+p.price;
+  document.getElementById("dDesc").innerText=p.desc || "";
+  document.getElementById("buyBtn").onclick = ()=>{
+    let msg = encodeURIComponent("I want to buy this product: "+p.name);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
+  }
+  document.getElementById("detailModal").style.display="flex";
+}
+function closeDetail(){ document.getElementById("detailModal").style.display="none"; }
+
+// ADMIN BUTTON
 function openAdmin(){
-  let pass = prompt("Enter upload password");
-  if(pass === ADMIN_PASSWORD){
-    editId = null;
-    clearForm();
-    document.getElementById("modal").style.display = "flex";
+  let pass = prompt("Enter admin password:");
+  if(pass===ADMIN_PASSWORD){
+    editId=null;
+    clearAdminForm();
+    document.getElementById("adminModal").style.display="flex";
   }else{
     alert("Wrong password ❌");
   }
 }
 
-function clearForm(){
-  pname.value="";
-  pprice.value="";
-  pimage.value="";
-  pdesc.value="";
+// CLEAR ADMIN FORM
+function clearAdminForm(){
+  pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 }
 
+// SAVE PRODUCT
 function saveProduct(){
-  let products = JSON.parse(localStorage.getItem("products")) || [];
-
-  if(editId){
-    let p = products.find(x=>x.id===editId);
-    p.name=pname.value;
-    p.price=pprice.value;
-    p.image=pimage.value;
-    p.desc=pdesc.value;
-  }else{
-    products.push({
-      id:Date.now(),
-      name:pname.value,
-      price:pprice.value,
-      image:pimage.value,
-      desc:pdesc.value
-    });
-  }
-
+  const p={
+    id: Date.now(),
+    name: pname.value,
+    price: pprice.value,
+    image: pimage.value,
+    desc: pdesc.value
+  };
+  products.push(p);
   localStorage.setItem("products",JSON.stringify(products));
-  document.getElementById("modal").style.display="none";
+  document.getElementById("adminModal").style.display="none";
   loadProducts();
 }
 
-function loadProducts(){
-  let products = JSON.parse(localStorage.getItem("products")) || [];
-  let box = document.getElementById("products");
-  box.innerHTML="";
-
-  products.forEach(p=>{
-    box.innerHTML += `
-      <div class="card">
-        <img src="${p.image}">
-        <h3>${p.name}</h3>
-        <div class="price">Rs ${p.price}</div>
-        <p>${p.desc || ""}</p>
-        <button class="btn buy" onclick="buy('${p.name}')">Buy Now</button>
-        <button class="btn edit" onclick="editProduct(${p.id})">Edit</button>
-        <button class="btn delete" onclick="deleteProduct(${p.id})">Delete</button>
-      </div>
-    `;
-  });
+// CLOSE MODALS ON OUTSIDE CLICK
+window.onclick = function(e){
+  if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
+  if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
 }
-
-function buy(name){
-  let msg = encodeURIComponent("I want to buy this product: "+name);
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
-}
-
-function editProduct(id){
-  let products = JSON.parse(localStorage.getItem("products")) || [];
-  let p = products.find(x=>x.id===id);
-  editId=id;
-  pname.value=p.name;
-  pprice.value=p.price;
-  pimage.value=p.image;
-  pdesc.value=p.desc;
-  document.getElementById("modal").style.display="flex";
-}
-
-function deleteProduct(id){
-  if(confirm("Delete product?")){
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-    products = products.filter(p=>p.id!==id);
-    localStorage.setItem("products",JSON.stringify(products));
-    loadProducts();
-  }
-}
-
-window.onclick=e=>{
-  if(e.target.id==="modal") modal.style.display="none";
-}
-
-loadProducts();
 </script>
 
 </body>
