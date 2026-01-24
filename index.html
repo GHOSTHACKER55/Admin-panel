@@ -5,236 +5,277 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fajar Collection</title>
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f6f8;
+/* GENERAL STYLES */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f9f9f9;
+    color: #333;
 }
-header{
-  background:#fff;
-  padding:15px 50px 15px 15px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  box-shadow:0 2px 5px rgba(0,0,0,.1);
-  position:relative;
-}
-.admin-btn{
-  position:absolute;
-  right:15px;
-  top:50%;
-  transform:translateY(-50%);
-  width:40px;
-  height:40px;
-  background:#ff6a00;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
-  font-weight:bold;
-  color:#fff;
-  font-size:18px;
-}
-.container{
-  padding:15px;
-  max-width:1000px;
-  margin:auto;
-}
-.products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-.card{
-  background:#fff;
-  border-radius:10px;
-  padding:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-  cursor:pointer;
-  transition:transform 0.2s;
-}
-.card:hover{
-  transform:scale(1.02);
-}
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:8px;
-}
-.card h3{
-  margin:8px 0 4px;
-  font-size:18px;
-}
-.price{
-  color:#ff6a00;
-  font-weight:bold;
-  font-size:16px;
+header {
+    background: #fff;
+    padding: 15px 50px 15px 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
 }
 
-/* MODAL */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
+/* ADMIN BUTTON */
+.admin-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background: #ff6a00;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    font-size: 22px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
 }
-.modal-box{
-  background:#fff;
-  padding:15px;
-  width:90%;
-  max-width:400px;
-  border-radius:10px;
+.admin-btn:hover { transform: translateY(-50%) scale(1.1); }
+
+/* CONTAINER */
+.container {
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
 }
-.modal-box img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:8px;
+
+/* PRODUCTS GRID */
+.products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
-.modal-box h3{
-  margin:10px 0 5px;
+@media(max-width:700px){
+    .products { grid-template-columns: 1fr; }
 }
-.modal-box .price{
-  margin-bottom:10px;
+
+/* PRODUCT CARD */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.modal-box p{
-  font-size:14px;
-  color:#555;
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-.modal-box .buy-btn{
-  background:#25D366;
-  color:#fff;
-  border:none;
-  width:100%;
-  padding:10px;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:bold;
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
 }
-.modal-box .close{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
+.card h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+.card .price {
+    color: #ff6a00;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* MODALS */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-box {
+    background: #fff;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.modal-box img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.modal-box h3 {
+    margin: 10px 0 5px;
+    font-size: 20px;
+}
+.modal-box .price {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #ff6a00;
+}
+.modal-box p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+.buy-btn {
+    background: #25D366;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+textarea { resize: none; }
+.save-btn {
+    background: #ff6a00;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
 }
 </style>
 </head>
 <body>
 
 <header>
-  Fajar Collection
-  <button class="admin-btn" onclick="openAdmin()">+</button>
+    Fajar Collection
+    <button class="admin-btn" onclick="openAdmin()">+</button>
 </header>
 
 <div class="container">
-  <div class="products" id="products"></div>
+    <div class="products" id="products"></div>
 </div>
 
 <!-- PRODUCT DETAIL MODAL -->
 <div class="modal" id="detailModal">
-  <div class="modal-box">
-    <span class="close" onclick="closeDetail()">×</span>
-    <img id="dImage">
-    <h3 id="dName"></h3>
-    <div class="price" id="dPrice"></div>
-    <p id="dDesc"></p>
-    <button class="buy-btn" id="buyBtn">Buy Now</button>
-  </div>
+    <div class="modal-box">
+        <span class="close" onclick="closeDetail()">×</span>
+        <img id="dImage">
+        <h3 id="dName"></h3>
+        <div class="price" id="dPrice"></div>
+        <p id="dDesc"></p>
+        <button class="buy-btn" id="buyBtn">Buy Now</button>
+    </div>
 </div>
 
-<!-- ADMIN UPLOAD MODAL -->
+<!-- ADMIN MODAL -->
 <div class="modal" id="adminModal">
-  <div class="modal-box">
-    <h3>Add Product</h3>
-    <input id="pname" placeholder="Product Name">
-    <input id="pprice" placeholder="Price">
-    <input id="pimage" placeholder="Image URL">
-    <textarea id="pdesc" placeholder="Description"></textarea>
-    <button class="buy-btn" onclick="saveProduct()">Save Product</button>
-  </div>
+    <div class="modal-box">
+        <h3>Upload Product</h3>
+        <input id="pname" placeholder="Product Name">
+        <input id="pprice" placeholder="Price">
+        <input id="pimage" placeholder="Image URL">
+        <textarea id="pdesc" placeholder="Description"></textarea>
+        <button class="save-btn" onclick="saveProduct()">Save Product</button>
+    </div>
 </div>
 
 <script>
 // CONFIG
 const ADMIN_PASSWORD = "11222211";
-const WHATSAPP_NUMBER = "923001234567"; // 🔁 CHANGE YOUR NUMBER
+const WHATSAPP_NUMBER = "923001234567"; // CHANGE THIS
 
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let editId = null;
 
 // LOAD PRODUCTS
 function loadProducts(){
-  const box = document.getElementById("products");
-  box.innerHTML = "";
-  products.forEach(p=>{
-    const card = document.createElement("div");
-    card.className="card";
-    card.innerHTML = `
-      <img src="${p.image}">
-      <h3>${p.name}</h3>
-      <div class="price">Rs ${p.price}</div>
-    `;
-    card.onclick = ()=> showDetail(p);
-    box.appendChild(card);
-  });
+    const box = document.getElementById("products");
+    box.innerHTML = "";
+    products.forEach(p=>{
+        const card = document.createElement("div");
+        card.className="card";
+        card.innerHTML = `
+            <img src="${p.image}">
+            <h3>${p.name}</h3>
+            <div class="price">Rs ${p.price}</div>
+        `;
+        card.onclick = ()=> showDetail(p);
+        box.appendChild(card);
+    });
 }
 loadProducts();
 
-// SHOW PRODUCT DETAIL
+// PRODUCT DETAIL MODAL
 function showDetail(p){
-  document.getElementById("dImage").src=p.image;
-  document.getElementById("dName").innerText=p.name;
-  document.getElementById("dPrice").innerText="Rs "+p.price;
-  document.getElementById("dDesc").innerText=p.desc || "";
-  document.getElementById("buyBtn").onclick = ()=>{
-    let msg = encodeURIComponent("I want to buy this product: "+p.name);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
-  }
-  document.getElementById("detailModal").style.display="flex";
+    document.getElementById("dImage").src=p.image;
+    document.getElementById("dName").innerText=p.name;
+    document.getElementById("dPrice").innerText="Rs "+p.price;
+    document.getElementById("dDesc").innerText=p.desc || "";
+    document.getElementById("buyBtn").onclick = ()=>{
+        let msg = encodeURIComponent("I want to buy this product: "+p.name);
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
+    }
+    document.getElementById("detailModal").style.display="flex";
 }
 function closeDetail(){ document.getElementById("detailModal").style.display="none"; }
 
-// ADMIN BUTTON
+// ADMIN
 function openAdmin(){
-  let pass = prompt("Enter admin password:");
-  if(pass===ADMIN_PASSWORD){
-    editId=null;
-    clearAdminForm();
-    document.getElementById("adminModal").style.display="flex";
-  }else{
-    alert("Wrong password ❌");
-  }
+    let pass = prompt("Enter Admin Password:");
+    if(pass===ADMIN_PASSWORD){
+        editId=null;
+        clearAdminForm();
+        document.getElementById("adminModal").style.display="flex";
+    } else{
+        alert("Wrong Password ❌");
+    }
 }
-
-// CLEAR ADMIN FORM
 function clearAdminForm(){
-  pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
+    pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 }
-
-// SAVE PRODUCT
 function saveProduct(){
-  const p={
-    id: Date.now(),
-    name: pname.value,
-    price: pprice.value,
-    image: pimage.value,
-    desc: pdesc.value
-  };
-  products.push(p);
-  localStorage.setItem("products",JSON.stringify(products));
-  document.getElementById("adminModal").style.display="none";
-  loadProducts();
+    const p = {
+        id: Date.now(),
+        name: pname.value,
+        price: pprice.value,
+        image: pimage.value,
+        desc: pdesc.value
+    };
+    products.push(p);
+    localStorage.setItem("products", JSON.stringify(products));
+    document.getElementById("adminModal").style.display="none";
+    loadProducts();
 }
 
 // CLOSE MODALS ON OUTSIDE CLICK
 window.onclick = function(e){
-  if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
-  if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
+    if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
+    if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
 }
 </script>
 
