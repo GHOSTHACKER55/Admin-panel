@@ -17,43 +17,231 @@
 </script>
 
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#333}
-header{text-align:center;padding:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-header h1{margin:0;font-size:28px;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-header small{display:block;font-size:12px;color:#666;margin-top:4px}
+/* --- GENERAL STYLES --- */
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background:#fff;
+  color:#333;
+}
+
+/* Header */
+header{
+  text-align:center;
+  padding:20px;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  background:#fff;
+  position: sticky;
+  top:0;
+  z-index:100;
+}
+header h1{
+  margin:0;
+  font-size:28px;
+  background:linear-gradient(90deg,#ff6a00,#ffb347);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:800;
+}
+header small{
+  display:block;
+  font-size:12px;
+  color:#888;
+  margin-top:4px;
+}
 
 /* Search bar */
-#searchBar{width:90%;margin:10px auto;display:block;padding:10px;border-radius:8px;border:1px solid #ddd;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+#searchBar{
+  width:90%;
+  margin:15px auto;
+  display:block;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  font-size:16px;
+}
 
-/* Products */
-.section-title{margin:15px;font-size:20px;border-bottom:2px solid #ff6a00;padding-bottom:5px}
-.items{display:flex;flex-wrap:wrap;gap:15px;padding:15px}
-.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);overflow:hidden;cursor:pointer}
-.item img{width:100%;height:180px;object-fit:cover}
-.item-details{padding:10px}
-.item-details b{display:block;font-size:16px;margin-bottom:6px}
-.item-details .price{color:#ff6a00;font-weight:bold;margin-bottom:6px}
-.item-details button{width:100%;padding:8px;border:none;border-radius:6px;background:#ff6a00;color:#fff;cursor:pointer}
+/* Products grid */
+.section-title{
+  margin:15px;
+  font-size:20px;
+  border-bottom:2px solid #ff6a00;
+  padding-bottom:5px;
+  font-weight:600;
+}
+.items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  padding:15px;
+}
+.item{
+  flex:0 0 calc(50% - 15px);
+  background:#fff;
+  border-radius:15px;
+  box-shadow:0 6px 20px rgba(0,0,0,.05);
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+}
+.item:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+.item img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+.item-details{
+  padding:12px;
+}
+.item-details b{
+  display:block;
+  font-size:16px;
+  margin-bottom:6px;
+}
+.item-details .price{
+  color:#ff6a00;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+.item-details button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#ff6a00;
+  color:#fff;
+  cursor:pointer;
+  font-weight:bold;
+}
 
 /* Messages button */
-.messages-btn{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);padding:12px 25px;background:#ff6a00;color:#fff;border:none;border-radius:25px;cursor:pointer;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.messages-btn{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 25px;
+  background:#ff6a00;
+  color:#fff;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:bold;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+  transition:transform .2s;
+}
+.messages-btn:hover{
+  transform:translateX(-50%) scale(1.05);
+}
 
 /* Admin button */
-.admin-btn{position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;background:#ff6a00;color:#fff;border:none;font-size:22px;cursor:pointer}
+.admin-btn{
+  position:fixed;
+  top:15px;
+  right:15px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#ff6a00;
+  color:#fff;
+  border:none;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+}
 
 /* Modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
-.modal-box{background:#fff;width:400px;padding:20px;border-radius:12px;max-height:90%;overflow-y:auto}
-.modal-box input,.modal-box textarea,.modal-box select{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ddd}
-.modal-box button{width:100%;margin-top:10px;background:#ff6a00;color:#fff;border:none;padding:10px;cursor:pointer}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modal-box{
+  background:#fff;
+  width:400px;
+  padding:25px;
+  border-radius:15px;
+  max-height:90%;
+  overflow-y:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+.modal-box input,.modal-box textarea,.modal-box select{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+.modal-box button{
+  width:100%;
+  margin-top:12px;
+  background:#ff6a00;
+  color:#fff;
+  border:none;
+  padding:12px;
+  cursor:pointer;
+  font-weight:bold;
+  border-radius:10px;
+  font-size:15px;
+}
 
 /* Product details modal */
-.item-modal .modal-box img{width:100%;margin-bottom:10px}
-.item-modal .modal-box video{width:100%;margin-bottom:10px}
+.item-modal .modal-box img,.item-modal .modal-box video{
+  width:100%;
+  margin-bottom:10px;
+  border-radius:10px;
+}
 
 /* Messages list */
-.messages{padding:15px}
-.message{background:#fff3e6;border-left:5px solid #ff6a00;padding:10px;border-radius:8px;margin-bottom:10px}
+.messages{
+  padding:10px;
+}
+.message{
+  background:#fff3e6;
+  border-left:5px solid #ff6a00;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.message img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+/* Floating notification */
+#notification{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#ff6a00;
+  color:#fff;
+  padding:15px 20px;
+  border-radius:12px;
+  font-weight:bold;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  display:none;
+  z-index:9999;
+  animation:slideIn 0.5s forwards;
+}
+@keyframes slideIn{
+  0%{opacity:0; transform:translateX(100%)}
+  100%{opacity:1; transform:translateX(0)}
+}
 </style>
 </head>
 <body>
@@ -70,14 +258,16 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
 <div class="section-title">Products</div>
 <div class="items" id="products"></div>
 
-<!-- Messages button -->
 <button class="messages-btn" onclick="openMessages()">Messages</button>
+
+<!-- Notification -->
+<div id="notification"></div>
 
 <!-- Admin Modal -->
 <div class="modal" id="adminModal">
   <div class="modal-box">
     <h3>Add Product</h3>
-    <input id="iname" placeholder="Name">
+    <input id="iname" placeholder="Product Name">
     <input id="iprice" placeholder="Price">
     <textarea id="idesc" placeholder="Description"></textarea>
     <div id="imagesContainer">
@@ -87,7 +277,8 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
     <button onclick="addItem()">Add Product</button>
     <hr>
     <h3>Send Message to Users</h3>
-    <textarea id="amsg" placeholder="Write a message for all users"></textarea>
+    <textarea id="amsg" placeholder="Message text"></textarea>
+    <input id="amsgImage" placeholder="Optional image URL">
     <button onclick="sendMessage()">Send Message</button>
     <button style="margin-top:5px;background:#888" onclick="closeAdmin()">Close</button>
   </div>
@@ -119,8 +310,6 @@ const firebaseConfig = {
   messagingSenderId: "620336064195",
   appId: "1:620336064195:web:4608ae5f133de8fa17a476"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -148,7 +337,7 @@ function loadProducts(){
   });
 }
 
-// Search products
+// Search
 function searchProducts(){
   const query=document.getElementById("searchBar").value.toLowerCase();
   const items=document.querySelectorAll("#products .item");
@@ -190,11 +379,20 @@ function addItem(){
 // Admin send message
 function sendMessage(){
   const text=document.getElementById("amsg").value;
+  const image=document.getElementById("amsgImage").value;
   if(!text) return alert("Message cannot be empty");
-  db.collection("messages").add({text});
+  db.collection("messages").add({text,image});
   document.getElementById("amsg").value="";
-  alert("Message sent to all users!");
-  closeAdmin();
+  document.getElementById("amsgImage").value="";
+  showNotification("New message sent!");
+}
+
+// Notification popup
+function showNotification(msg){
+  const n = document.getElementById("notification");
+  n.innerText = msg;
+  n.style.display="block";
+  setTimeout(()=>{n.style.display="none"},4000);
 }
 
 // Messages
@@ -206,12 +404,15 @@ function loadMessages(){
     container.innerHTML="";
     snapshot.forEach(doc=>{
       const data=doc.data();
-      container.innerHTML+=`<div class="message">${data.text}</div>`;
+      let html=`<div class="message"><div>${data.text}</div>`;
+      if(data.image) html+=`<img src="${data.image}">`;
+      html+="</div>";
+      container.innerHTML+=html;
     });
   });
 }
 
-// Item details modal
+// Product details modal
 function showItemDetails(data){
   const content=document.getElementById("itemContent");
   let html=`<button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
