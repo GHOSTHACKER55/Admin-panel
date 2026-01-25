@@ -22,7 +22,10 @@ header{text-align:center;padding:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 header h1{margin:0;font-size:28px;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 header small{display:block;font-size:12px;color:#666;margin-top:4px}
 
-/* Products & Services */
+/* Search bar */
+#searchBar{width:90%;margin:10px auto;display:block;padding:10px;border-radius:8px;border:1px solid #ddd;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+
+/* Products */
 .section-title{margin:15px;font-size:20px;border-bottom:2px solid #ff6a00;padding-bottom:5px}
 .items{display:flex;flex-wrap:wrap;gap:15px;padding:15px}
 .item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);overflow:hidden;cursor:pointer}
@@ -32,9 +35,8 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
 .item-details .price{color:#ff6a00;font-weight:bold;margin-bottom:6px}
 .item-details button{width:100%;padding:8px;border:none;border-radius:6px;background:#ff6a00;color:#fff;cursor:pointer}
 
-/* Messages */
-.messages{padding:15px}
-.message{background:#fff3e6;border-left:5px solid #ff6a00;padding:10px;border-radius:8px;margin-bottom:10px}
+/* Messages button */
+.messages-btn{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);padding:12px 25px;background:#ff6a00;color:#fff;border:none;border-radius:25px;cursor:pointer;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 
 /* Admin button */
 .admin-btn{position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;background:#ff6a00;color:#fff;border:none;font-size:22px;cursor:pointer}
@@ -45,9 +47,13 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
 .modal-box input,.modal-box textarea,.modal-box select{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ddd}
 .modal-box button{width:100%;margin-top:10px;background:#ff6a00;color:#fff;border:none;padding:10px;cursor:pointer}
 
-/* Product/Service details modal */
+/* Product details modal */
 .item-modal .modal-box img{width:100%;margin-bottom:10px}
 .item-modal .modal-box video{width:100%;margin-bottom:10px}
+
+/* Messages list */
+.messages{padding:15px}
+.message{background:#fff3e6;border-left:5px solid #ff6a00;padding:10px;border-radius:8px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -57,25 +63,20 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
   <small>Mini Store by Fajar Collection</small>
 </header>
 
-<button class="admin-btn" onclick="openAdmin()">+</button>
+<input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
+
+<button class="admin-btn" onclick="promptAdmin()">+</button>
 
 <div class="section-title">Products</div>
 <div class="items" id="products"></div>
 
-<div class="section-title">Services</div>
-<div class="items" id="services"></div>
-
-<div class="section-title">Messages</div>
-<div class="messages" id="messages"></div>
+<!-- Messages button -->
+<button class="messages-btn" onclick="openMessages()">Messages</button>
 
 <!-- Admin Modal -->
 <div class="modal" id="adminModal">
   <div class="modal-box">
-    <h3>Add Product / Service</h3>
-    <select id="typeSelect">
-      <option value="product">Product</option>
-      <option value="service">Service</option>
-    </select>
+    <h3>Add Product</h3>
     <input id="iname" placeholder="Name">
     <input id="iprice" placeholder="Price">
     <textarea id="idesc" placeholder="Description"></textarea>
@@ -84,10 +85,16 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
     </div>
     <button onclick="addImageField()">Add More Image/Video</button>
     <button onclick="addItem()">Add</button>
-    <hr>
-    <textarea id="amsg" placeholder="Write a message for all users"></textarea>
-    <button onclick="sendMessage()">Send Message</button>
     <button style="margin-top:5px;background:#888" onclick="closeAdmin()">Close</button>
+  </div>
+</div>
+
+<!-- Messages Modal -->
+<div class="modal" id="messagesModal">
+  <div class="modal-box">
+    <h3>Messages</h3>
+    <div class="messages" id="messages"></div>
+    <button style="margin-top:10px;background:#888" onclick="closeMessages()">Close</button>
   </div>
 </div>
 
@@ -112,12 +119,14 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage();
 
-// Load items
-function loadItems(type, containerId){
-  db.collection(type+"s").onSnapshot(snapshot=>{
-    const container = document.getElementById(containerId);
+// Admin password
+const adminPassword = "11222211";
+
+// Load products
+function loadProducts(){
+  db.collection("products").onSnapshot(snapshot=>{
+    const container = document.getElementById("products");
     container.innerHTML = "";
     snapshot.forEach(doc=>{
       const data = doc.data();
@@ -135,19 +144,23 @@ function loadItems(type, containerId){
   });
 }
 
-// Load messages
-function loadMessages(){
-  db.collection("messages").onSnapshot(snapshot=>{
-    const container = document.getElementById("messages");
-    container.innerHTML = "";
-    snapshot.forEach(doc=>{
-      const data = doc.data();
-      container.innerHTML += `<div class="message">${data.text}</div>`;
-    });
+// Search products
+function searchProducts(){
+  const query=document.getElementById("searchBar").value.toLowerCase();
+  const items=document.querySelectorAll("#products .item");
+  items.forEach(item=>{
+    const name=item.querySelector("b").innerText.toLowerCase();
+    if(name.includes(query)) item.style.display="block";
+    else item.style.display="none";
   });
 }
 
-// Admin modal
+// Admin
+function promptAdmin(){
+  const pass=prompt("Enter admin password:");
+  if(pass===adminPassword) openAdmin();
+  else alert("Incorrect password");
+}
 function openAdmin(){document.getElementById("adminModal").style.display="flex"}
 function closeAdmin(){document.getElementById("adminModal").style.display="none"}
 function addImageField(){
@@ -157,16 +170,13 @@ function addImageField(){
   input.placeholder="Image or Video URL";
   container.appendChild(input);
 }
-
-// Add product or service
 function addItem(){
-  const type=document.getElementById("typeSelect").value;
   const name=document.getElementById("iname").value;
   const price=document.getElementById("iprice").value;
   const desc=document.getElementById("idesc").value;
   const images = Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(i=>i);
   if(!name || images.length==0) return alert("Name and at least 1 image required");
-  db.collection(type+"s").add({name, price, desc, images});
+  db.collection("products").add({name, price, desc, images});
   document.getElementById("iname").value="";
   document.getElementById("iprice").value="";
   document.getElementById("idesc").value="";
@@ -174,13 +184,18 @@ function addItem(){
   closeAdmin();
 }
 
-// Send message
-function sendMessage(){
-  const text=document.getElementById("amsg").value;
-  if(!text) return alert("Message cannot be empty");
-  db.collection("messages").add({text});
-  document.getElementById("amsg").value="";
-  closeAdmin();
+// Messages
+function openMessages(){document.getElementById("messagesModal").style.display="flex"; loadMessages();}
+function closeMessages(){document.getElementById("messagesModal").style.display="none";}
+function loadMessages(){
+  db.collection("messages").onSnapshot(snapshot=>{
+    const container=document.getElementById("messages");
+    container.innerHTML="";
+    snapshot.forEach(doc=>{
+      const data=doc.data();
+      container.innerHTML+=`<div class="message">${data.text}</div>`;
+    });
+  });
 }
 
 // Item details modal
@@ -241,9 +256,7 @@ function sendOrder(productName){
 }
 
 // Initial load
-loadItems("product","products");
-loadItems("service","services");
-loadMessages();
+loadProducts();
 </script>
 
 </body>
