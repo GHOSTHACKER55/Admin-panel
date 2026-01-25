@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fajar Collection | Mini Store</title>
+<title>Fajar Collection Mini Store</title>
 
-<!-- Firebase SDKs -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -18,173 +18,120 @@ emailjs.init("yrbkNbRZ0_wqsChsV"); // Your EmailJS public key
 
 <style>
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
-header{text-align:center;padding:20px;position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.05);}
-header h1{margin:0;font-size:28px;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800;}
+header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:100;}
+header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 header small{display:block;font-size:12px;color:#888;margin-top:4px;}
-#searchBar{width:90%;margin:15px auto;display:block;padding:12px;border-radius:10px;border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:16px;}
-.section-title{margin:15px;font-size:20px;border-bottom:2px solid #ff6a00;padding-bottom:5px;font-weight:600;}
-.items{display:flex;flex-wrap:wrap;gap:15px;padding:15px;}
-.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+#searchBar{width:90%;margin:10px auto;display:block;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.items{display:flex;flex-wrap:wrap;gap:15px;padding:10px;}
+.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;}
 .item:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
-.item img{width:100%;height:180px;object-fit:cover;}
-.item-details{padding:12px;}
-.item-details b{display:block;font-size:16px;margin-bottom:6px;}
-.item-details .price{color:#ff6a00;font-weight:bold;margin-bottom:6px;}
-.item-details button{width:48%;padding:10px;margin-right:4%;border:none;border-radius:8px;background:#ff6a00;color:#fff;cursor:pointer;font-weight:bold;}
-.item-details button:last-child{margin-right:0;}
-.messages-btn{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);padding:12px 25px;background:#ff6a00;color:#fff;border:none;border-radius:30px;cursor:pointer;font-weight:bold;box-shadow:0 6px 18px rgba(0,0,0,.1);transition:transform .2s;}
-.messages-btn:hover{transform:translateX(-50%) scale(1.05);}
-.admin-btn{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 18px;border-radius:10px;background:#28a745;color:#fff;font-weight:bold;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.2);font-size:16px;transition:transform .2s;}
-.admin-btn:hover{transform:scale(1.1);}
+.item img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
+.item-details{padding:10px;display:flex;justify-content:space-between;align-items:center;}
+.item-details b{display:block;font-size:16px;}
+.item-details .price{color:#ff6a00;font-weight:bold;}
+.item-details button{padding:6px 10px;margin-left:5px;border:none;border-radius:8px;background:#ff6a00;color:#fff;cursor:pointer;font-weight:bold;opacity:0;transition:opacity .3s;}
+.item:hover .item-details button{opacity:1;}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 0;box-shadow:0 -2px 12px rgba(0,0,0,.05);z-index:100;}
+.bottom-nav button{background:#fff;border:none;font-size:12px;color:#555;cursor:pointer;display:flex;flex-direction:column;align-items:center;position:relative;}
+.bottom-nav button:hover{color:#ff6a00;}
+.bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
-.modal-box{background:#fff;width:400px;padding:25px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
-.modal-box input,.modal-box textarea,.modal-box select{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ddd;font-size:14px;}
-.modal-box button{width:100%;margin-top:12px;background:#ff6a00;color:#fff;border:none;padding:12px;cursor:pointer;font-weight:bold;border-radius:10px;font-size:15px;}
+.modal-box{background:#fff;width:400px;padding:20px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
+.modal-box input,.modal-box textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px solid #ddd;font-size:14px;}
+.modal-box button{width:100%;margin-top:12px;background:#ff6a00;color:#fff;border:none;padding:12px;cursor:pointer;font-weight:bold;border-radius:10px;font-size:14px;}
 .item-modal .modal-box img,.item-modal .modal-box video{width:100%;margin-bottom:10px;border-radius:10px;}
-.messages{padding:10px;}
-.message{background:#fff3e6;border-left:5px solid #ff6a00;padding:12px;border-radius:10px;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;}
-.message img{width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid #ddd;}
 .toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
 .toast{background:#ff6a00;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
 .toast img{width:40px;height:40px;border-radius:8px;object-fit:cover;}
 @keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
-.login-modal .modal-box{width:350px;}
-.login-modal h3{text-align:center;margin-bottom:15px;}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Fajar Collection</h1>
-  <small>Mini Store by Fajar Collection</small>
+<h1>Fajar Collection</h1>
+<small>Mini Store by Fajar Collection</small>
 </header>
 
 <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
 
-<!-- Admin button -->
-<button class="admin-btn" onclick="promptAdmin()">Admin</button>
-
-<!-- Floating buttons -->
-<button class="messages-btn" onclick="openMessages()">Messages</button>
-<button class="messages-btn" style="bottom:70px" onclick="openCart()">Cart</button>
-<button class="messages-btn" style="bottom:125px" onclick="openOrders()">My Orders</button>
-
-<!-- Toast container -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- Products -->
-<div class="section-title">Products</div>
 <div class="items" id="products"></div>
 
-<!-- Login/Register modal -->
+<div class="bottom-nav" id="bottomNav">
+  <button onclick="openMessages()">Messages <span class="badge" id="msgBadge">0</span></button>
+  <button onclick="openCart()">My Cart <span class="badge" id="cartBadge">0</span></button>
+  <button onclick="openOrders()">My Orders</button>
+  <button onclick="openAccount()">My Account</button>
+</div>
+
+<!-- Login/Register Modal -->
 <div class="modal login-modal" id="loginModal">
-  <div class="modal-box">
-    <h3>Login / Register</h3>
-    <input type="email" id="userEmail" placeholder="Email">
-    <input type="password" id="userPass" placeholder="Password">
-    <input type="text" id="userName" placeholder="Full Name (for Register)">
-    <button onclick="loginUser()">Login</button>
-    <button onclick="registerUser()">Register</button>
-  </div>
+<div class="modal-box">
+<h3>Register / Login</h3>
+<input type="text" id="regName" placeholder="Full Name">
+<input type="email" id="regEmail" placeholder="Email">
+<input type="text" id="regNumber" placeholder="Phone Number">
+<input type="password" id="regPass" placeholder="Password">
+<input type="password" id="regConfirm" placeholder="Confirm Password">
+<button onclick="registerUser()">Register</button>
+<hr>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPass" placeholder="Password">
+<button onclick="loginUser()">Login</button>
+</div>
+</div>
+
+<!-- Product Detail Modal -->
+<div class="modal item-modal" id="itemModal">
+<div class="modal-box" id="itemContent"></div>
 </div>
 
 <!-- Admin Modal -->
 <div class="modal" id="adminModal">
-  <div class="modal-box">
-    <h3>Add Product</h3>
-    <input id="iname" placeholder="Product Name">
-    <input id="iprice" placeholder="Price">
-    <textarea id="idesc" placeholder="Description"></textarea>
-    <div id="imagesContainer"><input class="imgInput" placeholder="Image or Video URL"></div>
-    <button onclick="addImageField()">Add More Image/Video</button>
-    <button onclick="addItem()">Add Product</button>
-    <hr>
-    <h3>Send Message to Users</h3>
-    <textarea id="amsg" placeholder="Message text"></textarea>
-    <input id="amsgImage" placeholder="Optional image URL">
-    <button onclick="sendMessage()">Send Message</button>
-    <button style="margin-top:5px;background:#888" onclick="closeAdmin()">Close</button>
-  </div>
+<div class="modal-box">
+<h3>Admin Panel</h3>
+<input id="adminPassInput" type="password" placeholder="Enter Admin Password">
+<button onclick="verifyAdmin()">Enter</button>
+<div id="adminPanel" style="display:none;">
+<h4>Add Product</h4>
+<input id="iname" placeholder="Product Name">
+<input id="iprice" placeholder="Price">
+<textarea id="idesc" placeholder="Description"></textarea>
+<div id="imagesContainer"><input class="imgInput" placeholder="Image/Video URL"></div>
+<button onclick="addImageField()">Add More Image/Video</button>
+<button onclick="addItem()">Add Product</button>
+<hr>
+<h4>Send Notification</h4>
+<textarea id="amsg" placeholder="Message"></textarea>
+<input id="amsgImage" placeholder="Optional Image URL">
+<button onclick="sendMessage()">Send Message</button>
+</div>
+</div>
 </div>
 
-<!-- Messages Modal -->
-<div class="modal" id="messagesModal">
-  <div class="modal-box">
-    <h3>Messages</h3>
-    <div class="messages" id="messages"></div>
-    <button style="margin-top:10px;background:#888" onclick="closeMessages()">Close</button>
-  </div>
-</div>
-
-<!-- Cart Modal -->
-<div class="modal" id="cartModal">
-  <div class="modal-box">
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <button onclick="checkoutCart()">Checkout</button>
-    <button style="margin-top:5px;background:#888" onclick="closeCart()">Close</button>
-  </div>
-</div>
-
-<!-- Orders Modal -->
-<div class="modal" id="ordersModal">
-  <div class="modal-box">
-    <h3>My Orders</h3>
-    <div id="ordersList"></div>
-    <button style="margin-top:5px;background:#888" onclick="closeOrders()">Close</button>
-  </div>
-</div>
-
-<!-- Item details modal -->
-<div class="modal item-modal" id="itemModal">
-  <div class="modal-box" id="itemContent">
-    <button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
-  </div>
-</div>
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
 // Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
-  authDomain: "fajar-collection-8aba3.firebaseapp.com",
-  projectId: "fajar-collection-8aba3",
-  storageBucket: "fajar-collection-8aba3.firebasestorage.app",
-  messagingSenderId: "620336064195",
-  appId: "1:620336064195:web:4608ae5f133de8fa17a476"
+apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
+authDomain: "fajar-collection-8aba3.firebaseapp.com",
+projectId: "fajar-collection-8aba3",
+storageBucket: "fajar-collection-8aba3.appspot.com",
+messagingSenderId: "620336064195",
+appId: "1:620336064195:web:4608ae5f133de8fa17a476"
 };
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const auth=firebase.auth();
 const adminPassword="11222211";
 let cart=[];
+let msgCount=0;
 
-// Show login modal
+// LOGIN / REGISTER
 document.getElementById("loginModal").style.display="flex";
-
-// REGISTER & LOGIN
-function registerUser(){
-  const email=document.getElementById("userEmail").value;
-  const pass=document.getElementById("userPass").value;
-  const name=document.getElementById("userName").value;
-  if(!email||!pass||!name)return alert("All fields required");
-  auth.createUserWithEmailAndPassword(email,pass).then(res=>{
-    db.collection("users").doc(res.user.uid).set({name,email});
-    alert("Account created!");
-    document.getElementById("loginModal").style.display="none";
-    loadOrders();
-    loadProducts();
-  }).catch(e=>alert(e.message));
-}
-function loginUser(){
-  const email=document.getElementById("userEmail").value;
-  const pass=document.getElementById("userPass").value;
-  if(!email||!pass)return alert("Fill both fields");
-  auth.signInWithEmailAndPassword(email,pass).then(()=>{
-    document.getElementById("loginModal").style.display="none";
-    loadOrders();
-    loadProducts();
-  }).catch(e=>alert(e.message));
-}
+function registerUser(){const name=document.getElementById("regName").value;const email=document.getElementById("regEmail").value;const number=document.getElementById("regNumber").value;const pass=document.getElementById("regPass").value;const confirm=document.getElementById("regConfirm").value;if(!name||!email||!number||!pass||!confirm)return alert("All fields required");if(pass!==confirm)return alert("Passwords do not match");auth.createUserWithEmailAndPassword(email,pass).then(res=>{db.collection("users").doc(res.user.uid).set({name,email,number});alert("Account Created!");document.getElementById("loginModal").style.display="none";loadProducts();setupBadges();}).catch(e=>alert(e.message));}
+function loginUser(){const email=document.getElementById("loginEmail").value;const pass=document.getElementById("loginPass").value;if(!email||!pass)return alert("Fill all fields");auth.signInWithEmailAndPassword(email,pass).then(()=>{document.getElementById("loginModal").style.display="none";loadProducts();setupBadges();}).catch(e=>alert(e.message));}
 
 // LOAD PRODUCTS
 function loadProducts(){
@@ -196,81 +143,54 @@ function loadProducts(){
       const div=document.createElement("div");
       div.className="item";
       div.innerHTML=`<img src="${data.images[0]}">
-        <div class="item-details">
-        <b>${data.name}</b>
-        <div class="price">${data.price? "Rs "+data.price : ""}</div>
-        <button onclick="addToCart('${doc.id}')">Add to Cart</button>
-        <button onclick="showBuyForm('${data.name}','${doc.id}')">Buy Now</button>
-        </div>`;
+      <div class="item-details">
+      <b>${data.name}</b>
+      <div class="price">${data.price? "Rs "+data.price : ""}</div>
+      <button onclick="addToCart('${doc.id}')">Add to Cart</button>
+      <button onclick="buyNow('${doc.id}')">Buy Now</button>
+      </div>`;
       div.onclick=()=>showItemDetails(data);
       container.appendChild(div);
     });
   });
 }
 
-// SEARCH PRODUCTS
-function searchProducts(){
-  const query=document.getElementById("searchBar").value.toLowerCase();
-  document.querySelectorAll("#products .item").forEach(item=>{
-    const name=item.querySelector("b").innerText.toLowerCase();
-    item.style.display=name.includes(query)?"block":"none";
+// ADMIN PANEL
+function verifyAdmin(){const p=document.getElementById("adminPassInput").value;if(p===adminPassword){document.getElementById("adminPanel").style.display="block";alert("Admin Access Granted");addAdminButton();}else{alert("Wrong Password");}}
+function addAdminButton(){if(!document.getElementById("adminButton")){const btn=document.createElement("button");btn.id="adminButton";btn.innerText="Admin";btn.onclick=()=>document.getElementById("adminModal").style.display="flex";document.getElementById("bottomNav").appendChild(btn);}}
+function addImageField(){const div=document.getElementById("imagesContainer");const input=document.createElement("input");input.className="imgInput";input.placeholder="Image/Video URL";div.appendChild(input);}
+function addItem(){const name=document.getElementById("iname").value;const price=document.getElementById("iprice").value;const desc=document.getElementById("idesc").value;const images=Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(Boolean);if(!name||!price||!desc||images.length===0)return alert("Fill all product details");db.collection("products").add({name,price,desc,images});alert("Product Added");document.getElementById("iname").value="";document.getElementById("iprice").value="";document.getElementById("idesc").value="";Array.from(document.getElementsByClassName("imgInput")).forEach(i=>i.value="");}
+function sendMessage(){const msg=document.getElementById("amsg").value;const img=document.getElementById("amsgImage").value;if(!msg)return alert("Message required");db.collection("messages").add({msg,img,date:new Date()});alert("Notification sent to all users");document.getElementById("amsg").value="";document.getElementById("amsgImage").value="";}
+
+// CART / BUY
+function addToCart(id){cart.push(id);showToast("Added to Cart");updateCart();}
+function updateCart(){document.getElementById("cartBadge").innerText=cart.length;}
+function openCart(){alert("Cart Items:\n"+cart.join("\n"));}
+function buyNow(id){const name=prompt("Enter your Name");const email=prompt("Enter your Email");const phone=prompt("Enter your Phone Number");const address=prompt("Enter your Address");if(!name||!email||!phone||!address)return alert("All fields required");db.collection("orders").add({id,name,email,phone,address,date:new Date()});emailjs.send("service_pq2g8b6","template_is8ljfl",{user_name:name,user_email:email,product_id:id,user_phone:phone,user_address:address}).then(res=>alert("Order Sent Successfully!"));}
+
+// TOAST
+function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+// SEARCH
+function searchProducts(){const val=document.getElementById("searchBar").value.toLowerCase();document.querySelectorAll(".item").forEach(it=>{it.style.display=it.querySelector("b").innerText.toLowerCase().includes(val)?"flex":"none";});}
+
+// BADGES REAL-TIME
+function setupBadges(){
+  // Messages badge
+  db.collection("messages").onSnapshot(snapshot=>{
+    const count = snapshot.size;
+    document.getElementById("msgBadge").innerText = count;
   });
 }
 
-// ADD TO CART
-function addToCart(productId){
-  if(!auth.currentUser)return alert("Login first");
-  if(!cart.includes(productId))cart.push(productId);
-  showToast("Added to cart!");
-}
+// PLACEHOLDER FUNCTIONS
+function openMessages(){alert("Messages Page");}
+function openAccount(){alert("My Account Page");}
+function openOrders(){alert("Order History Page");}
+function showItemDetails(data){alert(`${data.name}\nPrice: ${data.price}\nDesc: ${data.desc}`);}
 
-// Cart modal
-function openCart(){
-  document.getElementById("cartModal").style.display="flex";
-  const container=document.getElementById("cartItems");
-  container.innerHTML="";
-  cart.forEach(id=>{
-    db.collection("products").doc(id).get().then(doc=>{
-      const data=doc.data();
-      container.innerHTML+=`<div>${data.name} - Rs ${data.price || 0}</div>`;
-    });
-  });
-}
-function closeCart(){document.getElementById("cartModal").style.display="none";}
-function checkoutCart(){
-  if(!auth.currentUser)return alert("Login first");
-  cart.forEach(id=>{
-    db.collection("products").doc(id).get().then(doc=>{
-      const data=doc.data();
-      db.collection("orders").add({
-        uid:auth.currentUser.uid,
-        product:data.name,
-        price:data.price||0,
-        date:new Date()
-      });
-    });
-  });
-  cart=[];
-  closeCart();
-  showToast("Cart checked out!");
-}
-
-// ORDERS
-function openOrders(){document.getElementById("ordersModal").style.display="flex";loadOrders();}
-function closeOrders(){document.getElementById("ordersModal").style.display="none";}
-function loadOrders(){
-  if(!auth.currentUser)return;
-  db.collection("orders").where("uid","==",auth.currentUser.uid).onSnapshot(snapshot=>{
-    const container=document.getElementById("ordersList");
-    container.innerHTML="";
-    snapshot.forEach(doc=>{
-      const data=doc.data();
-      container.innerHTML+=`<div>${data.product} - Rs ${data.price} - ${data.date.toDate().toLocaleString()}</div>`;
-    });
-  });
-}
-
-// Continue the remaining admin, messages, buy now, toast, product details JS
+// INITIAL LOAD
+loadProducts();
 </script>
 </body>
 </html>
