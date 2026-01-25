@@ -3,364 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fajar Collection Mini Store</title>
+<title>Fajar Collection | Mini Store</title>
+
 <style>
+*{box-sizing:border-box}
 body{
     margin:0;
-    font-family:'Segoe UI',Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:#fff;
     color:#333;
 }
-header{
-    background:#fff;
-    text-align:center;
-    padding:30px 20px 15px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    position:relative;
+
+/* ---------- LOGIN ---------- */
+#loginPage{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
-header h1{
-    font-size:32px;
-    font-weight:700;
-    background:linear-gradient(to right,#ff6a00,#ffb347);
+.login-box{
+    width:90%;
+    max-width:350px;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+    text-align:center;
+}
+.login-box h1{
+    margin:0;
+    font-size:26px;
+    background:linear-gradient(90deg,#ff6a00,#ffb347);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    margin:0;
 }
-header h2{
-    font-size:16px;
-    font-weight:400;
-    color:#888;
-    margin:5px 0 0;
+.login-box p{color:#777;margin-bottom:20px}
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ddd;
+    border-radius:8px;
 }
-.admin-btn{
-    position:absolute;
-    right:20px;
-    top:50px;
-    width:45px;
-    height:45px;
+.login-box button{
+    width:100%;
+    padding:12px;
     background:#ff6a00;
     border:none;
-    border-radius:50%;
-    cursor:pointer;
-    font-weight:bold;
     color:#fff;
-    font-size:22px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.2);
-    transition:transform 0.2s;
-}
-.admin-btn:hover{transform:scale(1.1);}
-.container{
-    max-width:800px;
-    margin:auto;
-    padding:20px;
-}
-.search-bar{
-    text-align:center;
-    margin-bottom:20px;
-}
-.search-bar input{
-    padding:12px 15px;
-    width:90%;
-    max-width:700px;
-    border-radius:8px;
-    border:1px solid #ddd;
     font-size:16px;
+    border-radius:8px;
+    margin-top:10px;
+    cursor:pointer;
 }
-.products{
+.login-box .link{
+    margin-top:12px;
+    color:#ff6a00;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* ---------- HEADER ---------- */
+header{
+    padding:15px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+header h1{
+    margin:0;
+    font-size:24px;
+    background:linear-gradient(90deg,#ff6a00,#ffb347);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+header small{
+    color:#888;
+}
+
+/* ---------- CONTENT ---------- */
+.page{
+    display:none;
+    padding:15px;
+    padding-bottom:80px;
+}
+.page.active{display:block}
+
+/* ---------- PRODUCTS ---------- */
+.product{
     display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-.card{
+    gap:12px;
     background:#fff;
     border-radius:12px;
-    padding:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
-    cursor:pointer;
-    transition:transform 0.2s,box-shadow 0.2s;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    gap:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    padding:10px;
+    margin-bottom:15px;
 }
-.card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 6px 20px rgba(0,0,0,0.1);
-}
-.card img{
-    width:150px;
-    height:150px;
-    object-fit:cover;
+.product img{
+    width:110px;
+    height:110px;
     border-radius:10px;
+    object-fit:cover;
 }
-.card-info{
-    flex:1;
+.product h3{margin:0}
+.price{font-weight:bold;margin:6px 0}
+.product button{
+    background:#ff6a00;
+    border:none;
+    color:#fff;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
 }
-.card-info h3{
-    margin:0 0 5px;
-    font-size:18px;
-    font-weight:600;
+
+/* ---------- MESSAGES ---------- */
+.message{
+    background:#fff3e6;
+    border-left:5px solid #ff6a00;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
 }
-.card-info .price{
-    font-weight:bold;
-    font-size:16px;
-    color:#444;
+
+/* ---------- CART ---------- */
+.cart-item{
+    background:#fff;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    margin-bottom:10px;
 }
+
+/* ---------- ACCOUNT ---------- */
+.account-box{
+    background:#fff;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* ---------- ADMIN BUTTON ---------- */
+.admin-btn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#ff6a00;
+    color:#fff;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* ---------- ADMIN MODAL ---------- */
 .modal{
     position:fixed;
     inset:0;
-    background: rgba(0,0,0,0.5);
+    background:rgba(0,0,0,.5);
     display:none;
     justify-content:center;
     align-items:center;
-    z-index:1000;
+    z-index:999;
 }
 .modal-box{
     background:#fff;
-    padding:20px;
     width:90%;
-    max-width:400px;
+    max-width:350px;
+    padding:20px;
     border-radius:12px;
-    position:relative;
-    box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
-.modal-box img, .modal-box video{
+.modal-box textarea,
+.modal-box input{
     width:100%;
-    max-height:220px;
-    object-fit:cover;
+    padding:10px;
+    margin-top:8px;
+    border:1px solid #ddd;
     border-radius:8px;
-    margin-bottom:10px;
 }
-.modal-box h3{
-    margin:10px 0 5px;
-    font-size:20px;
-    font-weight:600;
-}
-.modal-box .price{
-    margin-bottom:10px;
-    font-weight:bold;
-    color:#444;
-}
-.modal-box p{
-    font-size:14px;
-    color:#555;
-    margin-bottom:15px;
-}
-.buy-btn, .save-btn, .add-link-btn, #submitOrder{
+.modal-box button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
     background:#ff6a00;
     color:#fff;
     border:none;
-    width:100%;
-    padding:12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:16px;
-    margin-top:5px;
+    border-radius:8px;
 }
-.close{
-    position:absolute;
-    top:10px;
-    right:15px;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
+
+/* ---------- BOTTOM NAV ---------- */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:#fff;
+    box-shadow:0 -2px 10px rgba(0,0,0,.15);
+    display:flex;
 }
-input,textarea{
-    width:100%;
-    padding:10px;
-    margin:6px 0;
-    border:1px solid #ddd;
-    border-radius:6px;
-    outline:none;
-    font-size:14px;
-}
-textarea{resize:none;}
-footer{
+.bottom-nav div{
+    flex:1;
     text-align:center;
-    font-size:14px;
-    color:#888;
-    margin:40px 0 20px;
+    font-size:13px;
+    padding-top:6px;
+    cursor:pointer;
 }
-footer::before{
-    content:"";
-    display:block;
-    width:80px;
-    height:1px;
-    background:#ddd;
-    margin:10px auto;
-}
+.bottom-nav div.active{color:#ff6a00;font-weight:bold}
 </style>
 </head>
+
 <body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+    <div class="login-box">
+        <h1>Fajar Collection</h1>
+        <p>Mini Store</p>
+        <input id="username" placeholder="Username">
+        <input id="password" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div class="link" onclick="register()">Create Account</div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none">
 
 <header>
     <h1>Fajar Collection</h1>
-    <h2>Mini Store by Fajar Collection</h2>
+    <small>Mini Store by Fajar Collection</small>
 </header>
 
-<div class="container">
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search products..." oninput="searchProducts()">
+<button class="admin-btn" onclick="openAdmin()">+</button>
+
+<!-- HOME -->
+<div id="home" class="page active">
+    <div class="product">
+        <img src="https://i.imgur.com/Qw7npIg.jpg">
+        <div>
+            <h3>Women Dress</h3>
+            <div class="price">Rs 2500</div>
+            <button onclick="addToCart('Women Dress',2500)">Add to Cart</button>
+        </div>
     </div>
-    <div class="products" id="products"></div>
 </div>
 
-<!-- PRODUCT DETAIL MODAL -->
-<div class="modal" id="detailModal">
-    <div class="modal-box">
-        <span class="close" onclick="closeDetail()">×</span>
-        <div id="mediaContainer"></div>
-        <h3 id="dName"></h3>
-        <div class="price" id="dPrice"></div>
-        <p id="dDesc"></p>
-        <h4>Enter your details to buy:</h4>
-        <input id="buyerName" placeholder="Name">
-        <input id="buyerNumber" placeholder="Number">
-        <input id="buyerEmail" placeholder="Email">
-        <input id="buyerCity" placeholder="City">
-        <input id="buyerAddress" placeholder="Address">
-        <button id="submitOrder">Buy Now</button>
+<!-- MESSAGES -->
+<div id="messages" class="page"></div>
+
+<!-- CART -->
+<div id="cart" class="page"></div>
+
+<!-- ACCOUNT -->
+<div id="account" class="page">
+    <div class="account-box">
+        <p><b>Logged in as:</b> <span id="accUser"></span></p>
+        <button onclick="logout()">Logout</button>
     </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div class="active" onclick="showPage('home',this)">Home</div>
+    <div onclick="showPage('messages',this)">Messages</div>
+    <div onclick="showPage('cart',this)">Cart</div>
+    <div onclick="showPage('account',this)">Account</div>
+</div>
+
 </div>
 
 <!-- ADMIN MODAL -->
 <div class="modal" id="adminModal">
     <div class="modal-box">
-        <h3>Upload Product</h3>
-        <input id="pname" placeholder="Product Name">
-        <input id="pprice" placeholder="Price">
-        <div id="mediaInputs">
-            <input placeholder="Image/Video URL" class="media-url">
-        </div>
-        <button class="add-link-btn" onclick="addMediaInput()">Add More</button>
-        <textarea id="pdesc" placeholder="Description"></textarea>
-        <button class="save-btn" onclick="saveProduct()">Save Product</button>
+        <h3>Admin Message</h3>
+        <textarea id="adminMsg" placeholder="50% OFF available now!"></textarea>
+        <button onclick="sendMessage()">Send Message</button>
     </div>
 </div>
 
-<button class="admin-btn" onclick="openAdmin()">+</button>
-<footer>Mini Store by Fajar Collection</footer>
-
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_EMAILJS_USERID"); // <-- Replace with your EmailJS user ID
-
 const ADMIN_PASSWORD="11222211";
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let currentProduct=null;
+let currentUser=null;
 
-function loadProducts(filtered=null){
-    const box=document.getElementById("products");
-    box.innerHTML="";
-    const list=filtered||products;
-    list.forEach(p=>{
-        const card=document.createElement("div");
-        card.className="card";
-        card.innerHTML=`<img src="${p.media[0]}"><div class="card-info"><h3>${p.name}</h3><div class="price">Rs ${p.price}</div></div>`;
-        card.onclick=()=>showDetail(p);
-        box.appendChild(card);
+function login(){
+    const u=username.value,p=password.value;
+    const users=JSON.parse(localStorage.getItem("users")||"{}");
+    if(users[u]&&users[u]===p){
+        startApp(u);
+    }else alert("Invalid login");
+}
+function register(){
+    const u=username.value,p=password.value;
+    if(!u||!p) return alert("Fill all");
+    const users=JSON.parse(localStorage.getItem("users")||"{}");
+    users[u]=p;
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Account created!");
+}
+
+function startApp(user){
+    currentUser=user;
+    loginPage.style.display="none";
+    app.style.display="block";
+    accUser.innerText=user;
+    loadMessages();
+    loadCart();
+}
+
+function logout(){
+    location.reload();
+}
+
+function showPage(id,el){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".bottom-nav div").forEach(d=>d.classList.remove("active"));
+    el.classList.add("active");
+}
+
+function addToCart(name,price){
+    const carts=JSON.parse(localStorage.getItem("carts")||"{}");
+    carts[currentUser]=carts[currentUser]||[];
+    carts[currentUser].push({name,price});
+    localStorage.setItem("carts",JSON.stringify(carts));
+    alert("Added to cart");
+}
+
+function loadCart(){
+    const carts=JSON.parse(localStorage.getItem("carts")||"{}");
+    cart.innerHTML="";
+    (carts[currentUser]||[]).forEach(i=>{
+        cart.innerHTML+=`<div class="cart-item">${i.name} - Rs ${i.price}</div>`;
     });
 }
-loadProducts();
 
-function searchProducts(){
-    const val=document.getElementById("searchInput").value.toLowerCase();
-    const filtered=products.filter(p=>p.name.toLowerCase().includes(val));
-    loadProducts(filtered);
-}
-
-function showDetail(p){
-    currentProduct=p;
-    const container=document.getElementById("mediaContainer");
-    container.innerHTML="";
-    p.media.forEach(url=>{
-        if(url.match(/\.(mp4|webm)$/i)){
-            const vid=document.createElement("video");
-            vid.src=url;
-            vid.controls=true;
-            container.appendChild(vid);
-        }else{
-            const img=document.createElement("img");
-            img.src=url;
-            container.appendChild(img);
-        }
-    });
-    document.getElementById("dName").innerText=p.name;
-    document.getElementById("dPrice").innerText="Rs "+p.price;
-    document.getElementById("dDesc").innerText=p.desc||"";
-    document.getElementById("detailModal").style.display="flex";
-}
-
-function closeDetail(){document.getElementById("detailModal").style.display="none";}
-
-// BUY NOW FORM
-document.getElementById("submitOrder").onclick=function(){
-    const name=document.getElementById("buyerName").value;
-    const number=document.getElementById("buyerNumber").value;
-    const email=document.getElementById("buyerEmail").value;
-    const city=document.getElementById("buyerCity").value;
-    const address=document.getElementById("buyerAddress").value;
-
-    if(!name||!number||!email||!city||!address){alert("Please fill all details"); return;}
-
-    alert("🎉 Congratulations! You bought "+currentProduct.name);
-
-    // Send email using EmailJS
-    const templateParams={
-        product_name: currentProduct.name,
-        price: currentProduct.price,
-        buyer_name: name,
-        buyer_number: number,
-        buyer_email: email,
-        buyer_city: city,
-        buyer_address: address
-    };
-    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",templateParams)
-    .then(response=>{console.log("Email sent!", response)},error=>{console.log(error);});
-
-    // Clear form
-    document.getElementById("buyerName").value="";
-    document.getElementById("buyerNumber").value="";
-    document.getElementById("buyerEmail").value="";
-    document.getElementById("buyerCity").value="";
-    document.getElementById("buyerAddress").value="";
-    closeDetail();
-}
-
-// ADMIN
 function openAdmin(){
-    let pass=prompt("Enter Admin Password:");
+    const pass=prompt("Admin password");
     if(pass===ADMIN_PASSWORD){
-        clearAdminForm();
-        document.getElementById("adminModal").style.display="flex";
-    }else{alert("Wrong Password ❌");}
-}
-function clearAdminForm(){
-    pname.value=""; pprice.value=""; pdesc.value="";
-    document.getElementById("mediaInputs").innerHTML=`<input placeholder="Image/Video URL" class="media-url">`;
-}
-function addMediaInput(){
-    const input=document.createElement("input");
-    input.placeholder="Image/Video URL";
-    input.className="media-url";
-    document.getElementById("mediaInputs").appendChild(input);
-}
-function saveProduct(){
-    const mediaEls=document.querySelectorAll(".media-url");
-    const media=[];
-    mediaEls.forEach(el=>{if(el.value) media.push(el.value);});
-    const p={id:Date.now(),name:pname.value,price:pprice.value,desc:pdesc.value,media};
-    products.push(p);
-    localStorage.setItem("products",JSON.stringify(products));
-    document.getElementById("adminModal").style.display="none";
-    loadProducts();
+        adminModal.style.display="flex";
+    }
 }
 
-window.onclick=function(e){
-    if(e.target.id==="detailModal") document.getElementById("detailModal").style.display="none";
-    if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
+function sendMessage(){
+    const msgs=JSON.parse(localStorage.getItem("messages")||"[]");
+    msgs.unshift(adminMsg.value);
+    localStorage.setItem("messages",JSON.stringify(msgs));
+    adminModal.style.display="none";
+    loadMessages();
+}
+
+function loadMessages(){
+    const msgs=JSON.parse(localStorage.getItem("messages")||"[]");
+    messages.innerHTML="";
+    msgs.forEach(m=>{
+        messages.innerHTML+=`<div class="message">${m}</div>`;
+    });
 }
 </script>
 
