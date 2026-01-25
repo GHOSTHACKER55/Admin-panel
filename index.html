@@ -14,11 +14,10 @@
 <!-- EmailJS SDK -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS key
+emailjs.init("yrbkNbRZ0_wqsChsV"); // Your public EmailJS key
 </script>
 
 <style>
-/* Basic Reset & Body */
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
 header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
 header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
@@ -39,8 +38,6 @@ button:hover{opacity:0.9;}
 .bottom-nav button{background:#fff;border:none;font-size:12px;color:#555;cursor:pointer;display:flex;flex-direction:column;align-items:center;position:relative;}
 .bottom-nav button:hover{color:#ff6a00;}
 .bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
-.modal-box{background:#fff;width:400px;padding:20px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
 .toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
 .toast{background:#ff6a00;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
 @keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
@@ -90,14 +87,14 @@ button:hover{opacity:0.9;}
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// Firebase Config - Replace with your keys
+// Firebase Config - Using your project
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_AUTH_DOMAIN",
-projectId: "YOUR_PROJECT_ID",
-storageBucket: "YOUR_STORAGE_BUCKET",
-messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-appId: "YOUR_APP_ID"
+apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
+authDomain: "fajar-collection-8aba3.firebaseapp.com",
+projectId: "fajar-collection-8aba3",
+storageBucket: "fajar-collection-8aba3.appspot.com",
+messagingSenderId: "620336064195",
+appId: "1:620336064195:web:4608ae5f133de8fa17a476"
 };
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
@@ -166,12 +163,7 @@ function searchProducts(){const val=document.getElementById("searchBar").value.t
 // CART
 function addToCart(id){cart.push(id);updateCart();showToast("Added to Cart");}
 function updateCart(){document.getElementById("cartBadge").innerText=cart.length;}
-function openCart(){
-  if(cart.length===0)return alert("Cart is empty");
-  let str="Cart Items:\n";
-  cart.forEach((c,i)=>str+=`${i+1}. ${c}\n`);
-  alert(str);
-}
+function openCart(){alert("Cart Items:\n"+cart.join("\n"));}
 
 // BUY NOW
 function buyNow(id){
@@ -265,8 +257,6 @@ function showToast(msg){
   document.getElementById("toastContainer").appendChild(t);
   setTimeout(()=>t.remove(),3000);
 }
-
-// INITIAL
 </script>
 </body>
 </html>
