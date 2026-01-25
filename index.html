@@ -147,11 +147,16 @@ header small{
   height:50px;
   border-radius:50%;
   background:#ff6a00;
-  color:#fff;
   border:none;
-  font-size:24px;
   cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.1);
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.admin-btn img{
+  width:24px;
+  height:24px;
 }
 
 /* Modal */
@@ -253,7 +258,10 @@ header small{
 
 <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
 
-<button class="admin-btn" onclick="promptAdmin()">+</button>
+<!-- Admin button small logo -->
+<button class="admin-btn" onclick="promptAdmin()">
+  <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Admin">
+</button>
 
 <div class="section-title">Products</div>
 <div class="items" id="products"></div>
