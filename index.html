@@ -18,12 +18,13 @@ emailjs.init("yrbkNbRZ0_wqsChsV"); // Your EmailJS public key
 
 <style>
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
-header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:100;}
+header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
 header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 header small{display:block;font-size:12px;color:#888;margin-top:4px;}
-#searchBar{width:90%;margin:10px auto;display:block;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+input{width:90%;padding:12px;margin:8px auto;display:block;border-radius:10px;border:1px solid #ddd;font-size:16px;}
+button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#ff6a00;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;}
 .items{display:flex;flex-wrap:wrap;gap:15px;padding:10px;}
-.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;}
+.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;}
 .item:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
 .item img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
 .item-details{padding:10px;display:flex;justify-content:space-between;align-items:center;}
@@ -31,18 +32,15 @@ header small{display:block;font-size:12px;color:#888;margin-top:4px;}
 .item-details .price{color:#ff6a00;font-weight:bold;}
 .item-details button{padding:6px 10px;margin-left:5px;border:none;border-radius:8px;background:#ff6a00;color:#fff;cursor:pointer;font-weight:bold;opacity:0;transition:opacity .3s;}
 .item:hover .item-details button{opacity:1;}
-.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 0;box-shadow:0 -2px 12px rgba(0,0,0,.05);z-index:100;}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 0;box-shadow:0 -2px 12px rgba(0,0,0,.05);}
 .bottom-nav button{background:#fff;border:none;font-size:12px;color:#555;cursor:pointer;display:flex;flex-direction:column;align-items:center;position:relative;}
 .bottom-nav button:hover{color:#ff6a00;}
 .bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
 .modal-box{background:#fff;width:400px;padding:20px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
 .modal-box input,.modal-box textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px solid #ddd;font-size:14px;}
-.modal-box button{width:100%;margin-top:12px;background:#ff6a00;color:#fff;border:none;padding:12px;cursor:pointer;font-weight:bold;border-radius:10px;font-size:14px;}
-.item-modal .modal-box img,.item-modal .modal-box video{width:100%;margin-bottom:10px;border-radius:10px;}
 .toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
 .toast{background:#ff6a00;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
-.toast img{width:40px;height:40px;border-radius:8px;object-fit:cover;}
 @keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
 </style>
 </head>
@@ -53,8 +51,28 @@ header small{display:block;font-size:12px;color:#888;margin-top:4px;}
 <small>Mini Store by Fajar Collection</small>
 </header>
 
-<input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPass" placeholder="Password">
+<button onclick="loginUser()">Login</button>
+<button onclick="showRegister()">Create Account</button>
+</div>
 
+<!-- REGISTER PAGE -->
+<div id="registerPage" style="display:none">
+<input type="text" id="regName" placeholder="Full Name">
+<input type="email" id="regEmail" placeholder="Email">
+<input type="text" id="regNumber" placeholder="Phone Number">
+<input type="password" id="regPass" placeholder="Password">
+<input type="password" id="regConfirm" placeholder="Confirm Password">
+<button onclick="registerUser()">Register</button>
+<button onclick="showLogin()">Back to Login</button>
+</div>
+
+<!-- MAIN STORE PAGE -->
+<div id="storePage" style="display:none">
+<input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
 <div class="items" id="products"></div>
 
 <div class="bottom-nav" id="bottomNav">
@@ -62,50 +80,6 @@ header small{display:block;font-size:12px;color:#888;margin-top:4px;}
   <button onclick="openCart()">My Cart <span class="badge" id="cartBadge">0</span></button>
   <button onclick="openOrders()">My Orders</button>
   <button onclick="openAccount()">My Account</button>
-</div>
-
-<!-- Login/Register Modal -->
-<div class="modal login-modal" id="loginModal">
-<div class="modal-box">
-<h3>Register / Login</h3>
-<input type="text" id="regName" placeholder="Full Name">
-<input type="email" id="regEmail" placeholder="Email">
-<input type="text" id="regNumber" placeholder="Phone Number">
-<input type="password" id="regPass" placeholder="Password">
-<input type="password" id="regConfirm" placeholder="Confirm Password">
-<button onclick="registerUser()">Register</button>
-<hr>
-<input type="email" id="loginEmail" placeholder="Email">
-<input type="password" id="loginPass" placeholder="Password">
-<button onclick="loginUser()">Login</button>
-</div>
-</div>
-
-<!-- Product Detail Modal -->
-<div class="modal item-modal" id="itemModal">
-<div class="modal-box" id="itemContent"></div>
-</div>
-
-<!-- Admin Modal -->
-<div class="modal" id="adminModal">
-<div class="modal-box">
-<h3>Admin Panel</h3>
-<input id="adminPassInput" type="password" placeholder="Enter Admin Password">
-<button onclick="verifyAdmin()">Enter</button>
-<div id="adminPanel" style="display:none;">
-<h4>Add Product</h4>
-<input id="iname" placeholder="Product Name">
-<input id="iprice" placeholder="Price">
-<textarea id="idesc" placeholder="Description"></textarea>
-<div id="imagesContainer"><input class="imgInput" placeholder="Image/Video URL"></div>
-<button onclick="addImageField()">Add More Image/Video</button>
-<button onclick="addItem()">Add Product</button>
-<hr>
-<h4>Send Notification</h4>
-<textarea id="amsg" placeholder="Message"></textarea>
-<input id="amsgImage" placeholder="Optional Image URL">
-<button onclick="sendMessage()">Send Message</button>
-</div>
 </div>
 </div>
 
@@ -126,12 +100,35 @@ const db=firebase.firestore();
 const auth=firebase.auth();
 const adminPassword="11222211";
 let cart=[];
-let msgCount=0;
+
+// PAGE SWITCH
+function showRegister(){document.getElementById("loginPage").style.display="none";document.getElementById("registerPage").style.display="block";}
+function showLogin(){document.getElementById("registerPage").style.display="none";document.getElementById("loginPage").style.display="block";}
+function showStore(){document.getElementById("loginPage").style.display="none";document.getElementById("registerPage").style.display="none";document.getElementById("storePage").style.display="block";setupBadges();loadProducts();}
 
 // LOGIN / REGISTER
-document.getElementById("loginModal").style.display="flex";
-function registerUser(){const name=document.getElementById("regName").value;const email=document.getElementById("regEmail").value;const number=document.getElementById("regNumber").value;const pass=document.getElementById("regPass").value;const confirm=document.getElementById("regConfirm").value;if(!name||!email||!number||!pass||!confirm)return alert("All fields required");if(pass!==confirm)return alert("Passwords do not match");auth.createUserWithEmailAndPassword(email,pass).then(res=>{db.collection("users").doc(res.user.uid).set({name,email,number});alert("Account Created!");document.getElementById("loginModal").style.display="none";loadProducts();setupBadges();}).catch(e=>alert(e.message));}
-function loginUser(){const email=document.getElementById("loginEmail").value;const pass=document.getElementById("loginPass").value;if(!email||!pass)return alert("Fill all fields");auth.signInWithEmailAndPassword(email,pass).then(()=>{document.getElementById("loginModal").style.display="none";loadProducts();setupBadges();}).catch(e=>alert(e.message));}
+function registerUser(){
+const name=document.getElementById("regName").value;
+const email=document.getElementById("regEmail").value;
+const number=document.getElementById("regNumber").value;
+const pass=document.getElementById("regPass").value;
+const confirm=document.getElementById("regConfirm").value;
+if(!name||!email||!number||!pass||!confirm){return alert("All fields required");}
+if(pass!==confirm){return alert("Passwords do not match");}
+auth.createUserWithEmailAndPassword(email,pass).then(res=>{
+  return db.collection("users").doc(res.user.uid).set({name,email,number});
+}).then(()=>{
+  alert("Account Created!");
+  showStore();
+}).catch(e=>alert(e.message));
+}
+
+function loginUser(){
+const email=document.getElementById("loginEmail").value;
+const pass=document.getElementById("loginPass").value;
+if(!email||!pass)return alert("Fill all fields");
+auth.signInWithEmailAndPassword(email,pass).then(()=>{showStore();}).catch(e=>alert(e.message));
+}
 
 // LOAD PRODUCTS
 function loadProducts(){
@@ -149,48 +146,45 @@ function loadProducts(){
       <button onclick="addToCart('${doc.id}')">Add to Cart</button>
       <button onclick="buyNow('${doc.id}')">Buy Now</button>
       </div>`;
-      div.onclick=()=>showItemDetails(data);
       container.appendChild(div);
     });
   });
 }
 
-// ADMIN PANEL
-function verifyAdmin(){const p=document.getElementById("adminPassInput").value;if(p===adminPassword){document.getElementById("adminPanel").style.display="block";alert("Admin Access Granted");addAdminButton();}else{alert("Wrong Password");}}
-function addAdminButton(){if(!document.getElementById("adminButton")){const btn=document.createElement("button");btn.id="adminButton";btn.innerText="Admin";btn.onclick=()=>document.getElementById("adminModal").style.display="flex";document.getElementById("bottomNav").appendChild(btn);}}
-function addImageField(){const div=document.getElementById("imagesContainer");const input=document.createElement("input");input.className="imgInput";input.placeholder="Image/Video URL";div.appendChild(input);}
-function addItem(){const name=document.getElementById("iname").value;const price=document.getElementById("iprice").value;const desc=document.getElementById("idesc").value;const images=Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(Boolean);if(!name||!price||!desc||images.length===0)return alert("Fill all product details");db.collection("products").add({name,price,desc,images});alert("Product Added");document.getElementById("iname").value="";document.getElementById("iprice").value="";document.getElementById("idesc").value="";Array.from(document.getElementsByClassName("imgInput")).forEach(i=>i.value="");}
-function sendMessage(){const msg=document.getElementById("amsg").value;const img=document.getElementById("amsgImage").value;if(!msg)return alert("Message required");db.collection("messages").add({msg,img,date:new Date()});alert("Notification sent to all users");document.getElementById("amsg").value="";document.getElementById("amsgImage").value="";}
-
 // CART / BUY
-function addToCart(id){cart.push(id);showToast("Added to Cart");updateCart();}
+function addToCart(id){cart.push(id);updateCart();showToast("Added to Cart");}
 function updateCart(){document.getElementById("cartBadge").innerText=cart.length;}
 function openCart(){alert("Cart Items:\n"+cart.join("\n"));}
-function buyNow(id){const name=prompt("Enter your Name");const email=prompt("Enter your Email");const phone=prompt("Enter your Phone Number");const address=prompt("Enter your Address");if(!name||!email||!phone||!address)return alert("All fields required");db.collection("orders").add({id,name,email,phone,address,date:new Date()});emailjs.send("service_pq2g8b6","template_is8ljfl",{user_name:name,user_email:email,product_id:id,user_phone:phone,user_address:address}).then(res=>alert("Order Sent Successfully!"));}
-
-// TOAST
-function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
+function buyNow(id){
+const name=prompt("Enter your Name");
+const email=prompt("Enter your Email");
+const phone=prompt("Enter your Phone Number");
+const address=prompt("Enter your Address");
+if(!name||!email||!phone||!address)return alert("All fields required");
+db.collection("orders").add({id,name,email,phone,address,date:new Date()});
+emailjs.send("service_pq2g8b6","template_is8ljfl",{user_name:name,user_email:email,product_id:id,user_phone:phone,user_address:address}).then(res=>alert("Order Sent Successfully!"));
+}
 
 // SEARCH
 function searchProducts(){const val=document.getElementById("searchBar").value.toLowerCase();document.querySelectorAll(".item").forEach(it=>{it.style.display=it.querySelector("b").innerText.toLowerCase().includes(val)?"flex":"none";});}
 
-// BADGES REAL-TIME
+// TOAST
+function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+// BADGES
 function setupBadges(){
-  // Messages badge
   db.collection("messages").onSnapshot(snapshot=>{
     const count = snapshot.size;
     document.getElementById("msgBadge").innerText = count;
   });
 }
 
-// PLACEHOLDER FUNCTIONS
+// PLACEHOLDER
 function openMessages(){alert("Messages Page");}
 function openAccount(){alert("My Account Page");}
 function openOrders(){alert("Order History Page");}
-function showItemDetails(data){alert(`${data.name}\nPrice: ${data.price}\nDesc: ${data.desc}`);}
 
-// INITIAL LOAD
-loadProducts();
+// INITIAL
 </script>
 </body>
 </html>
