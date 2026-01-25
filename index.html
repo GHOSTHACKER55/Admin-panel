@@ -146,8 +146,8 @@ header h2{
     color:#555;
     margin-bottom:15px;
 }
-.buy-btn{
-    background:#25D366;
+.buy-btn, .save-btn, .add-link-btn, #submitOrder{
+    background:#ff6a00;
     color:#fff;
     border:none;
     width:100%;
@@ -156,6 +156,7 @@ header h2{
     cursor:pointer;
     font-weight:bold;
     font-size:16px;
+    margin-top:5px;
 }
 .close{
     position:absolute;
@@ -175,18 +176,6 @@ input,textarea{
     font-size:14px;
 }
 textarea{resize:none;}
-.save-btn, .add-link-btn{
-    background:#ff6a00;
-    color:#fff;
-    border:none;
-    width:100%;
-    padding:12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:16px;
-    margin-top:5px;
-}
 footer{
     text-align:center;
     font-size:14px;
@@ -225,7 +214,13 @@ footer::before{
         <h3 id="dName"></h3>
         <div class="price" id="dPrice"></div>
         <p id="dDesc"></p>
-        <button class="buy-btn" id="buyBtn">Buy Now</button>
+        <h4>Enter your details to buy:</h4>
+        <input id="buyerName" placeholder="Name">
+        <input id="buyerNumber" placeholder="Number">
+        <input id="buyerEmail" placeholder="Email">
+        <input id="buyerCity" placeholder="City">
+        <input id="buyerAddress" placeholder="Address">
+        <button id="submitOrder">Buy Now</button>
     </div>
 </div>
 
@@ -247,10 +242,14 @@ footer::before{
 <button class="admin-btn" onclick="openAdmin()">+</button>
 <footer>Mini Store by Fajar Collection</footer>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
 <script>
+emailjs.init("YOUR_EMAILJS_USERID"); // <-- Replace with your EmailJS user ID
+
 const ADMIN_PASSWORD="11222211";
-const WHATSAPP_NUMBER="923001234567"; // your number
 let products=JSON.parse(localStorage.getItem("products"))||[];
+let currentProduct=null;
 
 function loadProducts(filtered=null){
     const box=document.getElementById("products");
@@ -273,6 +272,7 @@ function searchProducts(){
 }
 
 function showDetail(p){
+    currentProduct=p;
     const container=document.getElementById("mediaContainer");
     container.innerHTML="";
     p.media.forEach(url=>{
@@ -290,14 +290,46 @@ function showDetail(p){
     document.getElementById("dName").innerText=p.name;
     document.getElementById("dPrice").innerText="Rs "+p.price;
     document.getElementById("dDesc").innerText=p.desc||"";
-    document.getElementById("buyBtn").onclick=()=>{
-        let msg=encodeURIComponent("I want to buy this product: "+p.name+"\nPrice: Rs "+p.price+"\nDescription: "+p.desc+"\nImage: "+p.media[0]);
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
-    }
     document.getElementById("detailModal").style.display="flex";
 }
+
 function closeDetail(){document.getElementById("detailModal").style.display="none";}
 
+// BUY NOW FORM
+document.getElementById("submitOrder").onclick=function(){
+    const name=document.getElementById("buyerName").value;
+    const number=document.getElementById("buyerNumber").value;
+    const email=document.getElementById("buyerEmail").value;
+    const city=document.getElementById("buyerCity").value;
+    const address=document.getElementById("buyerAddress").value;
+
+    if(!name||!number||!email||!city||!address){alert("Please fill all details"); return;}
+
+    alert("🎉 Congratulations! You bought "+currentProduct.name);
+
+    // Send email using EmailJS
+    const templateParams={
+        product_name: currentProduct.name,
+        price: currentProduct.price,
+        buyer_name: name,
+        buyer_number: number,
+        buyer_email: email,
+        buyer_city: city,
+        buyer_address: address
+    };
+    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",templateParams)
+    .then(response=>{console.log("Email sent!", response)},error=>{console.log(error);});
+
+    // Clear form
+    document.getElementById("buyerName").value="";
+    document.getElementById("buyerNumber").value="";
+    document.getElementById("buyerEmail").value="";
+    document.getElementById("buyerCity").value="";
+    document.getElementById("buyerAddress").value="";
+    closeDetail();
+}
+
+// ADMIN
 function openAdmin(){
     let pass=prompt("Enter Admin Password:");
     if(pass===ADMIN_PASSWORD){
@@ -331,5 +363,6 @@ window.onclick=function(e){
     if(e.target.id==="adminModal") document.getElementById("adminModal").style.display="none";
 }
 </script>
+
 </body>
 </html>
