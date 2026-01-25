@@ -18,10 +18,10 @@
 <style>
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
 header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#555,#888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 header small{display:block;font-size:12px;color:#888;margin-top:4px;}
 input,textarea{width:90%;padding:12px;margin:8px auto;display:block;border-radius:10px;border:1px solid #ddd;font-size:16px;}
-button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#ff6a00;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;transition:0.2s;}
+button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#555;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;transition:0.2s;}
 button:hover{opacity:0.9;}
 .items{display:flex;flex-wrap:wrap;gap:15px;padding:10px;}
 .item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;}
@@ -29,15 +29,15 @@ button:hover{opacity:0.9;}
 .item img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
 .item-details{padding:10px;display:flex;justify-content:space-between;align-items:center;}
 .item-details b{display:block;font-size:16px;}
-.item-details .price{color:#ff6a00;font-weight:bold;}
-.item-details button{padding:6px 10px;margin-left:5px;border:none;border-radius:8px;background:#ff6a00;color:#fff;cursor:pointer;font-weight:bold;opacity:0;transition:opacity .3s;}
+.item-details .price{color:#555;font-weight:bold;}
+.item-details button{padding:6px 10px;margin-left:5px;border:none;border-radius:8px;background:#555;color:#fff;cursor:pointer;font-weight:bold;opacity:0;transition:opacity .3s;}
 .item:hover .item-details button{opacity:1;}
 .bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 0;box-shadow:0 -2px 12px rgba(0,0,0,.05);}
 .bottom-nav button{background:#fff;border:none;font-size:12px;color:#555;cursor:pointer;display:flex;flex-direction:column;align-items:center;position:relative;}
-.bottom-nav button:hover{color:#ff6a00;}
+.bottom-nav button:hover{color:#555;}
 .bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
 .toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
-.toast{background:#ff6a00;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
+.toast{background:#555;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
 @keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
 .admin-btn{position:absolute;top:20px;right:20px;padding:8px 12px;background:#28a745;color:#fff;border-radius:10px;cursor:pointer;font-weight:bold;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
@@ -103,7 +103,7 @@ const storage=firebase.storage();
 const adminPassword="11222211";
 let cart=[];
 
-// Persistent login for 7 days
+// Persistent login 7 days
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 firebase.auth().onAuthStateChanged(user=>{
   if(user){
@@ -153,8 +153,8 @@ auth.signInWithEmailAndPassword(email,pass).then(()=>showStore()).catch(e=>alert
 // Toast function
 function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
 
-// Full product/cart/messages/admin functions should be added here (loadProducts(), addToCart(), openCart(), buyNow(), openMessages(), openAccount(), saveAccount(), openOrders(), adminLogin(), pushMessage(), add/edit/delete products)
-
+// Functions like loadProducts(), addToCart(), buyNow(), openCart(), openOrders(), openMessages(), openAccount(), adminLogin(), pushMessage() should be added here
+// This skeleton is fully white-themed and ready to extend with all JS logic for products, cart, orders, messages, admin
 </script>
 </body>
 </html>
