@@ -17,15 +17,12 @@
 </script>
 
 <style>
-/* --- GENERAL STYLES --- */
 body{
   margin:0;
   font-family: 'Segoe UI', sans-serif;
   background:#fff;
   color:#333;
 }
-
-/* Header */
 header{
   text-align:center;
   padding:20px;
@@ -49,8 +46,6 @@ header small{
   color:#888;
   margin-top:4px;
 }
-
-/* Search bar */
 #searchBar{
   width:90%;
   margin:15px auto;
@@ -61,8 +56,6 @@ header small{
   box-shadow:0 2px 8px rgba(0,0,0,.05);
   font-size:16px;
 }
-
-/* Products grid */
 .section-title{
   margin:15px;
   font-size:20px;
@@ -117,8 +110,6 @@ header small{
   cursor:pointer;
   font-weight:bold;
 }
-
-/* Messages button */
 .messages-btn{
   position:fixed;
   bottom:15px;
@@ -137,34 +128,26 @@ header small{
 .messages-btn:hover{
   transform:translateX(-50%) scale(1.05);
 }
-
-/* Admin button - standout color */
+/* Admin button - bright green visible */
 .admin-btn{
   position:fixed;
-  top:15px;
-  right:15px;
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  background:#007BFF; /* bright blue */
+  top:20px;
+  right:20px;
+  z-index:9999;
+  padding:12px 18px;
+  border-radius:10px;
+  background:#28a745; /* bright green */
+  color:#fff;
+  font-weight:bold;
   border:none;
   cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition: transform .2s;
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
+  font-size:16px;
+  transition:transform .2s;
 }
 .admin-btn:hover{
   transform:scale(1.1);
 }
-.admin-btn img{
-  width:24px;
-  height:24px;
-  filter: brightness(0) invert(1); /* makes icon white */
-}
-
-/* Modal */
 .modal{
   position:fixed;
   inset:0;
@@ -203,15 +186,11 @@ header small{
   border-radius:10px;
   font-size:15px;
 }
-
-/* Product details modal */
 .item-modal .modal-box img,.item-modal .modal-box video{
   width:100%;
   margin-bottom:10px;
   border-radius:10px;
 }
-
-/* Messages list */
 .messages{
   padding:10px;
 }
@@ -232,8 +211,6 @@ header small{
   border-radius:8px;
   border:1px solid #ddd;
 }
-
-/* Floating notification */
 #notification{
   position:fixed;
   top:20px;
@@ -263,17 +240,14 @@ header small{
 
 <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
 
-<!-- Admin button small logo -->
-<button class="admin-btn" onclick="promptAdmin()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Admin">
-</button>
+<!-- Admin button -->
+<button class="admin-btn" onclick="promptAdmin()">Admin</button>
 
 <div class="section-title">Products</div>
 <div class="items" id="products"></div>
 
 <button class="messages-btn" onclick="openMessages()">Messages</button>
 
-<!-- Notification -->
 <div id="notification"></div>
 
 <!-- Admin Modal -->
@@ -314,7 +288,6 @@ header small{
 </div>
 
 <script>
-// 🔥 FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
   authDomain: "fajar-collection-8aba3.firebaseapp.com",
@@ -326,10 +299,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Admin password
 const adminPassword = "11222211";
 
-// Load products
 function loadProducts(){
   db.collection("products").onSnapshot(snapshot=>{
     const container = document.getElementById("products");
@@ -350,7 +321,6 @@ function loadProducts(){
   });
 }
 
-// Search
 function searchProducts(){
   const query=document.getElementById("searchBar").value.toLowerCase();
   const items=document.querySelectorAll("#products .item");
@@ -360,7 +330,6 @@ function searchProducts(){
   });
 }
 
-// Admin
 function promptAdmin(){
   const pass=prompt("Enter admin password:");
   if(pass===adminPassword) openAdmin();
@@ -389,7 +358,6 @@ function addItem(){
   closeAdmin();
 }
 
-// Admin send message
 function sendMessage(){
   const text=document.getElementById("amsg").value;
   const image=document.getElementById("amsgImage").value;
@@ -400,7 +368,6 @@ function sendMessage(){
   showNotification("New message sent!");
 }
 
-// Notification popup
 function showNotification(msg){
   const n = document.getElementById("notification");
   n.innerText = msg;
@@ -408,7 +375,6 @@ function showNotification(msg){
   setTimeout(()=>{n.style.display="none"},4000);
 }
 
-// Messages
 function openMessages(){document.getElementById("messagesModal").style.display="flex"; loadMessages();}
 function closeMessages(){document.getElementById("messagesModal").style.display="none";}
 function loadMessages(){
@@ -425,7 +391,6 @@ function loadMessages(){
   });
 }
 
-// Product details modal
 function showItemDetails(data){
   const content=document.getElementById("itemContent");
   let html=`<button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
@@ -441,7 +406,6 @@ function showItemDetails(data){
 }
 function closeItemModal(){document.getElementById("itemModal").style.display="none"}
 
-// Buy Now form modal
 function showBuyForm(productName){
   const content=document.getElementById("itemContent");
   content.innerHTML=`
@@ -456,7 +420,6 @@ function showBuyForm(productName){
   document.getElementById("itemModal").style.display="flex";
 }
 
-// Send order via EmailJS
 function sendOrder(productName){
   const name = document.getElementById("order_name").value;
   const email = document.getElementById("order_email").value;
@@ -482,7 +445,6 @@ function sendOrder(productName){
   });
 }
 
-// Initial load
 loadProducts();
 </script>
 
