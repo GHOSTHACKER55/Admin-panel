@@ -9,20 +9,23 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <!-- EmailJS SDK -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-emailjs.init("yrbkNbRZ0_wqsChsV"); // Your EmailJS public key
+emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS key
 </script>
 
 <style>
+/* Basic Reset & Body */
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
 header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
 header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 header small{display:block;font-size:12px;color:#888;margin-top:4px;}
-input{width:90%;padding:12px;margin:8px auto;display:block;border-radius:10px;border:1px solid #ddd;font-size:16px;}
-button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#ff6a00;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;}
+input, textarea{width:90%;padding:12px;margin:8px auto;display:block;border-radius:10px;border:1px solid #ddd;font-size:16px;}
+button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#ff6a00;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;transition:0.2s;}
+button:hover{opacity:0.9;}
 .items{display:flex;flex-wrap:wrap;gap:15px;padding:10px;}
 .item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;}
 .item:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
@@ -38,7 +41,6 @@ button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-r
 .bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
 .modal-box{background:#fff;width:400px;padding:20px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
-.modal-box input,.modal-box textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px solid #ddd;font-size:14px;}
 .toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
 .toast{background:#ff6a00;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
 @keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
@@ -88,18 +90,19 @@ button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-r
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// Firebase Config
+// Firebase Config - Replace with your keys
 const firebaseConfig = {
-apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
-authDomain: "fajar-collection-8aba3.firebaseapp.com",
-projectId: "fajar-collection-8aba3",
-storageBucket: "fajar-collection-8aba3.appspot.com",
-messagingSenderId: "620336064195",
-appId: "1:620336064195:web:4608ae5f133de8fa17a476"
+apiKey: "YOUR_API_KEY",
+authDomain: "YOUR_AUTH_DOMAIN",
+projectId: "YOUR_PROJECT_ID",
+storageBucket: "YOUR_STORAGE_BUCKET",
+messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+appId: "YOUR_APP_ID"
 };
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const auth=firebase.auth();
+const storage=firebase.storage();
 const adminPassword="11222211";
 let cart=[];
 
@@ -108,7 +111,7 @@ function showRegister(){document.getElementById("loginPage").style.display="none
 function showLogin(){document.getElementById("registerPage").style.display="none";document.getElementById("loginPage").style.display="block";}
 function showStore(){document.getElementById("loginPage").style.display="none";document.getElementById("registerPage").style.display="none";document.getElementById("storePage").style.display="block";setupBadges();loadProducts();}
 
-// LOGIN / REGISTER
+// REGISTER
 function registerUser(){
 const name=document.getElementById("regName").value;
 const email=document.getElementById("regEmail").value;
@@ -118,13 +121,17 @@ const confirm=document.getElementById("regConfirm").value;
 if(!name||!email||!number||!pass||!confirm){return alert("All fields required");}
 if(pass!==confirm){return alert("Passwords do not match");}
 auth.createUserWithEmailAndPassword(email,pass).then(res=>{
-  return db.collection("users").doc(res.user.uid).set({name,email,number});
+  return db.collection("users").doc(res.user.uid).set({name,email,number,profilePic:""});
 }).then(()=>{
   alert("Account Created!");
   showStore();
-}).catch(e=>alert(e.message));
+}).catch(e=>{
+  if(e.code==="auth/email-already-in-use"){alert("Email already exists!");}
+  else alert(e.message);
+});
 }
 
+// LOGIN
 function loginUser(){
 const email=document.getElementById("loginEmail").value;
 const pass=document.getElementById("loginPass").value;
@@ -153,10 +160,20 @@ function loadProducts(){
   });
 }
 
-// CART / BUY
+// SEARCH
+function searchProducts(){const val=document.getElementById("searchBar").value.toLowerCase();document.querySelectorAll(".item").forEach(it=>{it.style.display=it.querySelector("b").innerText.toLowerCase().includes(val)?"flex":"none";});}
+
+// CART
 function addToCart(id){cart.push(id);updateCart();showToast("Added to Cart");}
 function updateCart(){document.getElementById("cartBadge").innerText=cart.length;}
-function openCart(){alert("Cart Items:\n"+cart.join("\n"));}
+function openCart(){
+  if(cart.length===0)return alert("Cart is empty");
+  let str="Cart Items:\n";
+  cart.forEach((c,i)=>str+=`${i+1}. ${c}\n`);
+  alert(str);
+}
+
+// BUY NOW
 function buyNow(id){
 const name=prompt("Enter your Name");
 const email=prompt("Enter your Email");
@@ -167,41 +184,86 @@ db.collection("orders").add({id,name,email,phone,address,date:new Date()});
 emailjs.send("service_pq2g8b6","template_is8ljfl",{user_name:name,user_email:email,product_id:id,user_phone:phone,user_address:address}).then(res=>alert("Order Sent Successfully!"));
 }
 
-// SEARCH
-function searchProducts(){const val=document.getElementById("searchBar").value.toLowerCase();document.querySelectorAll(".item").forEach(it=>{it.style.display=it.querySelector("b").innerText.toLowerCase().includes(val)?"flex":"none";});}
-
-// TOAST
-function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
-
-// BADGES
+// MESSAGES / BADGES
 function setupBadges(){
   db.collection("messages").onSnapshot(snapshot=>{
     const count = snapshot.size;
     document.getElementById("msgBadge").innerText = count;
   });
 }
+function openMessages(){
+  const user=auth.currentUser;
+  if(!user)return alert("Login first");
+  db.collection("messages").get().then(snap=>{
+    let msgStr="Messages:\n";
+    snap.forEach(doc=>{
+      const d=doc.data();
+      msgStr+=d.text+(d.img?" [Image]":"")+"\n";
+    });
+    alert(msgStr);
+  });
+}
 
-// PLACEHOLDER
-function openMessages(){alert("Messages Page");}
-function openAccount(){alert("My Account Page");}
+// ACCOUNT PAGE
+function openAccount(){
+  const user=auth.currentUser;
+  if(!user)return alert("Login first");
+  db.collection("users").doc(user.uid).get().then(doc=>{
+    const data=doc.data();
+    document.getElementById("storePage").innerHTML=`
+      <h2>My Account</h2>
+      <img src="${data.profilePic||'https://via.placeholder.com/150'}" style="width:150px;height:150px;border-radius:50%;object-fit:cover;">
+      <input type="text" id="accName" value="${data.name}" placeholder="Name">
+      <input type="text" id="accPhone" value="${data.number}" placeholder="Phone">
+      <input type="file" id="accPic">
+      <button onclick="saveAccount()">Save Changes</button>
+      <button onclick="logoutUser()">Logout</button>
+    `;
+  });
+}
+function saveAccount(){
+  const user=auth.currentUser;
+  const name=document.getElementById("accName").value;
+  const phone=document.getElementById("accPhone").value;
+  const file=document.getElementById("accPic").files[0];
+  if(file){
+    const storageRef=storage.ref("profilePics/"+user.uid);
+    storageRef.put(file).then(snap=>{
+      snap.ref.getDownloadURL().then(url=>{
+        db.collection("users").doc(user.uid).update({name,number:phone,profilePic:url});
+        alert("Profile Updated!");
+      });
+    });
+  }else{
+    db.collection("users").doc(user.uid).update({name,number:phone});
+    alert("Profile Updated!");
+  }
+}
+function logoutUser(){auth.signOut().then(()=>location.reload());}
+
+// ORDERS
 function openOrders(){alert("Order History Page");}
 
 // ADMIN
 function adminLogin(){
-  const pass = prompt("Enter Admin Password:");
-  if(pass===adminPassword){
-    alert("Admin Access Granted");
-    openAdminPanel();
-  }else alert("Wrong Password");
+  const pass=prompt("Enter Admin Password:");
+  if(pass===adminPassword){alert("Admin Access Granted");openAdminPanel();}
+  else alert("Wrong Password");
 }
-
 function openAdminPanel(){
-  const name = prompt("Enter Product Name");
-  const price = prompt("Enter Product Price");
-  const images = prompt("Enter Image/Video URLs (comma separated)");
-  if(!name||!images) return;
+  const name=prompt("Enter Product Name");
+  const price=prompt("Enter Product Price");
+  const images=prompt("Enter Image/Video URLs (comma separated)");
+  if(!name||!images)return;
   db.collection("products").add({name,price,images:images.split(",")});
   showToast("Product Added!");
+}
+
+// TOAST
+function showToast(msg){
+  const t=document.createElement("div");t.className="toast";t.innerText=msg;
+  document.getElementById("toastContainer").appendChild(t);
+  setTimeout(()=>t.remove(),3000);
 }
 
 // INITIAL
