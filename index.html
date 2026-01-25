@@ -5,360 +5,245 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fajar Collection | Mini Store</title>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+<!-- EmailJS -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  emailjs.init("yrbkNbRZ0_wqsChsV"); // Your public key
+</script>
+
 <style>
-*{box-sizing:border-box}
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#fff;
-    color:#333;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#333}
+header{text-align:center;padding:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+header h1{margin:0;font-size:28px;background:linear-gradient(90deg,#ff6a00,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header small{display:block;font-size:12px;color:#666;margin-top:4px}
 
-/* ---------- LOGIN ---------- */
-#loginPage{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.login-box{
-    width:90%;
-    max-width:350px;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
-    text-align:center;
-}
-.login-box h1{
-    margin:0;
-    font-size:26px;
-    background:linear-gradient(90deg,#ff6a00,#ffb347);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-.login-box p{color:#777;margin-bottom:20px}
-.login-box input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border:1px solid #ddd;
-    border-radius:8px;
-}
-.login-box button{
-    width:100%;
-    padding:12px;
-    background:#ff6a00;
-    border:none;
-    color:#fff;
-    font-size:16px;
-    border-radius:8px;
-    margin-top:10px;
-    cursor:pointer;
-}
-.login-box .link{
-    margin-top:12px;
-    color:#ff6a00;
-    cursor:pointer;
-    font-size:14px;
-}
+/* Products & Services */
+.section-title{margin:15px;font-size:20px;border-bottom:2px solid #ff6a00;padding-bottom:5px}
+.items{display:flex;flex-wrap:wrap;gap:15px;padding:15px}
+.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);overflow:hidden;cursor:pointer}
+.item img{width:100%;height:180px;object-fit:cover}
+.item-details{padding:10px}
+.item-details b{display:block;font-size:16px;margin-bottom:6px}
+.item-details .price{color:#ff6a00;font-weight:bold;margin-bottom:6px}
+.item-details button{width:100%;padding:8px;border:none;border-radius:6px;background:#ff6a00;color:#fff;cursor:pointer}
 
-/* ---------- HEADER ---------- */
-header{
-    padding:15px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-header h1{
-    margin:0;
-    font-size:24px;
-    background:linear-gradient(90deg,#ff6a00,#ffb347);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-header small{
-    color:#888;
-}
+/* Messages */
+.messages{padding:15px}
+.message{background:#fff3e6;border-left:5px solid #ff6a00;padding:10px;border-radius:8px;margin-bottom:10px}
 
-/* ---------- CONTENT ---------- */
-.page{
-    display:none;
-    padding:15px;
-    padding-bottom:80px;
-}
-.page.active{display:block}
+/* Admin button */
+.admin-btn{position:fixed;top:15px;right:15px;width:45px;height:45px;border-radius:50%;background:#ff6a00;color:#fff;border:none;font-size:22px;cursor:pointer}
 
-/* ---------- PRODUCTS ---------- */
-.product{
-    display:flex;
-    gap:12px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    padding:10px;
-    margin-bottom:15px;
-}
-.product img{
-    width:110px;
-    height:110px;
-    border-radius:10px;
-    object-fit:cover;
-}
-.product h3{margin:0}
-.price{font-weight:bold;margin:6px 0}
-.product button{
-    background:#ff6a00;
-    border:none;
-    color:#fff;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
+.modal-box{background:#fff;width:400px;padding:20px;border-radius:12px;max-height:90%;overflow-y:auto}
+.modal-box input,.modal-box textarea,.modal-box select{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ddd}
+.modal-box button{width:100%;margin-top:10px;background:#ff6a00;color:#fff;border:none;padding:10px;cursor:pointer}
 
-/* ---------- MESSAGES ---------- */
-.message{
-    background:#fff3e6;
-    border-left:5px solid #ff6a00;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:10px;
-}
-
-/* ---------- CART ---------- */
-.cart-item{
-    background:#fff;
-    padding:10px;
-    border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
-    margin-bottom:10px;
-}
-
-/* ---------- ACCOUNT ---------- */
-.account-box{
-    background:#fff;
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
-
-/* ---------- ADMIN BUTTON ---------- */
-.admin-btn{
-    position:fixed;
-    top:15px;
-    right:15px;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#ff6a00;
-    color:#fff;
-    border:none;
-    font-size:22px;
-    cursor:pointer;
-}
-
-/* ---------- ADMIN MODAL ---------- */
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
-}
-.modal-box{
-    background:#fff;
-    width:90%;
-    max-width:350px;
-    padding:20px;
-    border-radius:12px;
-}
-.modal-box textarea,
-.modal-box input{
-    width:100%;
-    padding:10px;
-    margin-top:8px;
-    border:1px solid #ddd;
-    border-radius:8px;
-}
-.modal-box button{
-    width:100%;
-    margin-top:10px;
-    padding:10px;
-    background:#ff6a00;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-}
-
-/* ---------- BOTTOM NAV ---------- */
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:60px;
-    background:#fff;
-    box-shadow:0 -2px 10px rgba(0,0,0,.15);
-    display:flex;
-}
-.bottom-nav div{
-    flex:1;
-    text-align:center;
-    font-size:13px;
-    padding-top:6px;
-    cursor:pointer;
-}
-.bottom-nav div.active{color:#ff6a00;font-weight:bold}
+/* Product/Service details modal */
+.item-modal .modal-box img{width:100%;margin-bottom:10px}
+.item-modal .modal-box video{width:100%;margin-bottom:10px}
 </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage">
-    <div class="login-box">
-        <h1>Fajar Collection</h1>
-        <p>Mini Store</p>
-        <input id="username" placeholder="Username">
-        <input id="password" type="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <div class="link" onclick="register()">Create Account</div>
-    </div>
-</div>
-
-<!-- MAIN APP -->
-<div id="app" style="display:none">
-
 <header>
-    <h1>Fajar Collection</h1>
-    <small>Mini Store by Fajar Collection</small>
+  <h1>Fajar Collection</h1>
+  <small>Mini Store by Fajar Collection</small>
 </header>
 
 <button class="admin-btn" onclick="openAdmin()">+</button>
 
-<!-- HOME -->
-<div id="home" class="page active">
-    <div class="product">
-        <img src="https://i.imgur.com/Qw7npIg.jpg">
-        <div>
-            <h3>Women Dress</h3>
-            <div class="price">Rs 2500</div>
-            <button onclick="addToCart('Women Dress',2500)">Add to Cart</button>
-        </div>
-    </div>
-</div>
+<div class="section-title">Products</div>
+<div class="items" id="products"></div>
 
-<!-- MESSAGES -->
-<div id="messages" class="page"></div>
+<div class="section-title">Services</div>
+<div class="items" id="services"></div>
 
-<!-- CART -->
-<div id="cart" class="page"></div>
+<div class="section-title">Messages</div>
+<div class="messages" id="messages"></div>
 
-<!-- ACCOUNT -->
-<div id="account" class="page">
-    <div class="account-box">
-        <p><b>Logged in as:</b> <span id="accUser"></span></p>
-        <button onclick="logout()">Logout</button>
-    </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-    <div class="active" onclick="showPage('home',this)">Home</div>
-    <div onclick="showPage('messages',this)">Messages</div>
-    <div onclick="showPage('cart',this)">Cart</div>
-    <div onclick="showPage('account',this)">Account</div>
-</div>
-
-</div>
-
-<!-- ADMIN MODAL -->
+<!-- Admin Modal -->
 <div class="modal" id="adminModal">
-    <div class="modal-box">
-        <h3>Admin Message</h3>
-        <textarea id="adminMsg" placeholder="50% OFF available now!"></textarea>
-        <button onclick="sendMessage()">Send Message</button>
+  <div class="modal-box">
+    <h3>Add Product / Service</h3>
+    <select id="typeSelect">
+      <option value="product">Product</option>
+      <option value="service">Service</option>
+    </select>
+    <input id="iname" placeholder="Name">
+    <input id="iprice" placeholder="Price">
+    <textarea id="idesc" placeholder="Description"></textarea>
+    <div id="imagesContainer">
+      <input class="imgInput" placeholder="Image or Video URL">
     </div>
+    <button onclick="addImageField()">Add More Image/Video</button>
+    <button onclick="addItem()">Add</button>
+    <hr>
+    <textarea id="amsg" placeholder="Write a message for all users"></textarea>
+    <button onclick="sendMessage()">Send Message</button>
+    <button style="margin-top:5px;background:#888" onclick="closeAdmin()">Close</button>
+  </div>
+</div>
+
+<!-- Item details modal -->
+<div class="modal item-modal" id="itemModal">
+  <div class="modal-box" id="itemContent">
+    <button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
+  </div>
 </div>
 
 <script>
-const ADMIN_PASSWORD="11222211";
-let currentUser=null;
+// 🔥 FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
+  authDomain: "fajar-collection-8aba3.firebaseapp.com",
+  projectId: "fajar-collection-8aba3",
+  storageBucket: "fajar-collection-8aba3.firebasestorage.app",
+  messagingSenderId: "620336064195",
+  appId: "1:620336064195:web:4608ae5f133de8fa17a476"
+};
 
-function login(){
-    const u=username.value,p=password.value;
-    const users=JSON.parse(localStorage.getItem("users")||"{}");
-    if(users[u]&&users[u]===p){
-        startApp(u);
-    }else alert("Invalid login");
-}
-function register(){
-    const u=username.value,p=password.value;
-    if(!u||!p) return alert("Fill all");
-    const users=JSON.parse(localStorage.getItem("users")||"{}");
-    users[u]=p;
-    localStorage.setItem("users",JSON.stringify(users));
-    alert("Account created!");
-}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
 
-function startApp(user){
-    currentUser=user;
-    loginPage.style.display="none";
-    app.style.display="block";
-    accUser.innerText=user;
-    loadMessages();
-    loadCart();
-}
-
-function logout(){
-    location.reload();
-}
-
-function showPage(id,el){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    document.querySelectorAll(".bottom-nav div").forEach(d=>d.classList.remove("active"));
-    el.classList.add("active");
-}
-
-function addToCart(name,price){
-    const carts=JSON.parse(localStorage.getItem("carts")||"{}");
-    carts[currentUser]=carts[currentUser]||[];
-    carts[currentUser].push({name,price});
-    localStorage.setItem("carts",JSON.stringify(carts));
-    alert("Added to cart");
-}
-
-function loadCart(){
-    const carts=JSON.parse(localStorage.getItem("carts")||"{}");
-    cart.innerHTML="";
-    (carts[currentUser]||[]).forEach(i=>{
-        cart.innerHTML+=`<div class="cart-item">${i.name} - Rs ${i.price}</div>`;
+// Load items
+function loadItems(type, containerId){
+  db.collection(type+"s").onSnapshot(snapshot=>{
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    snapshot.forEach(doc=>{
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.className="item";
+      div.innerHTML = `<img src="${data.images[0]}">
+      <div class="item-details">
+        <b>${data.name}</b>
+        <div class="price">${data.price? "Rs " + data.price : ""}</div>
+        <button onclick="showBuyForm('${data.name}')">Buy Now</button>
+      </div>`;
+      div.onclick=()=>showItemDetails(data);
+      container.appendChild(div);
     });
+  });
 }
 
-function openAdmin(){
-    const pass=prompt("Admin password");
-    if(pass===ADMIN_PASSWORD){
-        adminModal.style.display="flex";
-    }
-}
-
-function sendMessage(){
-    const msgs=JSON.parse(localStorage.getItem("messages")||"[]");
-    msgs.unshift(adminMsg.value);
-    localStorage.setItem("messages",JSON.stringify(msgs));
-    adminModal.style.display="none";
-    loadMessages();
-}
-
+// Load messages
 function loadMessages(){
-    const msgs=JSON.parse(localStorage.getItem("messages")||"[]");
-    messages.innerHTML="";
-    msgs.forEach(m=>{
-        messages.innerHTML+=`<div class="message">${m}</div>`;
+  db.collection("messages").onSnapshot(snapshot=>{
+    const container = document.getElementById("messages");
+    container.innerHTML = "";
+    snapshot.forEach(doc=>{
+      const data = doc.data();
+      container.innerHTML += `<div class="message">${data.text}</div>`;
     });
+  });
 }
+
+// Admin modal
+function openAdmin(){document.getElementById("adminModal").style.display="flex"}
+function closeAdmin(){document.getElementById("adminModal").style.display="none"}
+function addImageField(){
+  const container=document.getElementById("imagesContainer");
+  const input=document.createElement("input");
+  input.className="imgInput";
+  input.placeholder="Image or Video URL";
+  container.appendChild(input);
+}
+
+// Add product or service
+function addItem(){
+  const type=document.getElementById("typeSelect").value;
+  const name=document.getElementById("iname").value;
+  const price=document.getElementById("iprice").value;
+  const desc=document.getElementById("idesc").value;
+  const images = Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(i=>i);
+  if(!name || images.length==0) return alert("Name and at least 1 image required");
+  db.collection(type+"s").add({name, price, desc, images});
+  document.getElementById("iname").value="";
+  document.getElementById("iprice").value="";
+  document.getElementById("idesc").value="";
+  document.getElementById("imagesContainer").innerHTML='<input class="imgInput" placeholder="Image or Video URL">';
+  closeAdmin();
+}
+
+// Send message
+function sendMessage(){
+  const text=document.getElementById("amsg").value;
+  if(!text) return alert("Message cannot be empty");
+  db.collection("messages").add({text});
+  document.getElementById("amsg").value="";
+  closeAdmin();
+}
+
+// Item details modal
+function showItemDetails(data){
+  const content=document.getElementById("itemContent");
+  let html=`<button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
+  <h3>${data.name}</h3>
+  <div class="price">${data.price? "Rs "+data.price : ""}</div>
+  <p>${data.desc || ""}</p>`;
+  data.images.forEach(url=>{
+    if(url.endsWith(".mp4")) html+=`<video controls src="${url}"></video>`;
+    else html+=`<img src="${url}">`;
+  });
+  content.innerHTML=html;
+  document.getElementById("itemModal").style.display="flex";
+}
+function closeItemModal(){document.getElementById("itemModal").style.display="none"}
+
+// Buy Now form modal
+function showBuyForm(productName){
+  const content=document.getElementById("itemContent");
+  content.innerHTML=`
+    <button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
+    <h3>Buy Now: ${productName}</h3>
+    <input id="order_name" placeholder="Your Name">
+    <input id="order_number" placeholder="Phone Number">
+    <input id="order_email" placeholder="Email">
+    <input id="order_address" placeholder="Address">
+    <button onclick="sendOrder('${productName}')">Submit Order</button>
+  `;
+  document.getElementById("itemModal").style.display="flex";
+}
+
+// Send order via EmailJS
+function sendOrder(productName){
+  const name = document.getElementById("order_name").value;
+  const email = document.getElementById("order_email").value;
+  const number = document.getElementById("order_number").value;
+  const address = document.getElementById("order_address").value;
+  if(!name || !email || !number || !address) return alert("All fields required");
+
+  emailjs.send("service_pq2g8b6","template_is8ljfl",{
+    user_name: name,
+    user_email: email,
+    user_number: number,
+    product_name: productName,
+    user_address: address
+  }).then(()=>{
+    alert("Congratulations! Your order has been sent!");
+    document.getElementById("order_name").value="";
+    document.getElementById("order_number").value="";
+    document.getElementById("order_email").value="";
+    document.getElementById("order_address").value="";
+    closeItemModal();
+  }, (err)=>{
+    alert("Failed to send order, try again");
+  });
+}
+
+// Initial load
+loadItems("product","products");
+loadItems("service","services");
+loadMessages();
 </script>
 
 </body>
