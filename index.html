@@ -19,18 +19,18 @@
 <style>
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family:'Segoe UI',sans-serif;
   background:#fff;
   color:#333;
 }
 header{
   text-align:center;
   padding:20px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
   background:#fff;
-  position: sticky;
+  position:sticky;
   top:0;
   z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
 }
 header h1{
   margin:0;
@@ -56,6 +56,8 @@ header small{
   box-shadow:0 2px 8px rgba(0,0,0,.05);
   font-size:16px;
 }
+
+/* Products grid */
 .section-title{
   margin:15px;
   font-size:20px;
@@ -110,6 +112,8 @@ header small{
   cursor:pointer;
   font-weight:bold;
 }
+
+/* Floating messages button */
 .messages-btn{
   position:fixed;
   bottom:15px;
@@ -128,7 +132,8 @@ header small{
 .messages-btn:hover{
   transform:translateX(-50%) scale(1.05);
 }
-/* Admin button - bright green visible */
+
+/* Admin button - bright green */
 .admin-btn{
   position:fixed;
   top:20px;
@@ -136,7 +141,7 @@ header small{
   z-index:9999;
   padding:12px 18px;
   border-radius:10px;
-  background:#28a745; /* bright green */
+  background:#28a745;
   color:#fff;
   font-weight:bold;
   border:none;
@@ -148,10 +153,12 @@ header small{
 .admin-btn:hover{
   transform:scale(1.1);
 }
+
+/* Modals */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.4);
   display:none;
   align-items:center;
   justify-content:center;
@@ -186,6 +193,8 @@ header small{
   border-radius:10px;
   font-size:15px;
 }
+
+/* Product messages / details */
 .item-modal .modal-box img,.item-modal .modal-box video{
   width:100%;
   margin-bottom:10px;
@@ -211,19 +220,34 @@ header small{
   border-radius:8px;
   border:1px solid #ddd;
 }
-#notification{
+
+/* WhatsApp-style toast notifications */
+.toast-container{
   position:fixed;
   top:20px;
   right:20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:9999;
+}
+.toast{
   background:#ff6a00;
   color:#fff;
-  padding:15px 20px;
-  border-radius:12px;
-  font-weight:bold;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-  display:none;
-  z-index:9999;
+  padding:12px 18px;
+  border-radius:10px;
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  gap:10px;
   animation:slideIn 0.5s forwards;
+  font-weight:bold;
+}
+.toast img{
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  object-fit:cover;
 }
 @keyframes slideIn{
   0%{opacity:0; transform:translateX(100%)}
@@ -248,7 +272,8 @@ header small{
 
 <button class="messages-btn" onclick="openMessages()">Messages</button>
 
-<div id="notification"></div>
+<!-- Toast notifications -->
+<div class="toast-container" id="toastContainer"></div>
 
 <!-- Admin Modal -->
 <div class="modal" id="adminModal">
@@ -280,7 +305,7 @@ header small{
   </div>
 </div>
 
-<!-- Item details modal -->
+<!-- Product details modal -->
 <div class="modal item-modal" id="itemModal">
   <div class="modal-box" id="itemContent">
     <button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
@@ -301,18 +326,19 @@ const db = firebase.firestore();
 
 const adminPassword = "11222211";
 
+// PRODUCTS
 function loadProducts(){
   db.collection("products").onSnapshot(snapshot=>{
-    const container = document.getElementById("products");
-    container.innerHTML = "";
+    const container=document.getElementById("products");
+    container.innerHTML="";
     snapshot.forEach(doc=>{
-      const data = doc.data();
-      const div = document.createElement("div");
+      const data=doc.data();
+      const div=document.createElement("div");
       div.className="item";
-      div.innerHTML = `<img src="${data.images[0]}">
+      div.innerHTML=`<img src="${data.images[0]}">
       <div class="item-details">
         <b>${data.name}</b>
-        <div class="price">${data.price? "Rs " + data.price : ""}</div>
+        <div class="price">${data.price? "Rs "+data.price : ""}</div>
         <button onclick="showBuyForm('${data.name}')">Buy Now</button>
       </div>`;
       div.onclick=()=>showItemDetails(data);
@@ -326,17 +352,18 @@ function searchProducts(){
   const items=document.querySelectorAll("#products .item");
   items.forEach(item=>{
     const name=item.querySelector("b").innerText.toLowerCase();
-    item.style.display = name.includes(query) ? "block" : "none";
+    item.style.display=name.includes(query)?"block":"none";
   });
 }
 
+// ADMIN
 function promptAdmin(){
   const pass=prompt("Enter admin password:");
   if(pass===adminPassword) openAdmin();
   else alert("Incorrect password");
 }
-function openAdmin(){document.getElementById("adminModal").style.display="flex"}
-function closeAdmin(){document.getElementById("adminModal").style.display="none"}
+function openAdmin(){document.getElementById("adminModal").style.display="flex";}
+function closeAdmin(){document.getElementById("adminModal").style.display="none";}
 function addImageField(){
   const container=document.getElementById("imagesContainer");
   const input=document.createElement("input");
@@ -348,9 +375,9 @@ function addItem(){
   const name=document.getElementById("iname").value;
   const price=document.getElementById("iprice").value;
   const desc=document.getElementById("idesc").value;
-  const images = Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(i=>i);
+  const images=Array.from(document.getElementsByClassName("imgInput")).map(i=>i.value).filter(i=>i);
   if(!name || images.length==0) return alert("Name and at least 1 image required");
-  db.collection("products").add({name, price, desc, images});
+  db.collection("products").add({name,price,desc,images});
   document.getElementById("iname").value="";
   document.getElementById("iprice").value="";
   document.getElementById("idesc").value="";
@@ -358,6 +385,7 @@ function addItem(){
   closeAdmin();
 }
 
+// Admin messages
 function sendMessage(){
   const text=document.getElementById("amsg").value;
   const image=document.getElementById("amsgImage").value;
@@ -365,16 +393,22 @@ function sendMessage(){
   db.collection("messages").add({text,image});
   document.getElementById("amsg").value="";
   document.getElementById("amsgImage").value="";
-  showNotification("New message sent!");
+  showToast(text,image);
 }
 
-function showNotification(msg){
-  const n = document.getElementById("notification");
-  n.innerText = msg;
-  n.style.display="block";
-  setTimeout(()=>{n.style.display="none"},4000);
+// TOAST NOTIFICATIONS
+function showToast(text,image){
+  const container=document.getElementById("toastContainer");
+  const div=document.createElement("div");
+  div.className="toast";
+  let html=`<span>${text}</span>`;
+  if(image) html=`<img src="${image}">`+html;
+  div.innerHTML=html;
+  container.appendChild(div);
+  setTimeout(()=>div.remove(),5000);
 }
 
+// MESSAGES
 function openMessages(){document.getElementById("messagesModal").style.display="flex"; loadMessages();}
 function closeMessages(){document.getElementById("messagesModal").style.display="none";}
 function loadMessages(){
@@ -391,6 +425,7 @@ function loadMessages(){
   });
 }
 
+// PRODUCT DETAILS MODAL
 function showItemDetails(data){
   const content=document.getElementById("itemContent");
   let html=`<button style="background:#888;margin-bottom:10px;" onclick="closeItemModal()">Close</button>
@@ -404,8 +439,9 @@ function showItemDetails(data){
   content.innerHTML=html;
   document.getElementById("itemModal").style.display="flex";
 }
-function closeItemModal(){document.getElementById("itemModal").style.display="none"}
+function closeItemModal(){document.getElementById("itemModal").style.display="none";}
 
+// BUY NOW FORM
 function showBuyForm(productName){
   const content=document.getElementById("itemContent");
   content.innerHTML=`
@@ -421,18 +457,14 @@ function showBuyForm(productName){
 }
 
 function sendOrder(productName){
-  const name = document.getElementById("order_name").value;
-  const email = document.getElementById("order_email").value;
-  const number = document.getElementById("order_number").value;
-  const address = document.getElementById("order_address").value;
+  const name=document.getElementById("order_name").value;
+  const email=document.getElementById("order_email").value;
+  const number=document.getElementById("order_number").value;
+  const address=document.getElementById("order_address").value;
   if(!name || !email || !number || !address) return alert("All fields required");
-
   emailjs.send("service_pq2g8b6","template_is8ljfl",{
-    user_name: name,
-    user_email: email,
-    user_number: number,
-    product_name: productName,
-    user_address: address
+    user_name:name,user_email:email,user_number:number,
+    product_name:productName,user_address:address
   }).then(()=>{
     alert("Congratulations! Your order has been sent!");
     document.getElementById("order_name").value="";
@@ -440,13 +472,10 @@ function sendOrder(productName){
     document.getElementById("order_email").value="";
     document.getElementById("order_address").value="";
     closeItemModal();
-  }, (err)=>{
-    alert("Failed to send order, try again");
-  });
+  },()=>alert("Failed to send order"));
 }
 
 loadProducts();
 </script>
-
 </body>
 </html>
