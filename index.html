@@ -138,7 +138,7 @@ header small{
   transform:translateX(-50%) scale(1.05);
 }
 
-/* Admin button */
+/* Admin button - standout color */
 .admin-btn{
   position:fixed;
   top:15px;
@@ -146,17 +146,22 @@ header small{
   width:50px;
   height:50px;
   border-radius:50%;
-  background:#ff6a00;
+  background:#007BFF; /* bright blue */
   border:none;
   cursor:pointer;
   box-shadow:0 6px 18px rgba(0,0,0,.15);
   display:flex;
   align-items:center;
   justify-content:center;
+  transition: transform .2s;
+}
+.admin-btn:hover{
+  transform:scale(1.1);
 }
 .admin-btn img{
   width:24px;
   height:24px;
+  filter: brightness(0) invert(1); /* makes icon white */
 }
 
 /* Modal */
