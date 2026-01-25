@@ -84,7 +84,11 @@ header small{display:block;font-size:12px;color:#666;margin-top:4px}
       <input class="imgInput" placeholder="Image or Video URL">
     </div>
     <button onclick="addImageField()">Add More Image/Video</button>
-    <button onclick="addItem()">Add</button>
+    <button onclick="addItem()">Add Product</button>
+    <hr>
+    <h3>Send Message to Users</h3>
+    <textarea id="amsg" placeholder="Write a message for all users"></textarea>
+    <button onclick="sendMessage()">Send Message</button>
     <button style="margin-top:5px;background:#888" onclick="closeAdmin()">Close</button>
   </div>
 </div>
@@ -150,8 +154,7 @@ function searchProducts(){
   const items=document.querySelectorAll("#products .item");
   items.forEach(item=>{
     const name=item.querySelector("b").innerText.toLowerCase();
-    if(name.includes(query)) item.style.display="block";
-    else item.style.display="none";
+    item.style.display = name.includes(query) ? "block" : "none";
   });
 }
 
@@ -181,6 +184,16 @@ function addItem(){
   document.getElementById("iprice").value="";
   document.getElementById("idesc").value="";
   document.getElementById("imagesContainer").innerHTML='<input class="imgInput" placeholder="Image or Video URL">';
+  closeAdmin();
+}
+
+// Admin send message
+function sendMessage(){
+  const text=document.getElementById("amsg").value;
+  if(!text) return alert("Message cannot be empty");
+  db.collection("messages").add({text});
+  document.getElementById("amsg").value="";
+  alert("Message sent to all users!");
   closeAdmin();
 }
 
