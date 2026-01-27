@@ -3,158 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fajar Collection Store</title>
+<title>Burhan Noir Toolkit</title>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
-<!-- EmailJS -->
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>emailjs.init("yrbkNbRZ0_wqsChsV");</script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:'Segoe UI',sans-serif;background:#fff;color:#333;}
-header{text-align:center;padding:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-header h1{margin:0;font-size:28px;font-weight:800;background:linear-gradient(90deg,#555,#888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-header small{display:block;font-size:12px;color:#888;margin-top:4px;}
-input,textarea{width:90%;padding:12px;margin:8px auto;display:block;border-radius:10px;border:1px solid #ddd;font-size:16px;}
-button{width:90%;padding:12px;margin:8px auto;display:block;border:none;border-radius:10px;background:#555;color:#fff;font-weight:bold;cursor:pointer;font-size:16px;transition:0.2s;}
-button:hover{opacity:0.9;}
-.items{display:flex;flex-wrap:wrap;gap:15px;padding:10px;}
-.item{flex:0 0 calc(50% - 15px);background:#fff;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.05);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;}
-.item:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
-.item img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
-.item-details{padding:10px;display:flex;justify-content:space-between;align-items:center;}
-.item-details b{display:block;font-size:16px;}
-.item-details .price{color:#555;font-weight:bold;}
-.item-details button{padding:6px 10px;margin-left:5px;border:none;border-radius:8px;background:#555;color:#fff;cursor:pointer;font-weight:bold;opacity:0;transition:opacity .3s;}
-.item:hover .item-details button{opacity:1;}
-.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 0;box-shadow:0 -2px 12px rgba(0,0,0,.05);}
-.bottom-nav button{background:#fff;border:none;font-size:12px;color:#555;cursor:pointer;display:flex;flex-direction:column;align-items:center;position:relative;}
-.bottom-nav button:hover{color:#555;}
-.bottom-nav .badge{position:absolute;top:0;right:20%;background:red;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
-.toast-container{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
-.toast{background:#555;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 15px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;animation:slideIn 0.5s forwards;font-weight:bold;}
-@keyframes slideIn{0%{opacity:0;transform:translateX(100%)}100%{opacity:1;transform:translateX(0)}}
-.admin-btn{position:absolute;top:20px;right:20px;padding:8px 12px;background:#28a745;color:#fff;border-radius:10px;cursor:pointer;font-weight:bold;}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;}
-.modal-box{background:#fff;width:90%;max-width:500px;padding:20px;border-radius:15px;max-height:90%;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,.15);}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Orbitron',sans-serif;
+    background:#000 url('https://i.supaimg.com/0555a52e-968c-4e0a-86c8-af2484ccb69b.jpg') center/cover no-repeat fixed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0ff;
+}
+.overlay{
+    background:rgba(0,0,0,.78);
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.card{
+    width:95%;
+    max-width:440px;
+    background:rgba(0,0,0,.75);
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 0 35px #00ffff;
+    text-align:center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.card::-webkit-scrollbar { width: 5px; }
+.card::-webkit-scrollbar-thumb { background: #0ff; border-radius: 10px; }
+
+h1,h2{
+    margin:10px 0;
+    text-shadow:0 0 12px #00ffff;
+}
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    background:#000;
+    color:#0ff;
+    font-size:15px;
+    margin-top:14px;
+    box-shadow:0 0 12px #00ffff inset;
+}
+.btn{
+    width:100%;
+    padding:22px;
+    margin-top:16px;
+    border:none;
+    border-radius:18px;
+    background:#000;
+    color:#0ff;
+    font-size:16px;
+    font-weight: 700;
+    cursor:pointer;
+    box-shadow:0 0 18px #00ffff;
+    transition:.25s;
+    display:block;
+    text-decoration:none;
+    text-transform: uppercase;
+}
+.btn:hover{
+    background:#00ffff;
+    color:#000;
+    transform:scale(1.03);
+}
+.tools{display:none}
+footer{
+    margin-top:14px;
+    font-size:11px;
+    opacity:.7;
+}
+.search{ margin:12px 0; }
 </style>
 </head>
+
 <body>
+<div class="overlay">
 
-<header>
-<h1>Fajar Collection</h1>
-<small>Mini Store by Fajar Collection</small>
-</header>
-
-<!-- LOGIN PAGE -->
-<div id="loginPage">
-<input type="email" id="loginEmail" placeholder="Email">
-<input type="password" id="loginPass" placeholder="Password">
-<button onclick="loginUser()">Login</button>
-<button onclick="showRegister()">Create Account</button>
+<div class="card" id="login">
+    <h1>BURHAN NOIR</h1>
+    <p>Enter Password to Access Toolkit</p>
+    <input type="password" id="pass" placeholder="Enter password">
+    <button class="btn" onclick="check()">Access Toolkit</button>
+    <button class="btn" onclick="join()">Join Noir Network</button>
+    <footer>Developed by Burhan Noir</footer>
 </div>
 
-<!-- REGISTER PAGE -->
-<div id="registerPage" style="display:none">
-<input type="text" id="regName" placeholder="Full Name">
-<input type="email" id="regEmail" placeholder="Email">
-<input type="text" id="regNumber" placeholder="Phone Number">
-<input type="password" id="regPass" placeholder="Password">
-<input type="password" id="regConfirm" placeholder="Confirm Password">
-<button onclick="registerUser()">Register</button>
-<button onclick="showLogin()">Back to Login</button>
+<div class="card tools" id="tools">
+    <h2>NOIR TOOLKIT</h2>
+    <input class="search" type="text" id="search" placeholder="Search system..." onkeyup="filterTools()">
+
+    <div id="toolList">
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/sf4ofovb2t7apvc/MOBILE_PHONE_PTA_APPROVED_METHOD_FREE_RELEASE_BY_PROXARMY.zip/file" target="_blank">Noir Non-PTA Method</a>
+        
+        <a class="btn" onclick="clickFx()" href="https://qr-code-generator-by-ghosty.vercel.app/" target="_blank">Noir QR Code</a>
+        <a class="btn" onclick="clickFx()" href="https://stylish-name-generator-by-ghosty.vercel.app/" target="_blank">Noir Stylish Name</a>
+        <a class="btn" onclick="clickFx()" href="https://link-shortner-by-ghosty.vercel.app/" target="_blank">Noir Link Shortener</a>
+        <a class="btn" onclick="clickFx()" href="https://temp-mail-by-ghosty.vercel.app/" target="_blank">Noir Temp Mail</a>
+        <a class="btn" onclick="clickFx()" href="https://tiktok-video-downloader-by-ghosty.vercel.app/" target="_blank">Noir TikTok Downloader</a>
+        <a class="btn" onclick="clickFx()" href="https://sms-bomber-by-ghosty.vercel.app/" target="_blank">Noir SMS Bomber</a>
+        <a class="btn" onclick="clickFx()" href="https://yt-thumbnail-downloader-by-ghosty.vercel.app/" target="_blank">Noir YT Thumbnail</a>
+        <a class="btn" onclick="clickFx()" href="https://html-deobfucator-by-ghosty.vercel.app/" target="_blank">Noir Deobfuscator</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-url-safety-checker.vercel.app/" target="_blank">Noir Safety Checker</a>
+        <a class="btn" onclick="clickFx()" href="https://age-calculator-by-ghosty.vercel.app/" target="_blank">Noir Age Calculator</a>
+        <a class="btn" onclick="clickFx()" href="https://lucky-name-checker-by-ghosty.vercel.app/" target="_blank">Noir Lucky Name</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-device-security-scanner.vercel.app/" target="_blank">Noir Device Scanner</a>
+        <a class="btn" onclick="clickFx()" href="https://fake-screen-shot-detector-by-ghosty.vercel.app/" target="_blank">Noir Screenshot Detector</a>
+        <a class="btn" onclick="clickFx()" href="https://whats-app-chat-link-generater-by-gh.vercel.app/" target="_blank">Noir WA Link Gen</a>
+        <a class="btn" onclick="clickFx()" href="https://whatsapp-unban-tool-by-ghosty-and-m.vercel.app/" target="_blank">Noir WA Unban Tool</a>
+        <a class="btn" onclick="clickFx()" href="https://mobile-hacking-screen-by-ghosty.vercel.app/" target="_blank">Noir Hacking Screen</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-network-speed-test.vercel.app/" target="_blank">Noir Speed Test</a>
+        <a class="btn" onclick="clickFx()" href="https://password-strength-checker-by-ghosty.vercel.app/" target="_blank">Noir Pass Strength</a>
+        <a class="btn" onclick="clickFx()" href="https://website-security-checker-by-ghosty.vercel.app/" target="_blank">Noir Web Security</a>
+        <a class="btn" onclick="clickFx()" href="https://text-to-pdf-by-ghosty.vercel.app/" target="_blank">Noir Text to PDF</a>
+
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/1nhthm5kt7wg0es/Remini_3.7.1020.202514479.apk/file" target="_blank">Noir Remini Mod</a>
+        <a class="btn" onclick="clickFx()" href="https://drive.google.com/drive/u/0/mobile/folders/1pFgRX0pmSTyUoqmOsoo_-Gw-3HRUOAqC" target="_blank">Noir CapCut Pro</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/bjgg3kx4s06y3m5/PICSART_PRO_BY_DARK_LEGEND.apk/file" target="_blank">Noir Picsart Pro</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/9bdrtv6g6mtmjoz/ChatGPT+Premium_1.0.11.apk/file" target="_blank">Noir ChatGPT Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/7yl30aq4hs6imve/𝙈𝙍𝙄𝙎𝘽𝗥𝗔𝗡𝗗𝙒𝙃𝘼𝙏𝙎𝘼𝙋𝙋_2.25.15.80.apk/file" target="_blank">Noir WhatsApp Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/ep8skhavdtp9c7m/Youtube_5.3.80.132.apk/file" target="_blank">Noir YouTube Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/zt6abyx9g9n1n0x/Netflix_v9.10.1_%2528Premium%2529_by_Abuzar.apk/file" target="_blank">Noir Netflix Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/m4jyh9lk4fbgndu/Wink_2.13.0.apk/file" target="_blank">Noir Wink Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/jiyv52a343qmbtj/InShot_2.152.1504.apk/file" target="_blank">Noir InShot Premium</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/7v8ayo7qcito16u/CRICFy+TV_5.0.apk/file" target="_blank">Noir Cricfy TV</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/4x3h0l3zsm4zfwf/TIKTOK_LIVE_APK_BY_DARK_LEGEND_333.apk/file" target="_blank">Noir TikTok Live</a>
+
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/ot5bnotwy9fqebq/mobile_lock_virus_BY_PRO_X_HACKER_%25281%2529.zip/file" target="_blank">Noir Lock Virus 1</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/lfh03ky59m2nr7e/OlivR+Wa_Don't_install_ftgm.apk/file" target="_blank">Noir Lock Virus 2</a>
+        <a class="btn" onclick="clickFx()" href="https://drive.google.com/drive/folders/1579kmWC3_ufJuVeAGKgYM_VTVwL8J2Ky" target="_blank">Noir Lock Virus 3</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/kkk6l40duq1sxg3/WhatsApp_1.0.apk/file" target="_blank">Noir Mobile Dead 1</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/in413nyxxyhq1ob/car_collication.apk/file" target="_blank">Noir Mobile Dead 2</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/gwge84zllqnn13w/Android_reset_.7z/file" target="_blank">Noir Mobile Reset</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/ua3grks0dz5h0hh/gallery_crash.zip/file" target="_blank">Noir Gallery Crush</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/g1vr6955y2ve4g6/WiFi-Hacker_%25284%2529.apk/file" target="_blank">Noir Data Reset</a>
+        <a class="btn" onclick="clickFx()" href="https://volumeshaderbm.com" target="_blank">Noir Phone Crash Link</a>
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/k0ugrztyqh5z42k/PHONE+CRASH+PROOF+BY+SIGMA+TECH.mp4.7z/file" target="_blank">Noir Phone Crash MP4</a>
+        <a class="btn" onclick="clickFx()" href="https://tajammaltm.news/TM.html" target="_blank">Noir System Crash</a>
+    </div>
+
+    <footer>© BURHAN NOIR NETWORK</footer>
 </div>
 
-<!-- STORE PAGE -->
-<div id="storePage" style="display:none">
-<div class="admin-btn" onclick="adminLogin()">Admin</div>
-<input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
-<div class="items" id="products"></div>
-
-<div class="bottom-nav">
-<button onclick="openMessages()">Messages <span class="badge" id="msgBadge">0</span></button>
-<button onclick="openCart()">My Cart <span class="badge" id="cartBadge">0</span></button>
-<button onclick="openOrders()">My Orders</button>
-<button onclick="openAccount()">My Account</button>
-</div>
-</div>
-
-<div class="toast-container" id="toastContainer"></div>
+<audio id="clickSound">
+<source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-// Firebase Config
-const firebaseConfig = {
-apiKey: "AIzaSyC41Y6mNNBFvjNeHdOOWGsjczMjyaqoqjU",
-authDomain: "fajar-collection-8aba3.firebaseapp.com",
-projectId: "fajar-collection-8aba3",
-storageBucket: "fajar-collection-8aba3.appspot.com",
-messagingSenderId: "620336064195",
-appId: "1:620336064195:web:4608ae5f133de8fa17a476"
-};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-const auth=firebase.auth();
-const storage=firebase.storage();
-const adminPassword="11222211";
-let cart=[];
+const PASSWORD="noir"; // Changed password to noir
 
-// Persistent login 7 days
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-firebase.auth().onAuthStateChanged(user=>{
-  if(user){
-    db.collection("users").doc(user.uid).get().then(doc=>{
-      const lastLogin = doc.data().lastLogin || Date.now();
-      const now = Date.now();
-      if(now - lastLogin > 7*24*60*60*1000){
-        alert("Session expired, login again"); auth.signOut();
-      } else {
-        db.collection("users").doc(user.uid).update({lastLogin:now});
-        showStore();
-      }
+function clickFx(){
+    document.getElementById("clickSound").play();
+}
+
+function check(){
+    clickFx();
+    if(document.getElementById("pass").value===PASSWORD){
+        document.getElementById("login").style.display="none";
+        document.getElementById("tools").style.display="block";
+    }else{
+        alert("ACCESS DENIED");
+    }
+}
+
+function join(){
+    clickFx();
+    window.open("https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS","_blank");
+}
+
+function filterTools(){
+    let input=document.getElementById("search").value.toLowerCase();
+    let tools=document.querySelectorAll("#toolList a");
+    tools.forEach(t=>{
+        t.style.display=t.textContent.toLowerCase().includes(input)?"block":"none";
     });
-  }
-});
-
-// Page switches
-function showRegister(){document.getElementById("loginPage").style.display="none";document.getElementById("registerPage").style.display="block";}
-function showLogin(){document.getElementById("registerPage").style.display="none";document.getElementById("loginPage").style.display="block";}
-function showStore(){document.getElementById("loginPage").style.display="none";document.getElementById("registerPage").style.display="none";document.getElementById("storePage").style.display="block";setupBadges();loadProducts();}
-
-// Register
-function registerUser(){
-const name=document.getElementById("regName").value;
-const email=document.getElementById("regEmail").value;
-const number=document.getElementById("regNumber").value;
-const pass=document.getElementById("regPass").value;
-const confirm=document.getElementById("regConfirm").value;
-if(!name||!email||!number||!pass||!confirm)return alert("All fields required");
-if(pass!==confirm)return alert("Passwords do not match");
-auth.createUserWithEmailAndPassword(email,pass).then(res=>{
-return db.collection("users").doc(res.user.uid).set({name,email,number,profilePic:"",lastLogin:Date.now()});
-}).then(()=>{showStore();showToast("Account Created!");}).catch(e=>{
-if(e.code==="auth/email-already-in-use")alert("Email already exists!");
-else alert(e.message);
-});
-
-// Login
 }
-function loginUser(){
-const email=document.getElementById("loginEmail").value;
-const pass=document.getElementById("loginPass").value;
-if(!email||!pass)return alert("Fill all fields");
-auth.signInWithEmailAndPassword(email,pass).then(()=>showStore()).catch(e=>alert(e.message));
-}
-
-// Toast function
-function showToast(msg){const t=document.createElement("div");t.className="toast";t.innerText=msg;document.getElementById("toastContainer").appendChild(t);setTimeout(()=>t.remove(),3000);}
-
-// Functions like loadProducts(), addToCart(), buyNow(), openCart(), openOrders(), openMessages(), openAccount(), adminLogin(), pushMessage() should be added here
-// This skeleton is fully white-themed and ready to extend with all JS logic for products, cart, orders, messages, admin
 </script>
+
 </body>
 </html>
