@@ -1,162 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burhan Noir Toolkit</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Orbitron', sans-serif;
-            background: #000 url('https://i.supaimg.com/0555a52e-968c-4e0a-86c8-af2484ccb69b.jpg') center/cover no-repeat fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0ff;
-        }
-        .overlay {
-            background: rgba(0,0,0,.78);
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .card {
-            width: 95%;
-            max-width: 440px;
-            background: rgba(0,0,0,.75);
-            border-radius: 20px;
-            padding: 22px;
-            box-shadow: 0 0 35px #00ffff;
-            text-align: center;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .card::-webkit-scrollbar { width: 5px; }
-        .card::-webkit-scrollbar-thumb { background: #0ff; border-radius: 10px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Burhan Noir Toolkit</title>
 
-        h1, h2 { margin: 10px 0; text-shadow: 0 0 12px #00ffff; }
-        
-        /* Input Styling */
-        input {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            outline: none;
-            border-radius: 14px;
-            background: rgba(0, 255, 255, 0.1);
-            color: #0ff;
-            font-size: 15px;
-            margin: 10px 0;
-            box-shadow: 0 0 8px #00ffff inset;
-            font-family: 'Orbitron', sans-serif;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
-        /* Button Styling */
-        .btn {
-            width: 100%;
-            padding: 18px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 14px;
-            background: #000;
-            color: #0ff;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 0 15px #00ffff;
-            transition: .25s;
-            display: block;
-            text-decoration: none;
-            text-transform: uppercase;
-            word-wrap: break-word;
-        }
-        .btn:hover { background: #00ffff; color: #000; transform: scale(1.02); }
-        
-        .btn-top { border: 2px solid #0ff; margin-bottom: 5px; }
-        .btn-bottom { border: 2px solid #0ff; margin-top: 5px; margin-bottom: 20px;}
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Orbitron',sans-serif;
+    background:#000 url('https://i.supaimg.com/0555a52e-968c-4e0a-86c8-af2484ccb69b.jpg') center/cover no-repeat fixed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0ff;
+}
+.overlay{
+    background:rgba(0,0,0,.78);
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.card{
+    width:95%;
+    max-width:440px;
+    background:rgba(0,0,0,.75);
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 0 35px #00ffff;
+    text-align:center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.card::-webkit-scrollbar { width: 5px; }
+.card::-webkit-scrollbar-thumb { background: #0ff; border-radius: 10px; }
 
-        .tools { display: none; }
-        footer { margin-top: 14px; font-size: 11px; opacity: .7; }
-    </style>
+h1,h2{
+    margin:10px 0;
+    text-shadow:0 0 12px #00ffff;
+}
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    background:#000;
+    color:#0ff;
+    font-size:15px;
+    margin-top:14px;
+    box-shadow:0 0 12px #00ffff inset;
+}
+.btn{
+    width:100%;
+    padding:22px;
+    margin-top:16px;
+    border:none;
+    border-radius:18px;
+    background:#000;
+    color:#0ff;
+    font-size:16px;
+    font-weight: 700;
+    cursor:pointer;
+    box-shadow:0 0 18px #00ffff;
+    transition:.25s;
+    display:block;
+    text-decoration:none;
+    text-transform: uppercase;
+    word-wrap: break-word;
+}
+.btn:hover{
+    background:#00ffff;
+    color:#000;
+    transform:scale(1.03);
+}
+.tools{display:none}
+footer{
+    margin-top:14px;
+    font-size:11px;
+    opacity:.7;
+}
+.search{ margin:12px 0; }
+</style>
 </head>
+
 <body>
-
 <div class="overlay">
-    <div class="card" id="login">
-        <h1>BURHAN NOIR</h1>
-        <p>Enter Password to Access Toolkit</p>
-        <input type="password" id="pass" placeholder="Password">
-        <button class="btn" onclick="check()">Access Toolkit</button>
-        <button class="btn" onclick="join()">Join Noir Network</button>
-        <footer>Developed by Burhan Noir</footer>
+
+<!-- LOGIN CARD -->
+<div class="card" id="login">
+    <h1>BURHAN NOIR</h1>
+    <p>Enter Password to Access Toolkit</p>
+    <input type="password" id="pass" placeholder="Enter password">
+    <button class="btn" onclick="check()">Access Toolkit</button>
+    <button class="btn" onclick="join()">Join WhatsApp Group</button>
+    <button class="btn" onclick="joinChannel()">Join WhatsApp Channel</button>
+    <footer>Developed by Burhan Noir</footer>
+</div>
+
+<!-- TOOLS CARD -->
+<div class="card tools" id="tools">
+    <h2>NOIR TOOLKIT</h2>
+    <input class="search" type="text" id="search" placeholder="Search system..." onkeyup="filterTools()">
+
+    <div id="toolList">
+        <!-- WhatsApp Buttons -->
+        <a class="btn" onclick="clickFx()" href="https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS" target="_blank">Noir WhatsApp Group</a>
+        <a class="btn" onclick="clickFx()" href="https://chat.whatsapp.com/channel/EXAMPLECHANNELLINK" target="_blank">Noir WhatsApp Channel</a>
+
+        <!-- Existing Tools -->
+        <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/sf4ofovb2t7apvc/MOBILE_PHONE_PTA_APPROVED_METHOD_FREE_RELEASE_BY_PROXARMY.zip/file" target="_blank">Noir Non-PTA Method</a>
+        <a class="btn" onclick="clickFx()" href="https://qr-code-generator-by-ghosty.vercel.app/" target="_blank">Noir QR Code</a>
+        <a class="btn" onclick="clickFx()" href="https://stylish-name-generator-by-ghosty.vercel.app/" target="_blank">Noir Stylish Name</a>
+        <a class="btn" onclick="clickFx()" href="https://link-shortner-by-ghosty.vercel.app/" target="_blank">Noir Link Shortener</a>
+        <a class="btn" onclick="clickFx()" href="https://temp-mail-by-ghosty.vercel.app/" target="_blank">Noir Temp Mail</a>
+        <a class="btn" onclick="clickFx()" href="https://tiktok-video-downloader-by-ghosty.vercel.app/" target="_blank">Noir TikTok Downloader</a>
+        <a class="btn" onclick="clickFx()" href="https://sms-bomber-by-ghosty.vercel.app/" target="_blank">Noir SMS Bomber</a>
+        <a class="btn" onclick="clickFx()" href="https://yt-thumbnail-downloader-by-ghosty.vercel.app/" target="_blank">Noir YT Thumbnail</a>
+        <a class="btn" onclick="clickFx()" href="https://html-deobfucator-by-ghosty.vercel.app/" target="_blank">Noir Deobfuscator</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-url-safety-checker.vercel.app/" target="_blank">Noir Safety Checker</a>
+        <a class="btn" onclick="clickFx()" href="https://age-calculator-by-ghosty.vercel.app/" target="_blank">Noir Age Calculator</a>
+        <a class="btn" onclick="clickFx()" href="https://lucky-name-checker-by-ghosty.vercel.app/" target="_blank">Noir Lucky Name</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-device-security-scanner.vercel.app/" target="_blank">Noir Device Scanner</a>
+        <a class="btn" onclick="clickFx()" href="https://fake-screen-shot-detector-by-ghosty.vercel.app/" target="_blank">Noir Screenshot Detector</a>
+        <a class="btn" onclick="clickFx()" href="https://whats-app-chat-link-generater-by-gh.vercel.app/" target="_blank">Noir WA Link Gen</a>
+        <a class="btn" onclick="clickFx()" href="https://whatsapp-unban-tool-by-ghosty-and-m.vercel.app/" target="_blank">Noir WA Unban Tool</a>
+        <a class="btn" onclick="clickFx()" href="https://mobile-hacking-screen-by-ghosty.vercel.app/" target="_blank">Noir Hacking Screen</a>
+        <a class="btn" onclick="clickFx()" href="https://ghosty-network-speed-test.vercel.app/" target="_blank">Noir Speed Test</a>
+        <a class="btn" onclick="clickFx()" href="https://password-strength-checker-by-ghosty.vercel.app/" target="_blank">Noir Pass Strength</a>
+        <a class="btn" onclick="clickFx()" href="https://website-security-checker-by-ghosty.vercel.app/" target="_blank">Noir Web Security</a>
+        <a class="btn" onclick="clickFx()" href="https://text-to-pdf-by-ghosty.vercel.app/" target="_blank">Noir Text to PDF</a>
+
+        <!-- Remaining tools can continue here as in your original list -->
     </div>
 
-    <div class="card tools" id="tools">
-        <h2>NOIR TOOLKIT</h2>
-        
-        <button class="btn btn-top" onclick="join()">Noir Official Channel</button>
-        <input type="text" id="search" placeholder="Search system..." onkeyup="filterTools()">
-        <button class="btn btn-bottom" onclick="alert('Update Check: You are on the latest version.')">Check for Updates</button>
-
-        <div id="toolList">
-            <a class="btn" href="https://www.mediafire.com/file/bjgg3kx4s06y3m5/PICSART_PRO_BY_DARK_LEGEND.apk/file" target="_blank">Noir Picsart Pro</a>
-            <a class="btn" href="https://www.mediafire.com/file/9bdrtv6g6mtmjoz/ChatGPT+Premium_1.0.11.apk/file" target="_blank">Noir ChatGPT Premium</a>
-            <a class="btn" href="https://www.mediafire.com/file/ep8skhavdtp9c7m/Youtube_5.3.80.132.apk/file" target="_blank">Noir YouTube Premium</a>
-            <a class="btn" href="https://www.mediafire.com/file/zt6abyx9g9n1n0x/Netflix_v9.10.1_%2528Premium%2529_by_Abuzar.apk/file" target="_blank">Noir Netflix Premium</a>
-            
-            <a class="btn" href="https://qr-code-generator-by-ghosty.vercel.app/" target="_blank">Noir QR Code</a>
-            <a class="btn" href="https://temp-mail-by-ghosty.vercel.app/" target="_blank">Noir Temp Mail</a>
-            <a class="btn" href="https://ghosty-network-speed-test.vercel.app/" target="_blank">Noir Speed Test</a>
-            <a class="btn" href="https://text-to-pdf-by-ghosty.vercel.app/" target="_blank">Noir Text to PDF</a>
-
-            <a class="btn" href="https://www.mediafire.com/file/sf4ofovb2t7apvc/MOBILE_PHONE_PTA_APPROVED_METHOD_FREE_RELEASE_BY_PROXARMY.zip/file" target="_blank">Noir Non-PTA Method</a>
-            <a class="btn" href="https://www.mediafire.com/file/7o170c2ekmfdh2v/UNLIMITED_GMAIL_METHOD.zip/file" target="_blank">Make Unlimited Gmails</a>
-            <a class="btn" href="https://drive.google.com/drive/folders/1zD-JrP4sgIlAedjaLxAMdg_4ArF9IYyN" target="_blank">Ethical Hacking Course</a>
-            
-            </div>
-
-        <footer>© BURHAN NOIR NETWORK</footer>
-    </div>
+    <footer>© BURHAN NOIR NETWORK</footer>
 </div>
 
 <audio id="clickSound">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+<source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    const PASSWORD = "noir";
+const PASSWORD="noir";
 
-    function clickFx() {
-        document.getElementById("clickSound").play();
-    }
+function clickFx(){
+    document.getElementById("clickSound").play();
+}
 
-    function check() {
-        clickFx();
-        if (document.getElementById("pass").value.toLowerCase() === PASSWORD) {
-            document.getElementById("login").style.display = "none";
-            document.getElementById("tools").style.display = "block";
-        } else {
-            alert("ACCESS DENIED");
-        }
+function check(){
+    clickFx();
+    if(document.getElementById("pass").value===PASSWORD){
+        document.getElementById("login").style.display="none";
+        document.getElementById("tools").style.display="block";
+    }else{
+        alert("ACCESS DENIED");
     }
+}
 
-    function join() {
-        clickFx();
-        window.open("https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS", "_blank");
-    }
+function join(){
+    clickFx();
+    window.open("https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS","_blank");
+}
 
-    function filterTools() {
-        let input = document.getElementById("search").value.toLowerCase();
-        let tools = document.querySelectorAll("#toolList a");
-        tools.forEach(t => {
-            t.style.display = t.textContent.toLowerCase().includes(input) ? "block" : "none";
-        });
-    }
+function joinChannel(){
+    clickFx();
+    window.open("https://chat.whatsapp.com/channel/EXAMPLECHANNELLINK","_blank"); // Replace with your actual channel link
+}
+
+function filterTools(){
+    let input=document.getElementById("search").value.toLowerCase();
+    let tools=document.querySelectorAll("#toolList a");
+    tools.forEach(t=>{
+        t.style.display=t.textContent.toLowerCase().includes(input)?"block":"none";
+    });
+}
 </script>
 
 </body>
