@@ -93,28 +93,26 @@ footer{
 <body>
 <div class="overlay">
 
-<!-- LOGIN CARD -->
 <div class="card" id="login">
     <h1>BURHAN NOIR</h1>
     <p>Enter Password to Access Toolkit</p>
     <input type="password" id="pass" placeholder="Enter password">
     <button class="btn" onclick="check()">Access Toolkit</button>
-    <button class="btn" onclick="join()">Join WhatsApp Group</button>
+    <button class="btn" onclick="joinGroup()">Join WhatsApp Group</button>
     <button class="btn" onclick="joinChannel()">Join WhatsApp Channel</button>
     <footer>Developed by Burhan Noir</footer>
 </div>
 
-<!-- TOOLS CARD -->
 <div class="card tools" id="tools">
     <h2>NOIR TOOLKIT</h2>
     <input class="search" type="text" id="search" placeholder="Search system..." onkeyup="filterTools()">
 
     <div id="toolList">
-        <!-- WhatsApp Buttons -->
-        <a class="btn" onclick="clickFx()" href="https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS" target="_blank">Noir WhatsApp Group</a>
-        <a class="btn" onclick="clickFx()" href="https://chat.whatsapp.com/channel/EXAMPLECHANNELLINK" target="_blank">Noir WhatsApp Channel</a>
+        <!-- WhatsApp Group & Channel on top -->
+        <a class="btn" onclick="clickFx()" href="https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS" target="_blank">WHATSAPP GROUP</a>
+        <a class="btn" onclick="clickFx()" href="https://www.whatsapp.com/channel/0029Vb6YHYNFSAt4222Nl51I" target="_blank">WHATSAPP CHANNEL</a>
 
-        <!-- Existing Tools -->
+        <!-- Existing tools start -->
         <a class="btn" onclick="clickFx()" href="https://www.mediafire.com/file/sf4ofovb2t7apvc/MOBILE_PHONE_PTA_APPROVED_METHOD_FREE_RELEASE_BY_PROXARMY.zip/file" target="_blank">Noir Non-PTA Method</a>
         <a class="btn" onclick="clickFx()" href="https://qr-code-generator-by-ghosty.vercel.app/" target="_blank">Noir QR Code</a>
         <a class="btn" onclick="clickFx()" href="https://stylish-name-generator-by-ghosty.vercel.app/" target="_blank">Noir Stylish Name</a>
@@ -136,8 +134,8 @@ footer{
         <a class="btn" onclick="clickFx()" href="https://password-strength-checker-by-ghosty.vercel.app/" target="_blank">Noir Pass Strength</a>
         <a class="btn" onclick="clickFx()" href="https://website-security-checker-by-ghosty.vercel.app/" target="_blank">Noir Web Security</a>
         <a class="btn" onclick="clickFx()" href="https://text-to-pdf-by-ghosty.vercel.app/" target="_blank">Noir Text to PDF</a>
-
-        <!-- Remaining tools can continue here as in your original list -->
+        <!-- Continue all your tools exactly as provided… -->
+        <!-- Make sure every single tool & method from your original list is copied here -->
     </div>
 
     <footer>© BURHAN NOIR NETWORK</footer>
@@ -164,14 +162,14 @@ function check(){
     }
 }
 
-function join(){
+function joinGroup(){
     clickFx();
     window.open("https://chat.whatsapp.com/HVM9Spvm7HVGLERj8yo9kS","_blank");
 }
 
 function joinChannel(){
     clickFx();
-    window.open("https://chat.whatsapp.com/channel/EXAMPLECHANNELLINK","_blank"); // Replace with your actual channel link
+    window.open("https://www.whatsapp.com/channel/0029Vb6YHYNFSAt4222Nl51I","_blank");
 }
 
 function filterTools(){
